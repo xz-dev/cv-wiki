@@ -90,6 +90,7 @@
 - [🔍 distrobox - cgroup委托问题](./deep-dive/distrobox-contributions.md) - PID命名空间隔离
 - [🔍 UpgradeAll - Android更新系统](./deep-dive/upgradeall-project.md) - 模块化App更新框架
 - [💬 GitHub Issues 互动分析](./deep-dive/github-issues-analysis.md) - 纯语言解决问题能力 **(评分91.3/100)**
+- [📝 个人博客分析 (xzos.net)](./deep-dive/blog-analysis.md) - 8年技术写作、Stack Exchange 社区贡献
 
 ### 个人项目详解
 
@@ -202,10 +203,21 @@ AI基础设施    ██████████████░░░░░░  
 
 ## 🔗 外部链接
 
+### 代码平台
 - **GitHub**: [https://github.com/xz-dev](https://github.com/xz-dev)
-- **个人网站**: [https://xzos.net/](https://xzos.net/)
 - **GitLab**: [https://gitlab.com/xz-dev](https://gitlab.com/xz-dev)
 - **Codeberg**: [https://codeberg.org/xz-dev](https://codeberg.org/xz-dev)
+
+### 个人博客与简历
+- **技术博客**: [https://xzos.net/](https://xzos.net/) - 55+ 篇技术文章 (2017年至今)
+- **简历下载**: [中英双语版](https://xzos.net/cv/xiangzhe_cv-zh_en.pdf) | [English](https://xzos.net/cv/xiangzhe_cv.pdf) | [中文版](https://xzos.net/cv/%E6%9B%BE%E7%A5%A5%E5%93%B2%E7%9A%84%E7%AE%80%E5%8E%86.pdf)
+
+### Stack Exchange 社区 (用户名: inkflaw)
+- [Stack Overflow](https://stackoverflow.com/users/15715806/inkflaw) | [Ask Ubuntu](https://askubuntu.com/users/2416571/inkflaw) | [Unix & Linux](https://unix.stackexchange.com/users/492540/inkflaw) | [Emacs](https://emacs.stackexchange.com/users/39834/inkflaw)
+
+### 社交媒体
+- **Mastodon**: [https://fosstodon.org/@xzdev](https://fosstodon.org/@xzdev)
+- **Donate**: [https://ko-fi.com/xz117514](https://ko-fi.com/xz117514)
 
 ---
 
@@ -215,6 +227,6 @@ AI基础设施    ██████████████░░░░░░  
 
 ---
 
-**Wiki 版本**: v1.0.1  
+**Wiki 版本**: v1.1.0  
 **最后更新**: 2026-02-04  
 **生成工具**: [generate_wiki.sh](./scripts/generate_wiki.sh) + [generate_visualizations.py](./scripts/generate_visualizations.py)
