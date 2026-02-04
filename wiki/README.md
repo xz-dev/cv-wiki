@@ -90,7 +90,7 @@
 - [🔍 distrobox - cgroup委托问题](./deep-dive/distrobox-contributions.md) - PID命名空间隔离
 - [🔍 UpgradeAll - Android更新系统](./deep-dive/upgradeall-project.md) - 模块化App更新框架
 - [💬 GitHub Issues 互动分析](./deep-dive/github-issues-analysis.md) - 纯语言解决问题能力 **(评分91.3/100)**
-- [📝 个人博客分析 (xzos.net)](./deep-dive/blog-analysis.md) - 8年技术写作、Stack Exchange 社区贡献
+- [🌐 网站与社区贡献分析](./deep-dive/websites/README.md) - 博客 (xzos.net, 55+文章), Stack Exchange (6平台), Mastodon (FOSS社区)
 
 ### 个人项目详解
 
