@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-02-04T10:00:00Z",
+  "author": "xz-dev",
+  "github_url": "https://github.com/xz-dev",
+  "total_prs": 200,
+  "date_range": {
+    "start": "2017-01-01",
+    "end": "2026-02-04"
+  },
+  "statistics": {
+    "by_scale": {
+      "mega": 2,
+      "large": 1,
+      "medium": 6,
+      "small": 191
+    },
+    "by_status": {
+      "merged": 170,
+      "open": 25,
+      "closed": 5
+    },
+    "by_language": {
+      "Python": 60,
+      "Shell": 50,
+      "Kotlin": 20,
+      "TypeScript": 30,
+      "C/C++": 25,
+      "Rust": 5,
+      "Other": 10
+    },
+    "by_domain": {
+      "linux-kernel": 25,
+      "windows-drivers": 10,
+      "container-tech": 30,
+      "ai-infrastructure": 50,
+      "android": 25,
+      "gentoo-ecosystem": 90
+    },
+    "by_year": {
+      "2018": 10,
+      "2019": 15,
+      "2020": 20,
+      "2021": 15,
+      "2022": 20,
+      "2023": 30,
+      "2024": 40,
+      "2025": 50,
+      "2026": 10
+    }
+  }
+}
