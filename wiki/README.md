@@ -16,7 +16,8 @@
 | **贡献项目数** | 100+ | 涉及的不同GitHub仓库 |
 | **总 Stars** | 120,000+ | 贡献项目的累计Stars |
 | **活跃年限** | 9年 | 2017年至今持续贡献 |
-| **年均贡献** | 972次/年 | 2025年数据 |
+| **年均贡献** | 22.2次/年 | 基于metadata.json统计 |
+| **合并率** | 85% | 170个已合并, 25个开放中, 5个已关闭 |
 
 ### 项目规模分布
 
@@ -24,17 +25,19 @@
 超大项目 (>30k ⭐):  2个  - modelcontextprotocol/servers, LibreChat
 大项目 (10k-30k ⭐):  1个  - distrobox
 中等项目 (1k-10k ⭐):  6个  - virtio-win, gentoo, ansible-runner等
-小项目 (<1k ⭐):    90+个 - Gentoo生态、Android应用等
+小项目 (<1k ⭐):    191个 - Gentoo生态、Android应用等
 ```
 
 ### 技术领域分布
 
 - 🐧 **Linux系统** (40%) - 内核、驱动、Gentoo生态
 - 🐳 **容器技术** (15%) - Podman、Docker、distrobox
-- 🤖 **AI基础设施** (20%) - MCP协议、工具集成
+- 🤖 **AI基础设施** (25%) - MCP协议、工具集成
 - 📱 **Android开发** (10%) - 应用、Magisk模块
 - 🪟 **Windows驱动** (5%) - VirtIO GPU
-- 🛠️ **其他工具** (10%) - 编辑器、网络、自动化
+- 🛠️ **其他工具** (5%) - 编辑器、网络、自动化
+
+![领域分布图](./visualizations/domain_distribution.png)
 
 ---
 
@@ -46,11 +49,15 @@
 
 - [📅 2018年](./by-year/2018.md) - GitHub起步，Android开发
 - [📅 2019年](./by-year/2019.md) - UpgradeAll项目创立
-- [📅 2020-2022年](./by-year/2020-2022.md) - Android生态深耕
+- [📅 2020年](./by-year/2020.md) - Android生态深耕
+- [📅 2021年](./by-year/2021.md) - 系统工具开发
+- [📅 2022年](./by-year/2022.md) - Linux系统探索
 - [📅 2023年](./by-year/2023.md) - Gentoo维护者
 - [📅 2024年](./by-year/2024.md) - 系统底层探索
 - [📅 2025年](./by-year/2025.md) - Klavis AI (MCP基础设施)
 - [📅 2026年](./by-year/2026.md) - 内核驱动与容器技术
+
+![贡献时间线](./visualizations/contribution_timeline.png)
 
 ### 按项目规模浏览
 
@@ -60,6 +67,8 @@
 - [🔥 大项目 (10k-30k ⭐)](./by-scale/large-projects.md) - distrobox
 - [💡 中等项目 (1k-10k ⭐)](./by-scale/medium-projects.md) - virtio-win, gentoo, ansible-runner等
 - [📦 小项目 (<1k ⭐)](./by-scale/small-projects.md) - 180+ PRs汇总
+
+![项目规模分布](./visualizations/project_scale_distribution.png)
 
 ### 按技术领域浏览
 
@@ -76,10 +85,11 @@
 
 核心贡献的详细技术解析：
 
-- [🔍 MCP Servers - 跨进程文件锁](./deep-dive/mcp-servers.md)
-- [🔍 VirtIO GPU Driver - 8K分辨率支持](./deep-dive/virtio-gpu-driver.md)
-- [🔍 distrobox - cgroup委托问题](./deep-dive/distrobox-contributions.md)
-- [🔍 UpgradeAll - Android更新系统](./deep-dive/upgradeall-project.md)
+- [🔍 MCP Servers - 跨进程文件锁](./deep-dive/mcp-servers.md) - 解决多实例数据损坏问题
+- [🔍 VirtIO GPU Driver - 8K分辨率支持](./deep-dive/virtio-gpu-driver.md) - 修复BSOD并支持HDR
+- [🔍 distrobox - cgroup委托问题](./deep-dive/distrobox-contributions.md) - PID命名空间隔离
+- [🔍 UpgradeAll - Android更新系统](./deep-dive/upgradeall-project.md) - 模块化App更新框架
+- [💬 GitHub Issues 互动分析](./deep-dive/github-issues-analysis.md) - 纯语言解决问题能力 **(评分91.3/100)**
 
 ### 个人项目详解
 
@@ -105,22 +115,30 @@
 | **TypeScript** | MCP Servers, Klavis项目 |
 | **Rust** | hyper-rustls, Wayland工具 |
 
+![语言分布](./visualizations/language_distribution.png)
+
 ### 按问题类型查找
 
 | 问题类型 | 代表性PR |
 |---------|---------|
-| **并发/竞态条件** | MCP文件锁, VirtIO GPU BSOD修复 |
-| **性能优化** | 内核AutoFDO, distrobox初始化优化 |
-| **架构设计** | MCP进程隔离, UpgradeAll模块化 |
-| **兼容性修复** | Gradle 9支持, GCC 14/15编译修复 |
-| **功能实现** | NewPipe评论回复, bilimiao2倍速播放 |
+| **并发/竞态条件** | [MCP文件锁](./deep-dive/mcp-servers.md), [VirtIO GPU BSOD修复](./deep-dive/virtio-gpu-driver.md) |
+| **性能优化** | [内核AutoFDO](./personal-projects/kernel-autofdo-container.md), [distrobox初始化优化](./deep-dive/distrobox-contributions.md) |
+| **架构设计** | [MCP进程隔离](./by-year/2025.md#q3-7月-9月), [UpgradeAll模块化](./deep-dive/upgradeall-project.md) |
+| **兼容性修复** | [Gradle 9支持](./by-year/2024.md), [GCC 14/15编译修复](./by-domain/gentoo-ecosystem.md) |
+| **功能实现** | [NewPipe评论回复](./by-domain/android.md), [bilimiao2倍速播放](./by-domain/android.md) |
 
 ### 按系统层级查找
 
-- **内核层** - Linux内核补丁, 调度器, Windows驱动
-- **系统层** - cgroup, PID namespace, 文件锁, OpenRC
-- **用户层** - 容器管理, MCP服务器, 桌面工具
-- **应用层** - Android应用, 浏览器扩展, CLI工具
+- **内核层** - [Linux内核补丁](./by-domain/linux-kernel.md), [调度器](./by-domain/linux-kernel.md), [Windows驱动](./by-domain/windows-drivers.md)
+- **系统层** - [cgroup](./deep-dive/distrobox-contributions.md), [PID namespace](./by-year/2026.md), [文件锁](./deep-dive/mcp-servers.md), [OpenRC](./by-domain/gentoo-ecosystem.md)
+- **用户层** - [容器管理](./by-domain/container-tech.md), [MCP服务器](./by-scale/mega-projects.md), [桌面工具](./personal-projects/numlockw.md)
+- **应用层** - [Android应用](./by-domain/android.md), [浏览器扩展](./by-year/2025.md), [CLI工具](./personal-projects/adguardhome-logsync.md)
+
+### 交叉引用
+
+查看各项贡献之间的关联和技术能力的延续性：
+
+- [📋 贡献交叉引用表](./CROSS_REFERENCES.md) - 按主题、技术能力和时间线展示关联
 
 ---
 
@@ -137,16 +155,18 @@ TypeScript  ██████████████░░░░░░ 70% (No
 Rust        ████████████░░░░░░░░ 60% (系统工具, 学习中)
 ```
 
+![技能雷达图](./visualizations/skill_radar.png)
+
 ### 技术领域深度
 
 ```
 Linux系统管理  ████████████████████ 100% (RHCE认证)
-容器技术      █████████████████░░░  85%
-并发编程      ████████████████░░░░  80%
-内核开发      ███████████████░░░░░  75%
-Windows驱动   ████████████░░░░░░░░  60%
-Android开发   ███████████████░░░░░  75%
-AI基础设施    ██████████████░░░░░░  70%
+容器技术      █████████████████░░░  85% (Podman, distrobox贡献者)
+并发编程      ████████████████░░░░  80% (跨进程锁, IPC设计)
+内核开发      ███████████████░░░░░  75% (调度器优化, CachyOS)
+Windows驱动   ████████████░░░░░░░░  60% (VirtIO GPU驱动修复)
+Android开发   ███████████████░░░░░  75% (UpgradeAll创始人)
+AI基础设施    ██████████████░░░░░░  70% (MCP协议贡献者)
 ```
 
 ---
@@ -159,6 +179,7 @@ AI基础设施    ██████████████░░░░░░  
 2. **技术深度**: 阅读 [重点项目深度分析](./deep-dive/) 了解核心技术
 3. **时间线**: 按 [年份](./by-year/) 浏览，了解技术成长路径
 4. **领域专精**: 按 [技术领域](./by-domain/) 深入特定方向
+5. **可视化**: 查看 [visualization](./visualizations/) 目录下的图表直观了解
 
 ### 给 AI 助手的提示
 
@@ -169,20 +190,22 @@ AI基础设施    ██████████████░░░░░░  
 3. 🔍 **检索技巧**: 使用 `grep -r "关键词" wiki/` 快速查找
 4. 📈 **生成报告**: 基于 metadata.json 可自动生成统计报告
 
-### 数据更新
+### 数据更新与可视化
 
-- **自动更新**: 运行 `./scripts/update-wiki.sh` (待实现)
-- **手动更新**: 编辑对应的 markdown 文件
-- **验证**: 运行 `./scripts/validate.sh` 检查链接完整性 (待实现)
+- **拉取GitHub数据**: 运行 `./scripts/generate_wiki.sh --update-all`
+- **生成可视化图表**: 运行 `./scripts/generate_visualizations.py`
+- **按年份更新**: 运行 `./scripts/generate_wiki.sh --update-year 2026`
+- **按领域更新**: 运行 `./scripts/generate_wiki.sh --update-domain container-tech`
+- **手动修改**: 直接编辑相应的 markdown 文件
 
 ---
 
 ## 🔗 外部链接
 
-- **GitHub**: https://github.com/xz-dev
-- **个人网站**: https://xzos.net/
-- **GitLab**: https://gitlab.com/xz-dev
-- **Codeberg**: https://codeberg.org/xz-dev
+- **GitHub**: [https://github.com/xz-dev](https://github.com/xz-dev)
+- **个人网站**: [https://xzos.net/](https://xzos.net/)
+- **GitLab**: [https://gitlab.com/xz-dev](https://gitlab.com/xz-dev)
+- **Codeberg**: [https://codeberg.org/xz-dev](https://codeberg.org/xz-dev)
 
 ---
 
@@ -192,6 +215,6 @@ AI基础设施    ██████████████░░░░░░  
 
 ---
 
-**Wiki 版本**: v1.0  
-**生成时间**: 2026-02-04  
-**生成工具**: OpenCode AI + 人工整理
+**Wiki 版本**: v1.0.1  
+**最后更新**: 2026-02-04  
+**生成工具**: [generate_wiki.sh](./scripts/generate_wiki.sh) + [generate_visualizations.py](./scripts/generate_visualizations.py)
