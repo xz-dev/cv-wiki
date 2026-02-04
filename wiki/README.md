@@ -213,7 +213,10 @@ AI基础设施    ██████████████░░░░░░  
 - **简历下载**: [中英双语版](https://xzos.net/cv/xiangzhe_cv-zh_en.pdf) | [English](https://xzos.net/cv/xiangzhe_cv.pdf) | [中文版](https://xzos.net/cv/%E6%9B%BE%E7%A5%A5%E5%93%B2%E7%9A%84%E7%AE%80%E5%8E%86.pdf)
 
 ### Stack Exchange 社区 (用户名: inkflaw)
-- [Stack Overflow](https://stackoverflow.com/users/15715806/inkflaw) | [Ask Ubuntu](https://askubuntu.com/users/2416571/inkflaw) | [Unix & Linux](https://unix.stackexchange.com/users/492540/inkflaw) | [Emacs](https://emacs.stackexchange.com/users/39834/inkflaw)
+- [Stack Overflow](https://stackoverflow.com/users/15715806/inkflaw) | [Ask Ubuntu](https://askubuntu.com/users/2416571/inkflaw) | [Server Fault](https://serverfault.com/users/1054048/inkflaw) | [Unix & Linux](https://unix.stackexchange.com/users/492540/inkflaw) | [Emacs](https://emacs.stackexchange.com/users/39834/inkflaw) | [Super User](https://superuser.com/users/1861122/inkflaw)
+
+### Linux Wiki 贡献者
+- [Arch Wiki](https://wiki.archlinux.org/title/Special:Contributions/Xz-dev) | [Gentoo Wiki](https://wiki.gentoo.org/wiki/Special:Contributions/Inkflaw)
 
 ### 社交媒体
 - **Mastodon**: [https://fosstodon.org/@xzdev](https://fosstodon.org/@xzdev)

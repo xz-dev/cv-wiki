@@ -11,11 +11,11 @@
 | 平台 | 链接 | 声望 | 回答数 | 覆盖人数 |
 |------|------|------|--------|----------|
 | **Stack Overflow** | [链接](https://stackoverflow.com/users/15715806/inkflaw) | 65 | 5 | 32k |
+| **Ask Ubuntu** | [链接](https://askubuntu.com/users/2416571/inkflaw) | - | - | - |
 | **Server Fault** | [链接](https://serverfault.com/users/1054048/inkflaw) | 21 | - | - |
 | **Unix & Linux** | [链接](https://unix.stackexchange.com/users/492540/inkflaw) | 1 | - | - |
 | **Emacs** | [链接](https://emacs.stackexchange.com/users/39834/inkflaw) | 1 | - | - |
 | **Super User** | [链接](https://superuser.com/users/1861122/inkflaw) | 1 | - | - |
-| **Ask Ubuntu** | [链接](https://askubuntu.com/users/2416571/inkflaw) | - | - | - |
 
 ---
 
