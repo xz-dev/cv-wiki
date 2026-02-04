@@ -91,6 +91,7 @@
 - [🔍 UpgradeAll - Android更新系统](./deep-dive/upgradeall-project.md) - 模块化App更新框架
 - [💬 GitHub Issues 互动分析](./deep-dive/github-issues-analysis.md) - 纯语言解决问题能力 **(评分91.3/100)**
 - [🌐 网站与社区贡献分析](./deep-dive/websites/README.md) - 博客 (xzos.net, 55+文章), Stack Exchange (6平台), Mastodon (FOSS社区)
+- [📚 Linux Wiki 贡献深度分析](./deep-dive/websites/linux-wiki-contributions.md) - Arch Wiki (29编辑) + Gentoo Wiki (35编辑) **(评分92.4/100)**
 
 ### 个人项目详解
 
