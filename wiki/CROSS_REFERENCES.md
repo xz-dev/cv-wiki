@@ -32,7 +32,19 @@
 | [virtio-win/kvm-guest-drivers-windows #732](./by-year/2026.md#virtio-winkvm-guest-drivers-windows-pr-732---修复gpu驱动休眠后蓝屏) | [深度分析](./deep-dive/virtio-gpu-driver.md#案例1-休眠恢复bsod-732) | 电源管理、状态机设计、自旋锁 |
 | [virtio-win/kvm-guest-drivers-windows #712](./deep-dive/virtio-gpu-driver.md#案例2-8k分辨率支持-712) | [Windows驱动领域](./by-domain/windows-drivers.md) | 分辨率支持、资源分配 |
 | [virtio-win/kvm-guest-drivers-windows #735](./by-year/2026.md#virtio-winkvm-guest-drivers-windows-pr-735---支持hdr显示) | [深度分析](./deep-dive/virtio-gpu-driver.md#案例3-hdr显示支持-735) | HDR元数据、色彩空间 |
+| [virtio-win/kvm-guest-drivers-windows #1473](./by-domain/windows-drivers.md) ✅已合并 | [Windows驱动领域](./by-domain/windows-drivers.md) | 空指针解引用修复、错误路径 |
+| [virtio-win/kvm-guest-drivers-windows #1475](./by-domain/windows-drivers.md) ✅已合并 | [Windows驱动领域](./by-domain/windows-drivers.md) | GPU资源泄漏修复 |
+| [virtio-win/kvm-guest-drivers-windows #1479](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | 动态帧缓冲段调整、indirect descriptor |
 | [virtio-win/virtio-win-pkg-scripts #95](./by-year/2025.md#virtio-winvirtio-win-pkg-scripts-pr-95---修复gpu驱动包装脚本) | [Windows驱动领域](./by-domain/windows-drivers.md) | 驱动打包、兼容性 |
+| [virtio-win/virtio-win-guest-tools-installer #85](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | 驱动升级、MSI安装 |
+| [virtio-win/virtio-win-guest-tools-installer #87](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | MSI Secure属性、维护模式 |
+| [virtio-win/virtio-win-guest-tools-installer #88](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | VioGpu分辨率服务、WiX安装 |
+
+### 自动化工具
+
+| 贡献 | 相关文件 | 技术关键点 |
+|------|---------|------------|
+| [ansible/ansible-runner #1306](./by-scale/medium-projects.md) | [中等项目](./by-scale/medium-projects.md) | TTY检测、容器subprocess、pexpect |
 
 ### 内核与系统优化
 
@@ -102,6 +114,12 @@
 3. [修复BSOD问题](./by-year/2025.md#virtio-winkvm-guest-drivers-windows-pr-725---修复bsod蓝屏问题) (2025-11)
 4. [修复休眠后蓝屏](./by-year/2026.md#virtio-winkvm-guest-drivers-windows-pr-732---修复gpu驱动休眠后蓝屏) (2026-01)
 5. [支持HDR显示](./deep-dive/virtio-gpu-driver.md#案例3-hdr显示支持-735) (2026-01)
+6. [修复Init错误路径空指针解引用 #1473](./by-domain/windows-drivers.md) ✅已合并 (2026-02-06)
+7. [修复帧缓冲初始化资源泄漏 #1475](./by-domain/windows-drivers.md) ✅已合并 (2026-02-09)
+8. [动态帧缓冲段调整 #1479](./by-domain/windows-drivers.md) (2026-01, 开放中)
+9. [安装程序: 修复驱动升级失败 #85](./by-domain/windows-drivers.md) (2026-01, 开放中)
+10. [安装程序: 修复GUI维护模式 #87](./by-domain/windows-drivers.md) (2026-02-09, 开放中)
+11. [安装程序: 添加VioGpu分辨率服务 #88](./by-domain/windows-drivers.md) (2026-02-09, 开放中)
 
 ### MCP服务器架构演进 (2025-2026)
 1. [修复内存存储内存泄漏](./by-year/2025.md#-1月) (2025-01)
@@ -149,6 +167,6 @@
 **注**: 本文档中的链接指向 Wiki 内的相关文件，可点击导航查看详情。
 如发现链接错误或内容需更新，请编辑本文件或运行 `./scripts/validate_references.sh` (待实现)。
 
-**文档版本**: v1.0  
-**最后更新**: 2026-02-04  
+**文档版本**: v1.1  
+**最后更新**: 2026-02-09  
 **维护者**: xz-dev

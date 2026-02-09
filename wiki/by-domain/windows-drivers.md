@@ -6,11 +6,11 @@
 
 ## 📊 技术领域概览
 
-- **核心项目**: virtio-win/kvm-guest-drivers-windows (⭐2,546)
-- **主要角色**: 驱动稳定性修复、高分辨率支持、资源管理优化
-- **技术栈**: C, C++, Windows DDK, WDM/WDF, WDDM, DirectX
+- **核心项目**: virtio-win/kvm-guest-drivers-windows (⭐2,550), virtio-win/virtio-win-guest-tools-installer (⭐163)
+- **主要角色**: 驱动稳定性修复、高分辨率支持、资源管理优化、安装程序改进
+- **技术栈**: C, C++, Windows DDK, WDM/WDF, WDDM, DirectX, WiX Installer
 - **贡献时间**: 2025-2026年
-- **贡献亮点**: 修复6个严重的蓝屏问题，实现8K分辨率支持
+- **贡献亮点**: 修复多个严重的蓝屏问题，实现8K分辨率支持，改进驱动安装体验
 
 ---
 
@@ -22,107 +22,33 @@ VirtIO GPU 是一个用于 KVM/QEMU 虚拟机的显卡驱动，提供高性能 2
 
 ### 重点贡献
 
-#### PR #1488 - [viogpu] Use infinite wait for device response in release builds
-
-**蓝屏问题分析**:
-- **BSOD 代码**: `0xD1 DRIVER_IRQL_NOT_LESS_OR_EQUAL`
-- **症状**: Release 版本在启动特定3D应用时随机蓝屏
-- **根本原因**: 驱动超时检测过于严格，在虚拟环境中硬件响应延迟波动较大
-- **错误代码片段**:
-  ```cpp
-  // 原始代码 (超时太短)
-  #define RESPONSE_TIMEOUT 2000 // 毫秒
-  
-  status = KeWaitForSingleObject(
-      &pEvent,
-      Executive,
-      KernelMode,
-      FALSE,
-      &timeout);
-  
-  if (status == STATUS_TIMEOUT) {
-      // 超时处理 - 但在Release版中这里处理不当
-      return STATUS_IO_TIMEOUT;
-  }
-  ```
-
-**解决方案**:
-- 在 Release 构建中使用无限等待，避免超时导致的状态不一致
-- 在 Debug 构建中保留超时检测，方便开发调试
-- 代码修改:
-  ```cpp
-  #ifdef DBG
-      #define RESPONSE_TIMEOUT 5000 // Debug版本使用5秒
-      LARGE_INTEGER timeout = { 0 };
-      timeout.QuadPart = WDF_REL_TIMEOUT_IN_MS(RESPONSE_TIMEOUT);
-      status = KeWaitForSingleObject(
-          &pEvent,
-          Executive,
-          KernelMode,
-          FALSE,
-          &timeout);
-  #else
-      // Release版本使用无限等待
-      status = KeWaitForSingleObject(
-          &pEvent,
-          Executive,
-          KernelMode,
-          FALSE,
-          NULL);  // NULL表示无限等待
-  #endif
-  ```
-
-**技术价值**:
-- 解决了产品环境中的稳定性问题，提高虚拟机可靠性
-- 展示了理解 Windows 内核工作原理和异步通信机制
-- 保持了开发和生产环境的平衡
-
 #### PR #1473 - [viogpu] Fix null pointer dereference in VioGpuObj::Init error path
-
-**蓝屏问题分析**:
+- **状态**: ✅ 已合并 (2026-02-06)
 - **BSOD 代码**: `0x3B SYSTEM_SERVICE_EXCEPTION`
-- **症状**: 初始化失败时尝试析构未完全初始化的对象
-- **根本原因**: 错误处理路径中未正确检查指针有效性
+- **症状**: 切换到超出预分配帧缓冲段大小的分辨率时，`VioGpuObj::Init` 错误路径使用未初始化的成员 `m_pSegment` 而非参数 `pSegment`，导致空指针解引用
+- **改动**: +1/-1 行，viogpu/common/viogpu_queue.cpp
+- **已知限制**: 修复阻止了崩溃，但尚未解决切换到超大分辨率再切回较小分辨率时显示输出无法恢复的问题
 
-**解决方案**:
-- 添加指针有效性检查
-- 重构错误路径，确保资源正确释放顺序
-- 代码片段:
-  ```cpp
-  NTSTATUS VioGpuObj::Init(PVOID ptr) {
-      NTSTATUS status = STATUS_SUCCESS;
-      // 资源分配
-      m_pData = ExAllocatePoolWithTag(...);
-      if (!m_pData) {
-          status = STATUS_INSUFFICIENT_RESOURCES;
-          goto err_exit;
-      }
-      
-      // 初始化可能失败
-      status = DoInitialize(ptr);
-      if (!NT_SUCCESS(status)) {
-          // 错误处理
-          goto err_exit;
-      }
-      
-      return STATUS_SUCCESS;
-  
-  err_exit:
-      // 修复后的错误路径，检查每个指针
-      if (m_pData) {
-          ExFreePoolWithTag(m_pData, ...);
-          m_pData = NULL;
-      }
-      return status;
-  }
-  ```
+#### PR #1475 - [viogpu] Fix resource leak when framebuffer init fails
+- **状态**: ✅ 已合并 (2026-02-09)
+- **问题**: 当 `VioGpuObj::Init()` 在 `CreateFrameBufferObj()` 中失败时，之前分配的 GPU 资源和 ID 未被清理，导致宿主端资源泄漏
+- **方案**: 在返回 FALSE 前添加 `DestroyResource()` 和 `PutId()` 调用
+- **改动**: +17/-8 行，viogpu/viogpudo/viogpudo.cpp
+
+#### PR #1488 - [viogpu] Use infinite wait for device response in release builds
+- **状态**: ❌ 已关闭 (未合并)
+- **分析**: 当 AskEdidInfo 或 AskDisplayInfo 等待设备响应超时后，缓冲区的 resp_buf 被释放并置 NULL，但缓冲区仍留在 virtio 队列中。设备最终完成请求并触发中断时，DpcRoutine 出队该缓冲区并尝试访问 resp->type，导致空指针解引用 (BSOD 0xD1)
+- **方案**: 在 Release 构建中使用无限等待避免竞态条件
 
 #### PR #1479 - [viogpu] Add dynamic framebuffer segment resizing
+- **状态**: 🔄 开放中
 
 **功能增强**:
-- 支持8K+超高分辨率显示
-- 动态调整内存段大小，优化资源利用
-- 解决大型显存分配失败问题
+- 作为 PR #1474 (分辨率限制方案) 的替代方案：不拒绝超大分辨率，而是动态调整 m_FrameSegment 大小
+- 添加 `VioGpuMemSegment::TakeFrom()` 实现安全的所有权转移
+- 添加同步 GPU 命令完成操作 (DetachBackingSync/DestroyResourceSync/DestroyFrameBufferObjSync)，防止 QEMU 在新资源绑定到复用内存时仍在访问旧段内存
+- 启用 `VIRTIO_RING_F_INDIRECT_DESC` 支持 8K+ 分辨率的大型 scatter-gather 列表
+- **改动**: +884/-107 行，4个文件
 
 **实现细节**:
 ```cpp
@@ -163,15 +89,28 @@ NTSTATUS ResizeFramebufferIfNeeded(UINT newWidth, UINT newHeight) {
 
 #### 其他重要修复
 
-1. **PR #1475**: 修复帧缓冲初始化失败时的资源泄漏
-2. **PR #1474**: 拒绝超出帧缓冲容量的分辨率切换请求
-3. **PR #1471**: 修复在 EWDK 25H2 大小写敏感文件系统上的构建问题
+1. **PR #1474** (🔄 开放中): 在 IsSupportedVidPn 中添加分辨率验证，拒绝超出帧缓冲段大小的分辨率切换请求，防止显示进入不可恢复状态 (+46/-0 行)
+2. **PR #1471** (🔄 开放中): 修复在 EWDK 25H2 大小写敏感文件系统上的构建问题 (重命名文件以匹配 #include 引用)
 
-### 相关工作: virtio-win-guest-tools-installer
+### 相关工作: virtio-win-guest-tools-installer (⭐163)
 
-**PR #85**: 修复驱动升级时设备使用中导致的 1603 错误
-- 问题: 当驱动程序正在使用时，Windows Installer无法替换文件
-- 解决: 使用 `DeviceInstall=` 标志和 `REINSTALLMODE=amus` 参数
+#### PR #85 - Fix driver upgrade failure when drivers are in use (🔄 开放中)
+- **问题**: 升级 virtio-win 驱动时，当驱动正在使用中 (如 viostor 作为启动盘) 会报 1603 错误。UninstallDriverPackages 自定义操作无法卸载正被系统使用的驱动
+- **方案**: 将 MajorUpgrade Schedule 从 `afterInstallInitialize` 改为 `afterInstallExecute`，先安装新文件再移除旧版本；将 UninstallDriverPackages Return 从 `check` 改为 `ignore`；启用 `DIURFLAG_NO_REMOVE_INF` 标志延迟到重启时清理 INF
+- **改动**: +11/-4 行，4个文件
+
+#### PR #87 - Fix GUI Change/Modify not installing newly selected features (🔄 开放中, 2026-02-09)
+- **问题**: 在维护模式 (添加/删除程序中的"更改") 选择之前未安装的功能后，UI 显示已安装但实际文件和服务未部署。MSI 日志显示 `Ignoring disallowed property REGISTRY_PRODUCT_NAME`
+- **根因**: `REGISTRY_PRODUCT_NAME` 和 `REGISTRY_CURRENT_BUILD_NUMBER` 用于组件 `<Condition>` 中匹配正确的 OS 变体。维护模式安装时，MSI 客户端传递属性给服务端 (提权安装进程)，未标记为 `Secure` 的属性会被服务端丢弃。首次安装不受影响因为服务端会重新执行 `AppSearch`，但维护模式跳过了 `AppSearch`
+- **方案**: 为两个属性定义添加 `Secure="yes"`
+- **改动**: +2/-2 行，properties.wxs
+
+#### PR #88 - Add optional VioGpu Resolution Service (vgpusrv) feature (🔄 开放中, 2026-02-09)
+- **功能**: 添加 VioGpu 分辨率服务 (vgpusrv) 作为 Viogpudo 驱动的可选子功能，默认未选中 (`Level='1001'`)
+- **安装内容**: `vgpusrv.exe` (Windows 服务，自动启动) + `viogpuap.exe` (辅助可执行文件)，提供虚拟机窗口大小与显示分辨率的自动同步
+- **设计决策**: 使用子功能方式 (非 `extra_components`)，允许在功能树中独立切换；无需修改构建脚本，新 .wxs 文件由通配符自动发现
+- **改动**: +200/-0 行，5个文件 (3个新增 .wxi/.wxs 模板)
+- **依赖**: GUI 更改/修改功能依赖 PR #87 的 `Secure` 属性修复
 
 ## 2. 技术深度分析
 
@@ -214,6 +153,6 @@ NTSTATUS ResizeFramebufferIfNeeded(UINT newWidth, UINT newHeight) {
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-02-04
+**文件版本**: v1.1  
+**最后更新**: 2026-02-09
 

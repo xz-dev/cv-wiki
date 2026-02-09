@@ -1,6 +1,6 @@
 # xz-dev 开源贡献 Wiki
 
-> **最后更新**: 2026-02-04  
+> **最后更新**: 2026-02-09  
 > **数据来源**: GitHub API + 人工整理  
 > **贡献时间跨度**: 2017-2026 (9年)
 
@@ -24,7 +24,7 @@
 ```
 超大项目 (>30k ⭐):  2个  - modelcontextprotocol/servers, LibreChat
 大项目 (10k-30k ⭐):  1个  - distrobox
-中等项目 (1k-10k ⭐):  6个  - virtio-win, gentoo, ansible-runner等
+中等项目 (1k-10k ⭐):  6个  - virtio-win (kvm-guest-drivers + guest-tools-installer), gentoo, ansible-runner等
 小项目 (<1k ⭐):    191个 - Gentoo生态、Android应用等
 ```
 
@@ -231,6 +231,6 @@ AI基础设施    ██████████████░░░░░░  
 
 ---
 
-**Wiki 版本**: v1.1.0  
-**最后更新**: 2026-02-04  
+**Wiki 版本**: v1.2.0  
+**最后更新**: 2026-02-09  
 **生成工具**: [generate_wiki.sh](./scripts/generate_wiki.sh) + [generate_visualizations.py](./scripts/generate_visualizations.py)
