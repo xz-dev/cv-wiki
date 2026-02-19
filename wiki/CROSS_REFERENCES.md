@@ -53,7 +53,7 @@
 
 | 贡献 | 相关文件 | 技术关键点 |
 |------|---------|------------|
-| [ansible/ansible-runner #1306](./by-scale/medium-projects.md) | [中等项目](./by-scale/medium-projects.md) | TTY检测、容器subprocess、pexpect、多态重构 |
+| [ansible/ansible-runner #1306](./by-scale/medium-projects.md) ✅已合并 | [中等项目](./by-scale/medium-projects.md) | TTY检测、容器subprocess、pexpect、多态重构 |
 
 ### 内核与系统优化
 
