@@ -9,8 +9,9 @@
 - **核心项目**: UpgradeAll (⭐1.3k), NewPipe(Extractor), bilimiao2
 - **主要贡献**: 功能增强, UI/UX优化, 构建系统改进
 - **技术栈**: Kotlin, Java, Android SDK, Gradle
-- **活跃时间**: 2019-2024（重点时期）
+- **活跃时间**: 2019-2026（持续活跃）
 - **相关认证**: Android 开发经验 5年+
+- **最新动态**: AGP 9.0 大规模现代化升级、Rust getter 统一架构 (2026-02)
 
 ---
 
@@ -109,6 +110,45 @@ class AppInstaller(
     }
 }
 ```
+
+### 2026-02 重大更新: AGP 9.0 现代化升级
+
+对整个项目进行了大规模构建系统现代化和架构重构：
+
+**构建系统升级**:
+- 升级到 **AGP 9.0 + Gradle 9.3.1 + Kotlin 2.3.10**
+- 将 `buildscript/classpath` 迁移到 plugins DSL 和 version catalog (`libs.versions.toml`)
+- 移除不兼容的 `kotlin-android` 插件，使用 AGP 9.0 内置 Kotlin 支持
+- 添加 `com.android.legacy-kapt` 用于 DataBinding BR 类生成
+- 修复 GradleAndroidRustPlugin 对 AGP 9.0 的兼容性（通过 JitPack fork）
+
+**Kotlin 代码现代化** (跨 22 个文件):
+- 将 `GlobalScope` 替换为结构化并发 (`viewModelScope`, `lifecycleScope`, `applicationScope`)
+- 将 `onBackPressed()` 替换为 `finish()`
+- 迁移权限请求到 `ActivityResultContracts` API
+- 移除 `threetenabp`，使用 `java.time`
+- 修复 `nonTransitiveRClass` 引用
+
+### 2026-02 Rust Getter 统一架构
+
+将 Kotlin Hub 实现统一到 Rust getter 的 JSON-RPC 系统中：
+
+**架构变更**:
+```
+Kotlin -> GetterPort (WebSocket JSON-RPC) -> Rust Provider Map ->
+          OutsideProvider -> HTTP JSON-RPC -> KotlinHubRpcServer -> Hub impls
+```
+
+- 新增 `KotlinHubRpcServer`: 基于 Ktor CIO 的 HTTP JSON-RPC 服务器
+- 重写 `ClientProxyApi` 将所有方法委托给 `getterPort`（移除 hubMap、getHub、NoFunction 等旧逻辑）
+- getter 端新增 `register_provider` 和 `get_download` JSON-RPC 方法
+- 实现 `OutsideProvider` 通过 HTTP JSON-RPC 回调到 Kotlin
+
+**传输层重构** (2026-02-11):
+- 将双 HTTP+WebSocket 架构替换为纯 WebSocket 传输
+- `GetterService` 合并为 suspend 接口
+- WebSocket 最大消息大小设为 2GB（支持大型数据传输）
+- 添加 WebSocket 客户端连接和消息大小限制测试
 
 ### 社区影响
 
@@ -271,33 +311,28 @@ fun parseVideoInfo(jsonData: String?): VideoInfo {
 
 多个PR改进了Android-Rust跨平台构建系统:
 
+- **PR #14**: ✅ 已合并 (2026-02-16) - 迁移到 AGP 9.0 新 DSL API (+42/-37 行，9个文件)
 - PR #11: 修复ABI交叉编译匹配逻辑
 - PR #9/#10: 添加Gradle 9兼容性
 
-**技术点**:
-```kotlin
-// Gradle 9 兼容性支持
-fun configureAndroidAbi() {
-    // Gradle 8/9 使用新的API
-    if (isGradle9OrHigher()) {
-        project.extensions.findByType<CommonExtension<*, *, *, *, *>>()?.let { ext ->
-            // 新API支持
-        }
-    } else {
-        // 兼容旧版本API
-        project.extensions.findByType<BaseExtension>()?.let { ext ->
-            // 旧API支持
-        }
-    }
-}
+#### PR #14: 迁移到 AGP 9.0 (Breaking Change)
 
-// 检测Gradle版本
-private fun isGradle9OrHigher(): Boolean {
-    val gradleVersion = project.gradle.gradleVersion
-    val majorVersion = gradleVersion.split(".")[0].toInt()
-    return majorVersion >= 9
-}
-```
+AGP 9.0 完全移除了旧的 `BaseExtension` 类型，导致插件在配置阶段报错 `couldn't find android AppExtension or LibraryExtension`。
+
+**核心变更**:
+- 将 `AppExtension`/`LibraryExtension` (from `com.android.build.gradle`) 替换为新的 DSL 类型 (from `com.android.build.api.dsl`)
+- 使用 `sdkComponents.ndkDirectory` (Provider<Directory>) 替换被移除的 `BaseExtension.ndkDirectory`
+- 在 `finalizeDsl` 回调中通过 `CommonExtension` 访问 `ndkVersion`, `buildTypes` 等
+- 将废弃的 `srcDir()` 替换为 `directories.add()`
+
+**版本兼容性矩阵**:
+
+| 插件版本 | AGP 版本 | 状态 |
+|---------|---------|------|
+| 0.5.0   | 7.x – 8.x | 仅维护 |
+| 0.6.0   | 9.0+      | 活跃开发 |
+
+此 PR 被 UpgradeAll 项目直接依赖，通过 JitPack fork 引入。
 
 ### Magisk相关贡献
 
@@ -318,6 +353,6 @@ private fun isGradle9OrHigher(): Boolean {
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-02-04
+**文件版本**: v1.1  
+**最后更新**: 2026-02-19
 

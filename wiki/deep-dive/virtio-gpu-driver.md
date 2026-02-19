@@ -805,6 +805,48 @@ NTSTATUS VioGpuDod::SetVideoMode(UINT Width, UINT Height, D3DDDIFORMAT Format)
 
 ---
 
+### 案例4: 分辨率超限保护 (#1474) - 已合并 2026-02-17
+
+**问题描述**:
+当用户通过 virt-manager 窗口缩放等方式动态调整虚拟机分辨率时，如果请求的分辨率超出预分配的帧缓冲段大小，驱动会销毁现有帧缓冲后无法创建新的更大帧缓冲，导致显示进入不可恢复状态（黑屏无输出）。
+
+**问题分析**:
+
+驱动在 `SetCurrentMode` 中处理分辨率切换时：
+1. 先销毁当前正常工作的帧缓冲
+2. 尝试创建新的更大帧缓冲
+3. 如果新帧缓冲超出段容量，`CreateFrameBufferObj` 失败
+4. 此时旧帧缓冲已销毁，显示完全中断且无法恢复
+
+**解决方案**:
+
+在 `IsSupportedVidPn` 中提前校验分辨率是否在帧缓冲段容量范围内，在 Windows 尝试切换分辨率之前就拒绝不支持的分辨率：
+
+```c
+// 在IsSupportedVidPn中添加容量校验
+BOOLEAN VioGpuDod::IsResolutionWithinSegmentCapacity(
+    UINT Width, UINT Height, UINT BPP)
+{
+    SIZE_T required = (SIZE_T)Width * Height * (BPP / 8);
+    SIZE_T available = m_FrameSegment.GetSize();
+    return required <= available;
+}
+```
+
+**技术亮点**:
+
+1. **防御性设计**: 在分辨率协商阶段就拒绝不支持的分辨率，而非在切换时失败
+2. **零回归**: 不影响正常范围内的分辨率切换
+3. **优雅降级**: Windows 收到不支持的响应后会选择下一个可用分辨率
+
+**后续演进**:
+
+此 PR 是保守方案。PR #1479 (仍开放中) 提供了激进替代方案：动态调整 `m_FrameSegment` 大小以支持更大分辨率，而非拒绝。两种方案体现了不同的工程权衡：
+- **#1474 (已合并)**: 安全优先，确保不会出现不可恢复状态
+- **#1479 (开放中)**: 功能优先，通过同步 GPU 命令完成和 indirect descriptor 支持 8K+ 分辨率
+
+---
+
 ## 💡 关键技术总结
 
 ### 驱动设计方法论
@@ -921,5 +963,5 @@ VirtIO GPU驱动改进对各类用户产生深远影响：
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-02-04
+**文件版本**: v1.1  
+**最后更新**: 2026-02-19

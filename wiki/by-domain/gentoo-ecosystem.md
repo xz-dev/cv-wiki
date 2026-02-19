@@ -8,7 +8,7 @@
 
 - **涵盖仓库**: gentoo, gentoo-zh, guru, xarblu-overlay, 其他overlays
 - **贡献类型**: 软件包维护, 构建修复, OpenRC服务, 新增包
-- **贡献数量**: 约 80+ PRs
+- **贡献数量**: 约 90+ PRs
 - **技术栈**: Shell, ebuild, Portage, OpenRC
 - **主要时间**: 2023-2026 (活跃维护)
 
@@ -64,9 +64,19 @@ start() {
 
 ### 持续维护的核心软件包
 
-**OpenCode 系列**:
+**OpenCode 系列** (持续快速迭代):
+- PR #9412: dev-util/opencode-bin: add 1.2.6, drop 1.2.5 (2026-02-17)
+- PR #9399: dev-util/opencode-bin: add 9999 live ebuild (2026-02-16)
+- PR #9398: dev-util/opencode-bin: add 1.2.5, drop 1.2.4 (2026-02-16)
+- PR #9392: dev-util/opencode-bin: add 1.2.4, drop 1.2.1 (2026-02-15)
+- PR #9385: dev-util/opencode-bin: add 1.2.1, drop 1.1.65 (2026-02-14)
+- PR #9379: dev-util/opencode-bin: add 1.1.65, drop 1.1.48 (2026-02-14)
 - PR #9299: dev-util/opencode-bin: add 1.1.49, drop 1.1.48 (2026-02-04)
 - PR #9269: dev-util/opencode-bin: new package, add 1.1.48 (2026-01-31)
+
+**Anytype 系列**:
+- PR #9422: app-office/anytype-bin: add 0.54.2, drop 0.54.1 (2026-02-19)
+- PR #9413: app-office/anytype-bin: add 0.54.1, drop 0.53.1, drop 0.35.4 (2026-02-17)
 
 **系统工具**:
 - PR #8862/6621: sys-power/tlpui: enable py3.14/py3.13 支持
@@ -220,7 +230,12 @@ pkg_postinst() {
 ## 4. 其他 Overlay 贡献
 
 ### CachyOS 相关贡献
-- **Szowisz/CachyOS-kernels**:
+- **Szowisz/CachyOS-kernels** (活跃维护):
+  - 2026-02-18: 更新 PRJC 调度器补丁 (6.19.2)
+  - 2026-02-17: 添加 6.18.12, 6.19.2 内核版本
+  - 2026-02-14: 添加 6.18.10 内核版本
+  - 2026-02-12: 修复 musl/LLVM profiles 不依赖 GCC 的支持 (6.6.x LTS)
+  - 2026-02-12: 修复 llvm-lto USE flag 冲突
   - PR #14: Add cachyos-sources-6.8.8.ebuild, drop 6.8.4
   - PR #13: Fix cachyos-sources-6.8.4 ebuild
 
@@ -243,11 +258,12 @@ pkg_postinst() {
 
 | 类别 | PR数量 | 代表项目 |
 |------|--------|---------|
-| **开发工具** | ~20 | android-studio, bash-language-server, emacs-lsp-booster |
+| **开发工具** | ~25 | opencode-bin, android-studio, bash-language-server, emacs-lsp-booster |
 | **网络工具** | ~15 | clash-verge-bin, daed, anytype-bin |
 | **系统工具** | ~15 | tlpui, auto-cpufreq, linux-enable-ir-emitter |
 | **虚拟化** | ~10 | quickemu, distrobox-boost, deepin-wine |
 | **图形界面** | ~10 | lceda-pro, river, swww |
+| **内核** | ~10 | cachyos-sources (6.6 LTS ~ 6.19) |
 | **其他** | ~10 | zprint-bin, proton-authenticator-bin, rustdesk |
 
 ### ebuild开发技术要点
@@ -268,13 +284,13 @@ pkg_postinst() {
 - OpenRC服务脚本设计与优化
 
 ### 社区影响
-- 为Gentoo生态贡献80+个PR
+- 为Gentoo生态贡献90+个PR
 - 提供大量OpenRC支持，改善非systemd用户体验
 - 维护一系列对中国用户有用的软件包
 - 活跃的gentoo-zh维护者
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-02-04
+**文件版本**: v1.1  
+**最后更新**: 2026-02-19
 

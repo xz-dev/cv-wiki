@@ -48,7 +48,7 @@ VirtIO GPU 是一个用于 KVM/QEMU 虚拟机的显卡驱动，提供高性能 2
 - 添加 `VioGpuMemSegment::TakeFrom()` 实现安全的所有权转移
 - 添加同步 GPU 命令完成操作 (DetachBackingSync/DestroyResourceSync/DestroyFrameBufferObjSync)，防止 QEMU 在新资源绑定到复用内存时仍在访问旧段内存
 - 启用 `VIRTIO_RING_F_INDIRECT_DESC` 支持 8K+ 分辨率的大型 scatter-gather 列表
-- **改动**: +884/-107 行，4个文件
+- **改动**: +904/-107 行，4个文件
 
 **实现细节**:
 ```cpp
@@ -87,10 +87,16 @@ NTSTATUS ResizeFramebufferIfNeeded(UINT newWidth, UINT newHeight) {
 }
 ```
 
+#### PR #1474 - RHEL-149886: [viogpu] Reject resolutions exceeding framebuffer segment capacity
+- **状态**: ✅ 已合并 (2026-02-17)
+- **问题**: 动态调整分辨率（如通过 virt-manager 窗口缩放）超出预分配帧缓冲段大小时，驱动会：1) 销毁现有工作帧缓冲 2) 创建新的更大帧缓冲失败 3) 显示进入不可恢复状态
+- **方案**: 在 `IsSupportedVidPn` 中添加分辨率验证，提前拒绝超出帧缓冲段容量的分辨率，让 Windows 优雅处理该情况
+- **改动**: +67/-0 行，2个文件
+- **关联**: 此为保守方案，PR #1479 提供了动态 resize 的激进替代方案
+
 #### 其他重要修复
 
-1. **PR #1474** (🔄 开放中): 在 IsSupportedVidPn 中添加分辨率验证，拒绝超出帧缓冲段大小的分辨率切换请求，防止显示进入不可恢复状态 (+46/-0 行)
-2. **PR #1471** (🔄 开放中): 修复在 EWDK 25H2 大小写敏感文件系统上的构建问题 (重命名文件以匹配 #include 引用)
+1. **PR #1471** (🔄 开放中): 修复在 EWDK 25H2 大小写敏感文件系统上的构建问题 (重命名文件以匹配 #include 引用)
 
 ### 相关工作: virtio-win-guest-tools-installer (⭐163)
 
@@ -153,6 +159,6 @@ NTSTATUS ResizeFramebufferIfNeeded(UINT newWidth, UINT newHeight) {
 
 ---
 
-**文件版本**: v1.1  
-**最后更新**: 2026-02-09
+**文件版本**: v1.2  
+**最后更新**: 2026-02-19
 

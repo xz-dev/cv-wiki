@@ -1,6 +1,6 @@
 # xz-dev 开源贡献 Wiki
 
-> **最后更新**: 2026-02-09  
+> **最后更新**: 2026-02-19  
 > **数据来源**: GitHub API + 人工整理  
 > **贡献时间跨度**: 2017-2026 (9年)
 
@@ -55,7 +55,7 @@
 - [📅 2023年](./by-year/2023.md) - Gentoo维护者
 - [📅 2024年](./by-year/2024.md) - 系统底层探索
 - [📅 2025年](./by-year/2025.md) - Klavis AI (MCP基础设施)
-- [📅 2026年](./by-year/2026.md) - 内核驱动与容器技术
+- [📅 2026年](./by-year/2026.md) - VirtIO GPU驱动修复、UpgradeAll现代化、Gentoo包维护
 
 ![贡献时间线](./visualizations/contribution_timeline.png)
 
@@ -79,7 +79,7 @@
 - [🐳 容器技术](./by-domain/container-tech.md) - distrobox, Podman, cgroup
 - [🤖 AI基础设施](./by-domain/ai-infrastructure.md) - MCP协议、Klavis贡献
 - [📱 Android生态](./by-domain/android.md) - UpgradeAll, NewPipe, bilimiao2
-- [🎯 Gentoo生态](./by-domain/gentoo-ecosystem.md) - 90+ ebuild维护
+- [🎯 Gentoo生态](./by-domain/gentoo-ecosystem.md) - 90+ ebuild维护, CachyOS kernels
 
 ### 重点项目深度分析
 
@@ -88,7 +88,7 @@
 - [🔍 MCP Servers - 跨进程文件锁](./deep-dive/mcp-servers.md) - 解决多实例数据损坏问题
 - [🔍 VirtIO GPU Driver - 8K分辨率支持](./deep-dive/virtio-gpu-driver.md) - 修复BSOD并支持HDR
 - [🔍 distrobox - cgroup委托问题](./deep-dive/distrobox-contributions.md) - PID命名空间隔离
-- [🔍 UpgradeAll - Android更新系统](./deep-dive/upgradeall-project.md) - 模块化App更新框架
+- [🔍 UpgradeAll - Android更新系统](./deep-dive/upgradeall-project.md) - AGP 9.0 现代化 + Rust getter 统一架构
 - [💬 GitHub Issues 互动分析](./deep-dive/github-issues-analysis.md) - 纯语言解决问题能力 **(评分91.3/100)**
 - [🌐 网站与社区贡献分析](./deep-dive/websites/README.md) - 博客 (xzos.net, 55+文章), Stack Exchange (6平台), Mastodon (FOSS社区)
 - [📚 Linux Wiki 贡献深度分析](./deep-dive/websites/linux-wiki-contributions.md) - Arch Wiki (29编辑) + Gentoo Wiki (35编辑) **(评分92.4/100)**
@@ -231,6 +231,6 @@ AI基础设施    ██████████████░░░░░░  
 
 ---
 
-**Wiki 版本**: v1.2.0  
-**最后更新**: 2026-02-09  
+**Wiki 版本**: v1.3.0  
+**最后更新**: 2026-02-19  
 **生成工具**: [generate_wiki.sh](./scripts/generate_wiki.sh) + [generate_visualizations.py](./scripts/generate_visualizations.py)

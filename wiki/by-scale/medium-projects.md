@@ -37,9 +37,9 @@
 - **状态**: 🔄 开放中
 - **功能**: 作为 PR #1474 (分辨率限制方案) 的替代方案，实现动态帧缓冲区段大小调整，支持 8K+ 高分辨率；添加同步 GPU 命令完成和 indirect descriptor 支持。(+884/-107 行)
 
-#### PR #1474 - [viogpu] Reject resolutions exceeding framebuffer segment capacity
-- **状态**: 🔄 开放中
-- **功能**: 在 IsSupportedVidPn 中添加分辨率验证，提前拒绝超出帧缓冲容量的分辨率，避免显示进入不可恢复状态。
+#### PR #1474 - RHEL-149886: [viogpu] Reject resolutions exceeding framebuffer segment capacity
+- **状态**: ✅ 已合并 (2026-02-17)
+- **功能**: 在 IsSupportedVidPn 中添加分辨率验证，提前拒绝超出帧缓冲容量的分辨率，避免显示进入不可恢复状态。(+67/-0 行)
 
 #### PR #1471 - Fix case-sensitive filename issues for builds on EWDK 25H2
 - **状态**: 🔄 开放中
@@ -66,7 +66,7 @@
 
 ### PR #1306 - Fix container --tty detection in subprocess mode
 
-**状态**: 🔄 开放中 (活跃开发中，2026-02-07 更新)  
+**状态**: 🔄 开放中 (活跃开发中，2026-02-19 最新更新)  
 **PR 链接**: https://github.com/ansible/ansible-runner/pull/1306
 
 **问题描述**
@@ -76,29 +76,44 @@
 
 初始方案 (2023-09) 检查 `sys.stdout.isatty()` 按 runner_mode 决定 TTY 分配，但维护者 @Shrews 提出可能影响 pexpect 密码场景。
 
-重新设计的方案 (2026-02-07) 提取了 `_should_allocate_tty()` 方法，直接检查调用方传入的 `input_fd.isatty()`：
+第二版方案 (2026-02-07) 提取了 `_should_allocate_tty()` 方法，直接检查调用方传入的 `input_fd.isatty()`。
+
+第三版方案 (2026-02-18) 根据维护者 @Shrews 反馈重构为多态设计，避免基类通过 `getattr` 访问派生类属性的反模式：
 ```python
-def _should_allocate_tty(self):
-    """Determine whether to add --tty to container command."""
-    # pexpect mode: always allocate TTY (passwords still work)
-    if self.runner_mode == 'pexpect':
-        return True
-    # subprocess with input_fd: check if fd is actually a TTY
-    if hasattr(self, 'input_fd') and self.input_fd:
-        return self.input_fd.isatty()
-    # no input_fd at all: no TTY (same as pre-b5ead3b behavior)
-    return False
+# 基类提供默认实现
+class BaseConfig:
+    def _should_allocate_tty(self):
+        return False
+
+# 派生类按各自逻辑覆写
+class RunnerConfig(BaseConfig):
+    def _should_allocate_tty(self):
+        if self.runner_mode == 'pexpect':
+            return True
+        if self.input_fd:
+            return self.input_fd.isatty()
+        return False
 ```
+
+**代码Review历程** (2026-02-12 ~ 02-19):
+- 02-12: 修复 mypy union-attr 错误，维护者指出 `input_fd` 被同时当作 fd 和 boolean 使用的问题
+- 02-13: 重构测试为参数化形式，请求 CI 批准
+- 02-16: 修复导致 PTY 死锁的测试用例
+- 02-17: 合并 devel 分支解决 CI 冲突；维护者提出基类访问派生类属性的设计问题
+- 02-18: 重构为多态设计 (polymorphism)，使用 asciinema 录制验证视频
+- 02-19: 确认已通过 `ansible-navigator` 端到端验证
 
 **设计考量**
 - **pexpect 模式**: 始终返回 True（密码交互不受影响）
 - **subprocess + input_fd**: 返回 `input_fd.isatty()`（核心修复）
 - **无 input_fd**: 返回 False（对 AWX 等不传 input_fd 的调用方无行为变更）
+- **多态重构**: 避免基类依赖派生类属性，改善代码架构
 
 **影响评估**
 - ✅ 修复了 Ansible Navigator 在 CI 环境、管道重定向下的挂起问题
 - ✅ 提升了工具在无监督环境下的鲁棒性
 - ✅ 维护者已完成手动测试验证 (pexpect + 密码、容器 stdin 连接等场景)
+- ✅ 改善了基类/派生类的架构设计 (消除反模式)
 
 ---
 
@@ -157,6 +172,6 @@ depend() {
 
 ---
 
-**文件版本**: v1.1  
-**最后更新**: 2026-02-09
+**文件版本**: v1.2  
+**最后更新**: 2026-02-19
 

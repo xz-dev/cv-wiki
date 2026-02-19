@@ -1,7 +1,7 @@
 # 贡献交叉引用表
 
 > 本文档提供了贡献之间的交叉引用，帮助理解项目间的关联和技术能力的延续性。
-> 最后更新: 2026-02-04
+> 最后更新: 2026-02-19
 
 ---
 
@@ -34,17 +34,26 @@
 | [virtio-win/kvm-guest-drivers-windows #735](./by-year/2026.md#virtio-winkvm-guest-drivers-windows-pr-735---支持hdr显示) | [深度分析](./deep-dive/virtio-gpu-driver.md#案例3-hdr显示支持-735) | HDR元数据、色彩空间 |
 | [virtio-win/kvm-guest-drivers-windows #1473](./by-domain/windows-drivers.md) ✅已合并 | [Windows驱动领域](./by-domain/windows-drivers.md) | 空指针解引用修复、错误路径 |
 | [virtio-win/kvm-guest-drivers-windows #1475](./by-domain/windows-drivers.md) ✅已合并 | [Windows驱动领域](./by-domain/windows-drivers.md) | GPU资源泄漏修复 |
+| [virtio-win/kvm-guest-drivers-windows #1474](./by-domain/windows-drivers.md) ✅已合并 | [Windows驱动领域](./by-domain/windows-drivers.md) | 分辨率超限保护、IsSupportedVidPn |
 | [virtio-win/kvm-guest-drivers-windows #1479](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | 动态帧缓冲段调整、indirect descriptor |
 | [virtio-win/virtio-win-pkg-scripts #95](./by-year/2025.md#virtio-winvirtio-win-pkg-scripts-pr-95---修复gpu驱动包装脚本) | [Windows驱动领域](./by-domain/windows-drivers.md) | 驱动打包、兼容性 |
 | [virtio-win/virtio-win-guest-tools-installer #85](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | 驱动升级、MSI安装 |
 | [virtio-win/virtio-win-guest-tools-installer #87](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | MSI Secure属性、维护模式 |
 | [virtio-win/virtio-win-guest-tools-installer #88](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | VioGpu分辨率服务、WiX安装 |
 
+### Android 与构建系统
+
+| 贡献 | 相关文件 | 技术关键点 |
+|------|---------|------------|
+| [DUpdateSystem/UpgradeAll AGP 9.0 升级](./deep-dive/upgradeall-project.md) | [Android领域](./by-domain/android.md) | AGP 9.0, Gradle 9.3.1, Kotlin 2.3.10, 结构化并发 |
+| [DUpdateSystem/UpgradeAll Rust getter 统一架构](./deep-dive/upgradeall-project.md) | [Android领域](./by-domain/android.md) | WebSocket JSON-RPC, OutsideProvider, Kotlin↔Rust |
+| [MatrixDev/GradleAndroidRustPlugin #14](./by-domain/android.md) ✅已合并 | [Android领域](./by-domain/android.md) | AGP 9.0 DSL 迁移, NDK 目录 Provider |
+
 ### 自动化工具
 
 | 贡献 | 相关文件 | 技术关键点 |
 |------|---------|------------|
-| [ansible/ansible-runner #1306](./by-scale/medium-projects.md) | [中等项目](./by-scale/medium-projects.md) | TTY检测、容器subprocess、pexpect |
+| [ansible/ansible-runner #1306](./by-scale/medium-projects.md) | [中等项目](./by-scale/medium-projects.md) | TTY检测、容器subprocess、pexpect、多态重构 |
 
 ### 内核与系统优化
 
@@ -120,6 +129,7 @@
 9. [安装程序: 修复驱动升级失败 #85](./by-domain/windows-drivers.md) (2026-01, 开放中)
 10. [安装程序: 修复GUI维护模式 #87](./by-domain/windows-drivers.md) (2026-02-09, 开放中)
 11. [安装程序: 添加VioGpu分辨率服务 #88](./by-domain/windows-drivers.md) (2026-02-09, 开放中)
+12. [分辨率超限保护 #1474](./by-domain/windows-drivers.md) ✅已合并 (2026-02-17)
 
 ### MCP服务器架构演进 (2025-2026)
 1. [修复内存存储内存泄漏](./by-year/2025.md#-1月) (2025-01)
@@ -130,6 +140,14 @@
 6. [添加内存索引功能](./by-year/2025.md#-9月) (2025-09)
 7. [添加文件锁支持多实例](./deep-dive/mcp-servers.md) (2025-12)
 8. [添加进程间通信增强](./by-year/2026.md#modelcontextprotocolmcp-js-pr-325---添加进程间通信增强) (2026-02)
+
+### UpgradeAll 架构演进 (2026-02)
+1. [AGP 9.0 + Gradle 9.3.1 升级](./deep-dive/upgradeall-project.md) (2026-02-13)
+2. [构建系统现代化 + Kotlin 源码修复](./deep-dive/upgradeall-project.md) (2026-02-13)
+3. [GradleAndroidRustPlugin AGP 9.0 迁移 #14](./by-domain/android.md) ✅已合并 (2026-02-16)
+4. [WebSocket JSON-RPC 传输层](./deep-dive/upgradeall-project.md) (2026-02-11)
+5. [纯 WebSocket 传输替换双架构](./deep-dive/upgradeall-project.md) (2026-02-11)
+6. [OutsideProvider 注册 + Kotlin Hub 统一](./deep-dive/upgradeall-project.md) (2026-02-15)
 
 ### 容器技术演进 (2025-2026)
 1. [修复cgroup配置问题](./by-year/2025.md#containerspodman-pr-19372---修复cgroup配置问题) (2025-03)
@@ -167,6 +185,6 @@
 **注**: 本文档中的链接指向 Wiki 内的相关文件，可点击导航查看详情。
 如发现链接错误或内容需更新，请编辑本文件或运行 `./scripts/validate_references.sh` (待实现)。
 
-**文档版本**: v1.1  
-**最后更新**: 2026-02-09  
+**文档版本**: v1.2  
+**最后更新**: 2026-02-19  
 **维护者**: xz-dev

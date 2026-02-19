@@ -22,8 +22,9 @@
 
 ### 代表性贡献
 - **microcai/gentoo-zh**: 
-  - 维护 `opencode-bin`。
-  - PR #9269/9299: 引入新包并持续迭代版本。
+  - 维护 `opencode-bin` (1.1.48 → 1.2.6, 含 9999 live ebuild)。
+  - 维护 `anytype-bin` (0.53.1 → 0.54.2)。
+  - PR #9269~9422: 持续快速迭代版本 (8+ PRs in Feb 2026)。
   - 为 `clash-verge-bin` 等网络工具添加 OpenRC 脚本。
 - **gentoo/guru**:
   - PR #411: 维护 `quickemu` 虚拟化工具。
@@ -78,7 +79,11 @@
 - **heiher/hev-socks5-tunnel**:
   - 为 FreeBSD 添加 TUN 测试及 CI 检查流程。
 - **MatrixDev/GradleAndroidRustPlugin**:
+  - PR #14: ✅ 已合并 - 迁移到 AGP 9.0 新 DSL API (2026-02-16)
   - 修复 ABI 交叉编译匹配逻辑并兼容 Gradle 9。
+- **Szowisz/CachyOS-kernels** (活跃维护):
+  - 添加 6.18.10/6.18.12/6.19.2 内核版本，更新 PRJC 补丁
+  - 修复 musl/LLVM profiles 下不依赖 GCC 的支持
 
 **技术栈**: C, Rust, Gradle, Linux Kernel, CI (GitHub Actions)
 
@@ -93,6 +98,6 @@
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-02-04
+**文件版本**: v1.1  
+**最后更新**: 2026-02-19
 
