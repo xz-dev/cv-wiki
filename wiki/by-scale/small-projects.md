@@ -84,8 +84,10 @@
 - **Szowisz/CachyOS-kernels** (活跃维护):
   - 添加 6.18.10/6.18.12/6.19.2 内核版本，更新 PRJC 补丁
   - 修复 musl/LLVM profiles 下不依赖 GCC 的支持
+- **vaeth/zram-init** (⭐87):
+  - PR #57 (2026-02-25): 修复 OpenRC 服务依赖导致 KDE Plasma Wayland 启动死锁。zram 挂载 `/tmp` 晚于 `bootmisc`，覆盖了 `/tmp/.X11-unix`，导致 Xwayland socket 创建失败 → `DISPLAY` 未设置 → `ksmserver` 崩溃 → `plasmashell` 死锁。根因是 init 脚本服务依赖方向错误。
 
-**技术栈**: C, Rust, Gradle, Linux Kernel, CI (GitHub Actions)
+**技术栈**: C, Rust, Gradle, Shell, OpenRC, Linux Kernel, CI (GitHub Actions)
 
 ---
 

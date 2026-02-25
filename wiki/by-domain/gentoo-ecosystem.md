@@ -248,6 +248,13 @@ pkg_postinst() {
 - **bsd-ac/wayland-desktop**:
   - PR #64: gui-apps/waylock: Update BDEPEND limit of zig 0.10
 
+### 系统工具相关
+- **vaeth/zram-init** (⭐87):
+  - PR #57: openrc: fix dependency order to run before bootmisc (2026-02-25)
+  - **问题诊断链**: zram 配置为在 `/tmp` 上挂载 ext4 时，`after bootmisc` 依赖顺序导致 `bootmisc` 先在根 fs 的 `/tmp` 上创建 `.X11-unix` 和 `.ICE-unix`，随后 zram 挂载新 ext4 覆盖了这些目录。在 KDE Plasma 6 Wayland 会话中，缺少 `/tmp/.X11-unix` 导致 `kwin_wayland_wrapper` 无法创建 Xwayland socket → `DISPLAY` 变量未设置 → `ksmserver`（依赖 X11）崩溃 → 整个 Plasma 启动链死锁，`plasmashell` 无法启动
+  - **根因**: OpenRC init 脚本的服务依赖方向错误（`after` vs `before`）
+  - **技术体现**: OpenRC 服务启动顺序分析能力、挂载点遮蔽 (mount shadowing) 问题理解、从桌面环境崩溃追溯到 init 系统层的全链路排查
+
 ### 安全工具相关
 - **beatussum/save-backlight**:
   - PR #2: remove * in openrc-run script
