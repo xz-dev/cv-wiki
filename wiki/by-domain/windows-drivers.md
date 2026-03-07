@@ -40,52 +40,55 @@ VirtIO GPU 是一个用于 KVM/QEMU 虚拟机的显卡驱动，提供高性能 2
 - **分析**: 当 AskEdidInfo 或 AskDisplayInfo 等待设备响应超时后，缓冲区的 resp_buf 被释放并置 NULL，但缓冲区仍留在 virtio 队列中。设备最终完成请求并触发中断时，DpcRoutine 出队该缓冲区并尝试访问 resp->type，导致空指针解引用 (BSOD 0xD1)
 - **方案**: 在 Release 构建中使用无限等待避免竞态条件
 
+#### PR #1536 - [viogpu] multi-block contiguous allocation with indirect descriptors for high-resolution support
+- **状态**: 🔄 开放中 (2026-03-05) **[核心突破]**
+- **功能增强**: 
+  - 取代了不可行的 PR #1479 动态调整方案（因为在 WDDM `CommitVidPn` 阶段分配失败没有干净的 rollback 路径）
+  - 将单一大块系统内存分配替换为 **多块连续物理内存分配**
+  - 实现梯级 fallback 策略：`1MB → 64KB → 32KB → 16KB → 4KB`
+  - 启用 `VIRTIO_RING_F_INDIRECT_DESC` 间接描述符，解决超大帧缓冲带来的 QEMU 16384 SGList entry 限制
+- **设计原理**: 选择 1MB 首选块大小是为了对齐 Windows Segment Heap 的内存分配粒度，同时避开 2MB large page 容易因物理内存碎片化导致的分配失败问题。
+- **改动**: +304/-73 行，3 个核心文件 (`viogpu_queue.cpp/h`, `viogpudo.cpp`)
+
+#### PR #1537 - [viogpu] Sync resolution on viogpuap startup
+- **状态**: 🔄 开放中 (2026-03-06)
+- **修复**: 让 `viogpuap.exe` 在用户登录启动时立即查询并同步主机窗口的分辨率。此前，该服务仅被动监听 config-change 事件，导致用户必须手动拉伸一次 spice 客户端窗口才能应用分辨率。
+- **改动**: +18/-8 行，2个文件
+
 #### PR #1479 - [viogpu] Add dynamic framebuffer segment resizing
-- **状态**: 🔄 开放中
-
-**功能增强**:
-- 作为 PR #1474 (分辨率限制方案) 的替代方案：不拒绝超大分辨率，而是动态调整 m_FrameSegment 大小
-- 添加 `VioGpuMemSegment::TakeFrom()` 实现安全的所有权转移
-- 添加同步 GPU 命令完成操作 (DetachBackingSync/DestroyResourceSync/DestroyFrameBufferObjSync)，防止 QEMU 在新资源绑定到复用内存时仍在访问旧段内存
-- 启用 `VIRTIO_RING_F_INDIRECT_DESC` 支持 8K+ 分辨率的大型 scatter-gather 列表
-- **改动**: +904/-107 行，4个文件
-
-**实现细节**:
-```cpp
-// 动态计算所需framebuffer大小
-SIZE_T GetRequiredFramebufferSize(UINT width, UINT height, UINT bpp) {
-    SIZE_T bytesPerPixel = bpp / 8;
-    SIZE_T stride = ALIGN_UP(width * bytesPerPixel, 4); // 4字节对齐
-    return stride * height;
-}
-
-// 当请求更大分辨率时重新分配
-NTSTATUS ResizeFramebufferIfNeeded(UINT newWidth, UINT newHeight) {
-    SIZE_T newSize = GetRequiredFramebufferSize(newWidth, newHeight, m_bpp);
-    
-    if (newSize > m_fbSize) {
-        // 释放旧buffer
-        if (m_pFrameBuffer) {
-            // 先通知GPU释放资源
-            NotifyGpuResourceRelease();
-            // 再释放内存
-            FreeMemory();
-        }
-        
-        // 分配新buffer
-        m_fbSize = newSize;
-        NTSTATUS status = AllocateMemory(m_fbSize);
-        if (!NT_SUCCESS(status)) {
-            return status;
-        }
-        
-        // 通知GPU新分配
-        return CreateGpuResource();
-    }
-    
-    return STATUS_SUCCESS;
-}
-```
+- **状态**: ❌ 已废弃 (被 PR #1536 取代)
+- **分析**: 原计划动态调整 `m_FrameSegment` 大小，但经过充分测试发现，若在 WDDM 框架的 `CommitVidPn` 阶段动态分配大内存失败，驱动无法安全回滚（Windows 蓝屏）。因此转而研发了初始即可靠分配极高分辨率内存的 PR #1536 方案。
+- **历史方案细节（已被替代）**:
+  - 尝试在不拒绝超大分辨率的情况下动态调整 m_FrameSegment 大小
+  - 添加了 `VioGpuMemSegment::TakeFrom()` 实现安全的所有权转移
+  - 引入了同步 GPU 命令完成操作 (DetachBackingSync/DestroyResourceSync/DestroyFrameBufferObjSync)，防止 QEMU 仍在访问旧段内存
+  - 启用了 `VIRTIO_RING_F_INDIRECT_DESC`
+  - **代码实现**:
+  ```cpp
+  // 动态计算所需framebuffer大小
+  SIZE_T GetRequiredFramebufferSize(UINT width, UINT height, UINT bpp) {
+      SIZE_T bytesPerPixel = bpp / 8;
+      SIZE_T stride = ALIGN_UP(width * bytesPerPixel, 4); // 4字节对齐
+      return stride * height;
+  }
+  
+  // 当请求更大分辨率时重新分配
+  NTSTATUS ResizeFramebufferIfNeeded(UINT newWidth, UINT newHeight) {
+      SIZE_T newSize = GetRequiredFramebufferSize(newWidth, newHeight, m_bpp);
+      
+      if (newSize > m_fbSize) {
+          if (m_pFrameBuffer) {
+              NotifyGpuResourceRelease();
+              FreeMemory();
+          }
+          m_fbSize = newSize;
+          NTSTATUS status = AllocateMemory(m_fbSize);
+          if (!NT_SUCCESS(status)) return status;
+          return CreateGpuResource();
+      }
+      return STATUS_SUCCESS;
+  }
+  ```
 
 #### PR #1474 - RHEL-149886: [viogpu] Reject resolutions exceeding framebuffer segment capacity
 - **状态**: ✅ 已合并 (2026-02-17)
@@ -96,7 +99,7 @@ NTSTATUS ResizeFramebufferIfNeeded(UINT newWidth, UINT newHeight) {
 
 #### 其他重要修复
 
-1. **PR #1471** (🔄 开放中): 修复在 EWDK 25H2 大小写敏感文件系统上的构建问题 (重命名文件以匹配 #include 引用)
+1. **PR #1471** (❌ 已关闭): 尝试修复在 EWDK 25H2 大小写敏感文件系统上的构建问题。由于创建分支错误被关闭，且维护者建议通过 git 配置 `core.ignoreCase` 解决而无需改动代码。
 
 ### 相关工作: virtio-win-guest-tools-installer (⭐163)
 
@@ -160,5 +163,5 @@ NTSTATUS ResizeFramebufferIfNeeded(UINT newWidth, UINT newHeight) {
 ---
 
 **文件版本**: v1.2  
-**最后更新**: 2026-02-19
+**最后更新**: 2026-03-07
 

@@ -65,6 +65,13 @@ start() {
 ### 持续维护的核心软件包
 
 **OpenCode 系列** (持续快速迭代):
+- PR #9557: dev-util/opencode-bin: add 1.2.20 (2026-03-06)
+- PR #9543: dev-util/opencode-bin: add 1.2.17 (2026-03-05)
+- PR #9534: dev-util/opencode-bin: add 1.2.16 (2026-03-04)
+- PR #9485: dev-util/opencode-bin: add 1.2.15 (2026-02-26)
+- PR #9475: dev-util/opencode-bin: add 1.2.13 (2026-02-25)
+- PR #9468: dev-util/opencode-bin: update live ebuild (2026-02-25)
+- PR #9466: dev-util/opencode-bin: add 1.2.11 (2026-02-25)
 - PR #9412: dev-util/opencode-bin: add 1.2.6, drop 1.2.5 (2026-02-17)
 - PR #9399: dev-util/opencode-bin: add 9999 live ebuild (2026-02-16)
 - PR #9398: dev-util/opencode-bin: add 1.2.5, drop 1.2.4 (2026-02-16)
@@ -231,6 +238,9 @@ pkg_postinst() {
 
 ### CachyOS 相关贡献
 - **Szowisz/CachyOS-kernels** (活跃维护):
+  - 2026-03-03: 修复 Issue #40 (6.19.5 需要 sys-devel/bc 构建依赖)
+  - 2026-02-27: ebuild 逻辑重构，切换到 CachyOS release tarball 源码并保持 genpatches 兼容性
+  - 2026-02-26: PR #39: 修复使用 clang 编译时的 CPU 检测错误
   - 2026-02-18: 更新 PRJC 调度器补丁 (6.19.2)
   - 2026-02-17: 添加 6.18.12, 6.19.2 内核版本
   - 2026-02-14: 添加 6.18.10 内核版本
@@ -239,7 +249,11 @@ pkg_postinst() {
   - PR #14: Add cachyos-sources-6.8.8.ebuild, drop 6.8.4
   - PR #13: Fix cachyos-sources-6.8.4 ebuild
 
-### 桌面环境相关
+### 桌面环境与社交应用相关
+- **OverLessArtem/ayugram-ebuild-gentoo**:
+  - PR #2: net-im/ayugram-desktop: fix minizip-ng compatibility (2026-03-02)
+    - 修复原版依赖 `sys-libs/zlib[minizip]` 中 `minizip.h` 导致的构建失败
+    - 切换到 `minizip-ng`，参考官方 telegram-desktop ebuild 引入 zlib 补丁，确保在 CachyOS 内核环境下能够成功构建
 - **xarblu/xarblu-overlay**:
   - PR #507: sys-kernel/scx-1.0.2: fix cargo dependence
   - PR #401: sys-kernel/scx: add 0.1.8
@@ -299,5 +313,5 @@ pkg_postinst() {
 ---
 
 **文件版本**: v1.1  
-**最后更新**: 2026-02-19
+**最后更新**: 2026-03-07
 
