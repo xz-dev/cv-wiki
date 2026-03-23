@@ -387,10 +387,31 @@ class RssParser:
 - 代码示例和常见用例
 - 故障排除指南
 
+## SillyTavern 生态 - AI 智能体通信系统
+
+### SillyTavern ChatBot-Proxy (个人项目, 2026-03)
+
+自主设计并实现了一套**完全可用的 AI 虚拟伴侣异步通信系统**，由两个独立项目组成：
+
+- **[SillyTavern-ChatBot-Proxy-koishi-plugin](https://github.com/xz-dev/SillyTavern-ChatBot-Proxy-koishi-plugin)** (TypeScript, 1850 行): Koishi 服务端插件，提供 WebSocket 服务、SQLite 持久化、ffmpeg 音频转码、多平台 Bot 适配
+- **[SillyTavern-ChatBot-Proxy-sillytavern-plugin](https://github.com/xz-dev/SillyTavern-ChatBot-Proxy-sillytavern-plugin)** (JavaScript, 700 行): SillyTavern 浏览器端扩展，Hook 事件系统、串行消息队列、TTS/STT 管线
+
+**详细架构分析**: [deep-dive/sillytavern-chatbot-proxy.md](../deep-dive/sillytavern-chatbot-proxy.md)
+
+### SillyTavern 上游贡献 (24.7k Stars)
+
+在开发 ChatBot-Proxy 过程中，发现并修复了 SillyTavern 上游的多个 bug：
+
+- **PR #5316** (已合并): 为 SiliconFlow.cn 添加完整 chat completion + embedding 支持 (+202/-12)
+- **PR #5309** (已合并): 为 TTS 管线添加事件系统，让第三方扩展能关联音频到消息 ID (+51/-19)
+- **PR #5334** (已合并): 清理已弃用的 xAI 模型
+- **PR #5333** (开放中): 修复流式 tool call 链中事件丢失 + 错误处理 bug
+
 ## 🎯 总结与技能展示
 
 ### 核心技能
 - 深入理解 MCP 协议和 AI 代理系统架构
+- 全栈 AI 智能体开发：浏览器扩展 + 服务端 + 数据库 + 音频管线
 - 熟练的 API 集成和 OAuth 认证实现
 - 高并发和多进程系统设计经验
 - 跨平台工具开发能力
@@ -398,11 +419,13 @@ class RssParser:
 ### 行业影响
 - 为 MCP 协议核心实现贡献关键功能
 - 开发 20+ 个企业服务集成
+- 设计并实现完全可用的 AI 虚拟伴侣异步通信系统
+- 为 24.7k Stars 的 LLM 前端项目贡献上游修复
 - 创建个人 MCP 工具扩展生态系统
 - 提供全面技术文档促进社区采用
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-02-04
+**文件版本**: v1.1  
+**最后更新**: 2026-03-23
 

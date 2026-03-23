@@ -65,6 +65,12 @@ start() {
 ### 持续维护的核心软件包
 
 **OpenCode 系列** (持续快速迭代):
+- PR #9673: dev-util/opencode-bin: add 1.2.27 (2026-03-16)
+- PR #9648: dev-util/opencode-bin: add 1.2.26 (2026-03-14)
+- PR #9634: dev-util/opencode-bin: add 1.2.25 (2026-03-13)
+- PR #9593: dev-util/opencode-bin: add 1.2.24 (2026-03-10)
+- PR #9586: dev-util/opencode-bin: add 1.2.22 (2026-03-09)
+- PR #9575: dev-util/opencode-bin: add 1.2.21 (2026-03-08)
 - PR #9557: dev-util/opencode-bin: add 1.2.20 (2026-03-06)
 - PR #9543: dev-util/opencode-bin: add 1.2.17 (2026-03-05)
 - PR #9534: dev-util/opencode-bin: add 1.2.16 (2026-03-04)
@@ -82,6 +88,8 @@ start() {
 - PR #9269: dev-util/opencode-bin: new package, add 1.1.48 (2026-01-31)
 
 **Anytype 系列**:
+- PR #9694: app-office/anytype-bin: add 0.54.9 (2026-03-18)
+- PR #9687: app-office/anytype-bin: add 0.54.8 (2026-03-17)
 - PR #9422: app-office/anytype-bin: add 0.54.2, drop 0.54.1 (2026-02-19)
 - PR #9413: app-office/anytype-bin: add 0.54.1, drop 0.53.1, drop 0.35.4 (2026-02-17)
 
@@ -251,7 +259,9 @@ pkg_postinst() {
 
 ### 桌面环境与社交应用相关
 - **OverLessArtem/ayugram-ebuild-gentoo**:
-  - PR #2: net-im/ayugram-desktop: fix minizip-ng compatibility (2026-03-02)
+  - PR #3: net-im/ayugram-desktop: drop obsolete minizip patch for 9999 (2026-03-20, 已合并)
+    - 清理 9999 live ebuild 中过时的 minizip 补丁
+  - PR #2: net-im/ayugram-desktop: fix minizip-ng compatibility (2026-03-02, 已合并)
     - 修复原版依赖 `sys-libs/zlib[minizip]` 中 `minizip.h` 导致的构建失败
     - 切换到 `minizip-ng`，参考官方 telegram-desktop ebuild 引入 zlib 补丁，确保在 CachyOS 内核环境下能够成功构建
 - **xarblu/xarblu-overlay**:
@@ -313,5 +323,5 @@ pkg_postinst() {
 ---
 
 **文件版本**: v1.1  
-**最后更新**: 2026-03-07
+**最后更新**: 2026-03-23
 

@@ -352,6 +352,29 @@ container_has_empty_cgroup() {
 
 ---
 
+## 3. SillyTavern (⭐24,713) - LLM 前端上游贡献
+
+### 项目简介
+
+[SillyTavern/SillyTavern](https://github.com/SillyTavern/SillyTavern) 是面向高级用户的 LLM 前端，支持多种 AI 后端、角色扮演、TTS/STT、工具调用等功能。贡献动机为在开发 [ChatBot-Proxy](../deep-dive/sillytavern-chatbot-proxy.md) 双端桥接系统过程中，发现并修复了上游的事件管线和模型配置 bug。
+
+### 贡献列表
+
+| PR | 标题 | 状态 | 改动 | 说明 |
+|----|------|------|------|------|
+| #5316 | feat: add SiliconFlow.cn chat completion and embedding support | ✅ 已合并 | +202/-12, 12 files | 为 SiliconFlow.cn 添加完整 chat completion + embedding 支持，功能对等（streaming/reasoning/tool calling/vision） |
+| #5309 | feat(tts): emit events and track messageId for third-party integrations | ✅ 已合并 | +51/-19, 2 files | 为 TTS 管线添加事件系统，让第三方扩展能接收音频数据并关联到消息 ID |
+| #5334 | fix: remove deprecated xAI grok-2-image-1212 model | ✅ 已合并 | +0/-1 | 清理已于 2026-02-24 弃用的 xAI 模型 |
+| #5333 | feat: add finalizeIntermediaryMessage and fix tool call error handling | 🔄 开放中 | +41/-9, 2 files | 修复流式 tool call 链中 `CHARACTER_MESSAGE_RENDERED` 事件丢失 + 修复 `invokeFunctionTool` 中 `.toString()` 导致 `instanceof Error` 成为死代码 |
+| #5308 | feat: add finalizeIntermediaryMessage for streaming tool call chains | ❌ 已关闭 | +7/-0 | 被 #5333 替代（合并了更完整的修复） |
+
+### 技术亮点
+
+- **PR #5316** 是最大的贡献，在 12 个文件中添加了完整的 SiliconFlow.cn 支持，复用了 `getSiliconflowMaxContext()` 等已有代码保持功能对等
+- **PR #5333** 展示了对 LLM streaming 管线的深度理解：定位到 `onFinishStreaming()` 在 tool call 链中被跳过导致事件丢失，以及 `.toString()` 导致错误类型信息丢失的隐蔽 bug
+
+---
+
 ## 🎯 总结
 
 ### 核心技术能力展示
@@ -384,5 +407,5 @@ container_has_empty_cgroup() {
 ---
 
 **文件版本**: v1.0  
-**最后更新**: 2026-02-04
+**最后更新**: 2026-03-23
 

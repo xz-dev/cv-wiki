@@ -1,6 +1,6 @@
 # xz-dev 开源贡献 Wiki
 
-> **最后更新**: 2026-03-07  
+> **最后更新**: 2026-03-23  
 > **数据来源**: GitHub API + 人工整理  
 > **贡献时间跨度**: 2017-2026 (9年)
 
@@ -55,7 +55,7 @@
 - [📅 2023年](./by-year/2023.md) - Gentoo维护者
 - [📅 2024年](./by-year/2024.md) - 系统底层探索
 - [📅 2025年](./by-year/2025.md) - Klavis AI (MCP基础设施)
-- [📅 2026年](./by-year/2026.md) - VirtIO GPU驱动高分辨率重构、UpgradeAll现代化、Gentoo包维护
+- [📅 2026年](./by-year/2026.md) - AI 智能体通信系统、VirtIO GPU 高分辨率重构、UpgradeAll现代化、Gentoo包维护
 
 ![贡献时间线](./visualizations/contribution_timeline.png)
 
@@ -64,7 +64,7 @@
 展示影响力层次：
 
 - [🏆 超大项目 (>30k ⭐)](./by-scale/mega-projects.md) - MCP Servers, LibreChat
-- [🔥 大项目 (10k-30k ⭐)](./by-scale/large-projects.md) - distrobox
+- [🔥 大项目 (10k-30k ⭐)](./by-scale/large-projects.md) - distrobox, SillyTavern
 - [💡 中等项目 (1k-10k ⭐)](./by-scale/medium-projects.md) - virtio-win, gentoo, ansible-runner等
 - [📦 小项目 (<1k ⭐)](./by-scale/small-projects.md) - 180+ PRs汇总
 
@@ -88,6 +88,7 @@
 - [🔍 MCP Servers - 跨进程文件锁](./deep-dive/mcp-servers.md) - 解决多实例数据损坏问题
 - [🔍 VirtIO GPU Driver - 8K分辨率支持](./deep-dive/virtio-gpu-driver.md) - 修复BSOD并支持HDR
 - [🔍 distrobox - cgroup委托问题](./deep-dive/distrobox-contributions.md) - PID命名空间隔离
+- [🔍 SillyTavern ChatBot-Proxy - AI虚拟伴侣通信系统](./deep-dive/sillytavern-chatbot-proxy.md) - 双端桥接架构 + 多平台适配
 - [🔍 UpgradeAll - Android更新系统](./deep-dive/upgradeall-project.md) - AGP 9.0 现代化 + Rust getter 统一架构
 - [💬 GitHub Issues 互动分析](./deep-dive/github-issues-analysis.md) - 纯语言解决问题能力 **(评分91.3/100)**
 - [🌐 网站与社区贡献分析](./deep-dive/websites/README.md) - 博客 (xzos.net, 55+文章), Stack Exchange (6平台), Mastodon (FOSS社区)
@@ -100,6 +101,8 @@
 - [📦 distrobox-plus](./personal-projects/distrobox-plus.md) - Python重写distrobox (⭐11)
 - [📦 numlockw](./personal-projects/numlockw.md) - NumLock控制工具 (⭐12)
 - [📦 AdGuardHome-LogSync](./personal-projects/adguardhome-logsync.md) - 日志同步工具 (⭐4)
+- [📦 SillyTavern-ChatBot-Proxy](./personal-projects/sillytavern-chatbot-proxy.md) - AI虚拟伴侣异步通信系统
+- [📦 hid-rgb-ctl](./personal-projects/hid-rgb-ctl.md) - Linux HID RGB灯光控制工具
 - [📦 kernel-autofdo-container](./personal-projects/kernel-autofdo-container.md) - 内核优化工具 (⭐3)
 
 ---
@@ -171,6 +174,39 @@ Android开发   ███████████████░░░░░  75
 AI基础设施    ██████████████░░░░░░  70% (MCP协议贡献者)
 ```
 
+### 核心工程素养
+
+**复杂场景长尾问题定位**
+
+| 案例 | 表面现象 | 实际根因层级 | 诊断跨度 |
+|------|---------|-------------|---------|
+| [zram-init #57](./by-domain/gentoo-ecosystem.md) | KDE Plasma Wayland 死锁 | OpenRC 服务依赖方向错误 | 桌面环境 → Xwayland → 挂载点遮蔽 → init 系统 |
+| [VirtIO GPU #1473](./by-domain/windows-drivers.md) | 分辨率切换 BSOD 0x3B | 错误路径使用 `m_pSegment` 而非参数 `pSegment` | Windows 蓝屏 → WinDbg → 单字符修复 |
+| [VirtIO GPU #1536](./deep-dive/virtio-gpu-driver.md) | 超高分辨率分配失败 | WDDM CommitVidPn 无法安全回滚 + 2MB large page 碎片悬崖 | 驱动层 → Windows 内存管理器 → VirtIO 协议 |
+| [distrobox #985/#1982](./deep-dive/distrobox-contributions.md) | 容器 stop 超时/僵尸进程 | cgroup v2 delegation 未配置 | 容器运行时 → cgroup → init 系统 → 跨 3 发行版 |
+| [MCP Servers #3286](./deep-dive/mcp-servers.md) | 多实例数据损坏 | in-memory lock 无法跨 stdio 进程 | 应用层 → 进程模型 → 文件锁协议 |
+| [SillyTavern #5333](./by-scale/large-projects.md) | TTS/图片扩展全部失效 | `.toString()` 导致 `instanceof Error` 成为死代码 | 扩展层 → 事件系统 → 错误处理路径 |
+
+**AI 智能体全栈开发**
+
+| 层级 | 实践 | 项目 |
+|------|------|------|
+| 应用架构 | 设计双端桥接系统 (浏览器扩展 ↔ WebSocket ↔ 服务端) | [ChatBot-Proxy](./deep-dive/sillytavern-chatbot-proxy.md) |
+| LLM 前端 | 修复 streaming tool call 链、TTS 事件管线 | SillyTavern (24.7k Stars) |
+| 工具协议 | 解决 MCP stdio transport 跨进程并发问题 | MCP Servers (48k Stars) |
+| 音频管线 | TTS 转发 + ffmpeg 转码 + STT (Groq/Whisper) 集成 | ChatBot-Proxy |
+| 演进规划 | pipecat 集成路线：异步通信 → 实时语音/视频通话 → AI 自主调度 | 下一阶段 |
+
+**工程习惯：调研优先，复用生态**
+
+| 决策场景 | 选择 | 而非 | 收益 |
+|---------|------|------|------|
+| 多平台机器人适配 | Koishi + Satori 协议抽象 | 自己实现各平台 API | 单一代码支持 5+ 平台 |
+| 跨进程文件锁 | proper-lockfile (4 方案对比后选定) | 自研锁协议 | 经过社区验证的可靠方案 |
+| HID RGB 设备发现 | 解析 HID report descriptor (USB HID v1.4 规范) | 硬编码 VID/PID | 自动支持所有合规设备 |
+| 帧缓冲块大小 | 研究 Segment Heap + buddy system 后选定 1MB | 凭经验选择 | 避开 2MB large page 碎片悬崖 |
+| AyuGram 构建修复 | 参考官方 telegram-desktop ebuild | 从零调试构建系统 | 复用已验证的 minizip-ng 方案 |
+
 ---
 
 ## 🎯 使用指南
@@ -232,5 +268,5 @@ AI基础设施    ██████████████░░░░░░  
 ---
 
 **Wiki 版本**: v1.3.0  
-**最后更新**: 2026-03-07  
+**最后更新**: 2026-03-23  
 **生成工具**: [generate_wiki.sh](./scripts/generate_wiki.sh) + [generate_visualizations.py](./scripts/generate_visualizations.py)
