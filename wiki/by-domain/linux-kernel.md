@@ -1,15 +1,15 @@
-# Linux内核与驱动
+# Linux/BSD 内核与系统底层
 
-> 优化内核性能与系统底层组件，专注于调度器改进与低层级系统机制
+> 跨操作系统内核开发，从 Linux 调度器优化到 FreeBSD VirtIO 驱动，涵盖 Linux 桌面基础设施调试
 
 ---
 
 ## 📊 技术领域概览
 
-- **涵盖项目**: CachyOS/kernel-patches, Linux内核主线, kernel-autofdo-container
-- **主要贡献**: 调度器补丁, cgroup机制, 内核性能优化
-- **技术栈**: C, Shell, AutoFDO, Linux Kernel, cgroup v2
-- **贡献类型**: 内核补丁, 性能优化, 系统工具
+- **涵盖项目**: freebsd-src, flatpak, CachyOS/kernel-patches, python-evdev, Linux 内核主线, kernel-autofdo-container
+- **主要贡献**: FreeBSD virtio_balloon 驱动实现, Linux 桌面 CVE 回归修复, 调度器补丁, cgroup 机制, 内核性能优化, 输入子系统分析
+- **技术栈**: C, Shell, AutoFDO, Linux Kernel, FreeBSD Kernel, VirtIO, cgroup v2, evdev
+- **贡献类型**: 内核驱动实现, 安全回归修复, 内核补丁, 性能优化, 系统工具
 - **认证资质**: RHCE (Red Hat Certified Engineer), RHCSA
 
 ---
@@ -149,13 +149,86 @@ def apply_to_kernel_config(gcov_file, config_path):
 - 确保优雅退出
 - 提供日志和调试支持
 
+## 5. FreeBSD 内核 - VirtIO Balloon 驱动
+
+### freebsd/freebsd-src PR #2116 (⭐9,000)
+
+**首次 FreeBSD 内核贡献** (2026-04-03, 开放中)
+
+为 FreeBSD 的 virtio_balloon 驱动实现自 FreeBSD 9.0 以来缺失的两个 VirtIO 特性:
+
+**VIRTIO_BALLOON_F_STATS_VQ**:
+- 通过 stats virtqueue 向 Hypervisor 报告 6 种客户机内存统计
+- 使用 FreeBSD 特有的 `vm_page_t`、`vm_cnt` 等 API 获取内存信息
+- 统计项: free, total, available, swap_in/out, major_faults, disk_caches
+
+**VIRTIO_BALLOON_F_DEFLATE_ON_OOM**:
+- 在客户机内存压力时自动放气 balloon
+- 将页面归还 VM 内存子系统，避免进程被 OOM killer 杀死
+- 在 balloon 已占用可回收页面的情况下提供安全网
+
+**改动**: +366/-25 行, 2 个文件  
+**对齐**: 头文件定义与 OASIS virtio-v1.2 规范严格对齐
+
+**跨 OS VirtIO 专长**:
+
+| 操作系统 | 驱动 | 贡献内容 |
+|---------|------|---------|
+| **Windows** | VirtIO GPU (viogpu) | BSOD 修复、8K/HDR 支持、多块连续内存分配、间接描述符 |
+| **FreeBSD** | VirtIO Balloon | 内存统计报告、OOM 自动放气 |
+
+同一个 VirtIO 规范，在两个完全不同的内核中实现，展示对虚拟化 I/O 标准的深入理解和跨 OS 内核编程能力。
+
+---
+
+## 6. Linux 桌面基础设施 - flatpak 安全回归修复
+
+### flatpak/flatpak PR #6567 (⭐4,868)
+
+**诊断并修复 CVE-2026-34078 安全修复引入的回归** (2026-04-08)
+
+**问题**: Flatpak 1.16.4 中 Steam 无法启动。`steam-runtime-check-requirements` 使用 `--app-path=""` 测试子沙箱机制，但该代码路径被 CVE 修复破坏。
+
+**根因定位** (`common/flatpak-run.c`):
+
+1. `flatpak_run_app()` 中 runtime fd 选择分支检查了错误的变量名 (`custom_app_fd` 而非 `custom_runtime_fd`)
+2. `flatpak_run_add_extension_args()` 在空 app 路径时收到 NULL 指针
+
+**诊断过程**: Steam 报版本错误 → `steam-runtime-check-requirements` → flatpak 子沙箱 spawn → C 源码 CVE 修复 commit `ac62ebe3` → 变量名 typo 和缺失的 NULL guard
+
+修复被 flatpak 核心维护者 @smcv 采纳并整合到官方 PR #6569 中 (第一个 commit 标注 `From: @xz-dev`)。
+
+---
+
+## 7. Linux 输入子系统分析
+
+### python-evdev PR #251 (⭐376) + numlockw 调查
+
+**深入 Linux 内核 input 子系统源码** (2026-04-01)
+
+在调查 numlockw 触控板 LED 脉冲问题时，对 Linux input 子系统进行了详细的源码分析:
+
+```
+drivers/input/evdev.c:   evdev_open() — 不区分 O_RDWR/O_RDONLY
+drivers/input/input.c:   input_open_device() → dev->open(dev)
+drivers/hid/hid-input.c: hidinput_open() → hid_hw_open()
+→ USB/I2C 传输层重初始化 → EC 固件 LED 重 assert
+```
+
+**核心发现**: LED 脉冲不是打开模式 (读/写) 的问题，而是重复 open/close 循环导致硬件驱动重初始化。正确的修复是保持 fd 长期打开 (evdev-holder 守护进程)。
+
+基于此分析，向上游 python-evdev 提交了 `readonly` 参数改进 (PR #251)，并在 numlockw 中实现了 evdev-holder 守护进程作为根本解决方案。
+
+---
+
 ## 🎯 总结与技能展示
 
 ### 核心技能
-- 深入理解Linux内核架构和子系统
-- 掌握容器技术底层实现（命名空间、cgroup）
-- 能够分析和修复复杂的内核问题
-- 熟悉不同初始化系统（systemd、OpenRC）的工作机制
+- **跨 OS 内核开发**: Linux + FreeBSD 内核编程，同一 VirtIO 规范在不同内核中的实现
+- **安全回归诊断**: 从用户层面追溯到 CVE 修复引入的 C 代码 bug
+- **内核源码分析**: 深入 evdev/input/hid 驱动栈定位硬件交互问题
+- 掌握容器技术底层实现 (命名空间、cgroup)
+- 熟悉不同初始化系统 (systemd、OpenRC) 的工作机制
 
 ### 认证与职业发展
 - 通过RHCE认证，展示企业级Linux管理能力
@@ -164,6 +237,6 @@ def apply_to_kernel_config(gcov_file, config_path):
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-02-04
+**文件版本**: v2.0  
+**最后更新**: 2026-04-09
 

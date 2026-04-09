@@ -64,30 +64,25 @@ start() {
 
 ### 持续维护的核心软件包
 
-**OpenCode 系列** (持续快速迭代):
+**OpenCode 系列** (持续快速迭代, 1.1.48 → 1.4.0, 30+ PRs):
+- PR #9883: dev-util/opencode-bin: add 1.4.0, drop 1.3.17 (2026-04-08)
+- PR #9866: dev-util/opencode-bin: add 1.3.17, drop 1.3.15 (2026-04-06)
+- PR #9855: dev-util/opencode-bin: add 1.3.15, drop 1.3.13 (2026-04-05)
+- PR #9841: dev-util/opencode-bin: add 1.3.13, drop 1.3.9 (2026-04-02)
+- PR #9796: dev-util/opencode-bin: add 1.3.6, drop 1.3.5 (2026-03-30)
+- PR #9788/9785: dev-util/opencode-bin: 1.3.4 → 1.3.5 (2026-03-29)
+- PR #9768: dev-util/opencode-bin: add 1.3.3, drop 1.3.2 (2026-03-27)
+- PR #9740: dev-util/opencode-bin: add 1.3.2, drop 1.3.0 (2026-03-25)
+- PR #9729: dev-util/opencode-bin: add 1.3.0, drop 1.2.27 (2026-03-23)
 - PR #9673: dev-util/opencode-bin: add 1.2.27 (2026-03-16)
-- PR #9648: dev-util/opencode-bin: add 1.2.26 (2026-03-14)
-- PR #9634: dev-util/opencode-bin: add 1.2.25 (2026-03-13)
-- PR #9593: dev-util/opencode-bin: add 1.2.24 (2026-03-10)
-- PR #9586: dev-util/opencode-bin: add 1.2.22 (2026-03-09)
-- PR #9575: dev-util/opencode-bin: add 1.2.21 (2026-03-08)
-- PR #9557: dev-util/opencode-bin: add 1.2.20 (2026-03-06)
-- PR #9543: dev-util/opencode-bin: add 1.2.17 (2026-03-05)
-- PR #9534: dev-util/opencode-bin: add 1.2.16 (2026-03-04)
-- PR #9485: dev-util/opencode-bin: add 1.2.15 (2026-02-26)
-- PR #9475: dev-util/opencode-bin: add 1.2.13 (2026-02-25)
-- PR #9468: dev-util/opencode-bin: update live ebuild (2026-02-25)
-- PR #9466: dev-util/opencode-bin: add 1.2.11 (2026-02-25)
+- ... (1.2.11 → 1.2.26, 8 PRs, 2026-02-25 ~ 03-14)
 - PR #9412: dev-util/opencode-bin: add 1.2.6, drop 1.2.5 (2026-02-17)
 - PR #9399: dev-util/opencode-bin: add 9999 live ebuild (2026-02-16)
-- PR #9398: dev-util/opencode-bin: add 1.2.5, drop 1.2.4 (2026-02-16)
-- PR #9392: dev-util/opencode-bin: add 1.2.4, drop 1.2.1 (2026-02-15)
-- PR #9385: dev-util/opencode-bin: add 1.2.1, drop 1.1.65 (2026-02-14)
-- PR #9379: dev-util/opencode-bin: add 1.1.65, drop 1.1.48 (2026-02-14)
-- PR #9299: dev-util/opencode-bin: add 1.1.49, drop 1.1.48 (2026-02-04)
+- ... (1.1.48 → 1.2.5, 6 PRs, 2026-01-31 ~ 02-16)
 - PR #9269: dev-util/opencode-bin: new package, add 1.1.48 (2026-01-31)
 
-**Anytype 系列**:
+**Anytype 系列** (0.53.1 → 0.54.11):
+- PR #9769: app-office/anytype-bin: add 0.54.11, drop 0.54.9 (2026-03-27)
 - PR #9694: app-office/anytype-bin: add 0.54.9 (2026-03-18)
 - PR #9687: app-office/anytype-bin: add 0.54.8 (2026-03-17)
 - PR #9422: app-office/anytype-bin: add 0.54.2, drop 0.54.1 (2026-02-19)
@@ -297,6 +292,20 @@ pkg_postinst() {
 | **内核** | ~10 | cachyos-sources (6.6 LTS ~ 6.19) |
 | **其他** | ~10 | zprint-bin, proton-authenticator-bin, rustdesk |
 
+### gentoo-ai-update-repo: AI 驱动的包自动更新
+
+**个人项目** [xz-dev/gentoo-ai-update-repo](https://github.com/xz-dev/gentoo-ai-update-repo) (2026-02-08 创建)
+
+AI 驱动的 Gentoo overlay，自动化 ebuild 版本升级流程:
+1. AI 生成 `get_latest_version.py` — 查询上游 API (GitHub, PyPI, crates.io 等) 获取最新版本
+2. AI 创建新 ebuild — 复制最新版本、生成 Manifest、运行 `pkgcheck scan`
+3. 容器测试 — `podman run gentoo/stage3` 挂载 overlay 并执行 emerge + AI 生成的冒烟测试
+
+使用两个 AI 模型: `kimi-k2.5` (版本检查、Web/API 查询) 和 `minimax-m2.1` (编写 ebuild、测试脚本)。
+通过 [opencode](https://opencode.ai) CLI 调度 AI 代理。
+
+**[个人项目详情](../personal-projects/gentoo-ai-update-repo.md)**
+
 ### ebuild开发技术要点
 
 - **版本槽管理**：确保平滑升级和多版本共存
@@ -322,6 +331,6 @@ pkg_postinst() {
 
 ---
 
-**文件版本**: v1.1  
-**最后更新**: 2026-03-23
+**文件版本**: v1.2  
+**最后更新**: 2026-04-09
 

@@ -6,11 +6,11 @@
 
 ## 📊 统计概览
 
-- **项目数量**: 1个
-- **总Stars**: 12,016
-- **PR数量**: 2个
-- **状态**: 2个开放中
-- **技术领域**: 容器技术, Linux系统
+- **项目数量**: 2个
+- **总Stars**: 37,000+
+- **PR数量**: 8个
+- **状态**: 7个已合并, 2个开放中, 1个已关闭
+- **技术领域**: 容器技术, Linux系统, AI/LLM 前端
 
 ---
 
@@ -365,13 +365,14 @@ container_has_empty_cgroup() {
 | #5316 | feat: add SiliconFlow.cn chat completion and embedding support | ✅ 已合并 | +202/-12, 12 files | 为 SiliconFlow.cn 添加完整 chat completion + embedding 支持，功能对等（streaming/reasoning/tool calling/vision） |
 | #5309 | feat(tts): emit events and track messageId for third-party integrations | ✅ 已合并 | +51/-19, 2 files | 为 TTS 管线添加事件系统，让第三方扩展能接收音频数据并关联到消息 ID |
 | #5334 | fix: remove deprecated xAI grok-2-image-1212 model | ✅ 已合并 | +0/-1 | 清理已于 2026-02-24 弃用的 xAI 模型 |
-| #5333 | feat: add finalizeIntermediaryMessage and fix tool call error handling | 🔄 开放中 | +41/-9, 2 files | 修复流式 tool call 链中 `CHARACTER_MESSAGE_RENDERED` 事件丢失 + 修复 `invokeFunctionTool` 中 `.toString()` 导致 `instanceof Error` 成为死代码 |
-| #5308 | feat: add finalizeIntermediaryMessage for streaming tool call chains | ❌ 已关闭 | +7/-0 | 被 #5333 替代（合并了更完整的修复） |
+| #5351 | fix: return Error objects from invokeFunctionTool and create error invocations | ✅ 已合并 (03-30) | +20/-4, 1 file | 从 #5333 拆分: 修复 `.toString()` 导致 `instanceof Error` 成为死代码，补充 error invocations |
+| #5333 | feat: add finalizeIntermediaryMessage | ✅ 已合并 (03-25) | +20/-2, 2 files | 修复流式 tool call 链中 `CHARACTER_MESSAGE_RENDERED` 事件丢失 |
+| #5308 | feat: add finalizeIntermediaryMessage for streaming tool call chains | ❌ 已关闭 | +7/-0 | 被 #5333 替代 |
 
 ### 技术亮点
 
 - **PR #5316** 是最大的贡献，在 12 个文件中添加了完整的 SiliconFlow.cn 支持，复用了 `getSiliconflowMaxContext()` 等已有代码保持功能对等
-- **PR #5333** 展示了对 LLM streaming 管线的深度理解：定位到 `onFinishStreaming()` 在 tool call 链中被跳过导致事件丢失，以及 `.toString()` 导致错误类型信息丢失的隐蔽 bug
+- **PR #5333 + #5351** 展示了对 LLM streaming 管线的深度理解：定位到 `onFinishStreaming()` 在 tool call 链中被跳过导致事件丢失，以及 `.toString()` 导致错误类型信息丢失的隐蔽 bug。两个 PR 均已合并。
 
 ---
 
@@ -406,6 +407,6 @@ container_has_empty_cgroup() {
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-03-23
+**文件版本**: v1.1  
+**最后更新**: 2026-04-09
 

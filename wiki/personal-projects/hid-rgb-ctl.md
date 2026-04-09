@@ -1,20 +1,49 @@
 # hid-rgb-ctl
 
 > **定位**: Linux HID RGB 灯光控制 CLI 工具  
-> **状态**: 已发布 v0.1.2  
-> **技术栈**: Python 3.9+, 零外部依赖  
+> **状态**: 已发布 v0.2.6 (crates.io)  
+> **技术栈**: Rust, lexopt + libc (最小依赖)  
 > **仓库**: [xz-dev/hid-rgb-ctl](https://github.com/xz-dev/hid-rgb-ctl)
 
 ---
 
-## 📊 项目概览
+## 项目概览
 
 | 属性 | 值 |
 |------|-----|
-| **语言** | Python |
+| **语言** | Rust (原 Python，2026-03-31 完整重写) |
 | **创建时间** | 2026-03-23 |
-| **依赖** | 无 (标准库 only) |
-| **安装方式** | `pipx install git+https://github.com/xz-dev/hid-rgb-ctl.git` |
+| **依赖** | `lexopt` (CLI 解析), `libc` (ioctl) |
+| **安装方式** | `cargo install hid-rgb-ctl` |
+| **Stars** | 3 |
+
+---
+
+## 技术演进: Python → Rust
+
+### v0.1.x (Python 阶段, 2026-03-23)
+
+- Python 3.9+，零外部依赖 (仅标准库)
+- 通过 `/dev/hidrawN` 直接与设备通信
+- 支持 HID LampArray + HID LED Page RGB 双协议
+- 安装方式: `pipx install`
+
+### v0.2.x (Rust 重写, 2026-03-31 起)
+
+重写动机: 系统级工具更适合编译型语言，减少运行时依赖，提升性能。
+
+**新增特性**:
+- **逐灯控制** (`set-lamp`): 通过 `LampMultiUpdateReport` 实现，自动批处理超出单次报告容量的灯组
+- **Feature/Output 报告自动检测**: 解析 HID report descriptor 判断设备使用 Feature Report 还是 Output Report
+- **值自动缩放**: 根据设备声明的 `LogicalMaximum` 自动缩放颜色值 (如 LED Intensity 0-100)
+- **单设备快速发现**: 优化 sysfs I/O，消除冗余内存分配
+- **read-after-write 验证**: 写入后读回状态并在不匹配时发出警告
+
+**版本历程**:
+- v0.2.3 (03-31): 切换 CI 到 `cargo-zigbuild` 交叉编译
+- v0.2.4 (03-31): read-after-write 状态验证
+- v0.2.5 (04-01): 消除冗余分配和 sysfs I/O，单设备发现优化
+- v0.2.6 (04-01): 简化 ParserState，扁平化 DeviceInfo 结构
 
 ---
 
@@ -40,9 +69,10 @@
 ## 技术亮点
 
 - **自动设备发现**: 通过解析 HID report descriptor 识别设备，不硬编码 vendor/product ID — 自动支持所有合规设备
-- **零依赖**: 仅使用 Python 3.9+ 标准库，直接通过 `/dev/hidrawN` 与设备通信
+- **最小依赖**: 仅 `lexopt` (CLI 解析) 和 `libc` (ioctl)，无 runtime 开销
 - **双协议支持**: 同时处理新旧两种 HID 标准
-- **代码质量**: ruff lint CI, dataclass 数据模型, context manager 资源管理
+- **跨编译**: 使用 cargo-zigbuild 生成多架构二进制
+- **代码质量**: Rust 类型安全 + clippy lint
 
 ---
 
@@ -58,14 +88,23 @@
 
 ```sh
 hid-rgb-ctl list              # 列出检测到的设备
+hid-rgb-ctl get               # 显示设备属性和灯信息
 hid-rgb-ctl set red           # 预设颜色
 hid-rgb-ctl set 255 165 0     # RGB 值
 hid-rgb-ctl set ff6400        # 十六进制
 hid-rgb-ctl set cyan -i 128   # 自定义亮度
+hid-rgb-ctl set-lamp 0 red    # 逐灯控制 (LampArray)
 hid-rgb-ctl auto off          # 接管设备控制 (LampArray)
 ```
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-03-23
+## 关联项目
+
+- [numlockw](./numlockw.md) — 同属 Linux 输入子系统领域
+- [python-evdev PR #251](https://github.com/gvalkov/python-evdev/pull/251) — 同为 HID/evdev 设备交互
+
+---
+
+**文件版本**: v2.0  
+**最后更新**: 2026-04-09

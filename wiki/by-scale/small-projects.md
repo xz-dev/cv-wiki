@@ -91,15 +91,55 @@
 
 ---
 
+## 5. gvalkov/python-evdev (⭐376) - Linux 输入子系统
+
+**项目简介**: Linux input 子系统 (evdev) 的 Python 绑定  
+**技术栈**: Python, C (ctypes/cffi), Linux evdev  
+**GitHub**: https://github.com/gvalkov/python-evdev
+
+### PR #251 - Add readonly parameter to InputDevice and writable parameter to list_devices/is_device
+
+**状态**: 🔄 开放中 (2026-04-01)  
+**PR 链接**: https://github.com/gvalkov/python-evdev/pull/251  
+**改动**: +33/-7 行, 2 个文件
+
+**动机**
+
+源自 [numlockw](../personal-projects/numlockw.md) 用户报告的触控板 LED 脉冲问题。在深入调查 Linux 内核源码后，向上游 python-evdev 提交 API 改进。
+
+**变更**:
+- `InputDevice.__init__()` 新增 `readonly=False` 参数: 跳过不必要的 `O_RDWR` 尝试
+- `list_devices()` / `is_device()` 新增 `writable=True` 参数: 允许枚举可读但不可写的设备
+
+**内核分析深度**
+
+PR 描述中包含对 Linux 内核源码的详细分析:
+
+1. `drivers/input/evdev.c` 中 `evdev_open()` 不区分 `O_RDWR` 和 `O_RDONLY`
+2. 两种模式均走 `evdev_open()` → `input_open_device()` → `dev->open(dev)` 路径
+3. LED 脉冲的真正根因是重复的 open/close 循环: 每次 `dev->users` 降为 0 后重新 open 触发硬件驱动 `open()` 回调 (`hidinput_open()` → `hid_hw_open()` → USB/I2C 传输层重初始化)
+4. 在特定硬件 (Tuxedo Stellaris 15 Gen3) 上 EC 固件在重初始化时重新 assert LED 状态
+
+**技术亮点**
+
+- 非破坏性变更: 所有新参数都有向后兼容的默认值
+- 现有的 `need_write` 装饰器在 `EventIO.write()` 上已有保护，无需额外防护
+- 体现了从用户层问题 → 内核驱动回调的完整诊断链
+
+**关联**: [numlockw](../personal-projects/numlockw.md), [hid-rgb-ctl](../personal-projects/hid-rgb-ctl.md)
+
+---
+
 ## 🎯 总结
 
 ### 核心价值
 1.  **长期的社区贡献者**: 跨越 8 年的持续提交，展现了极高的开源热情。
 2.  **全栈系统能力**: 从内核调度器补丁到 Android UI 交互，具备极宽的技术视野。
 3.  **MCP 领域先驱**: 深度参与 AI 代理 (Agentic AI) 的基础设施建设。
+4.  **内核级问题分析**: 能够深入 Linux 内核源码定位问题根因并推动上游修复。
 
 ---
 
-**文件版本**: v1.1  
-**最后更新**: 2026-02-19
+**文件版本**: v1.2  
+**最后更新**: 2026-04-09
 

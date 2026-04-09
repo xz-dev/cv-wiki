@@ -1,6 +1,6 @@
 # xz-dev 开源贡献 Wiki
 
-> **最后更新**: 2026-03-23  
+> **最后更新**: 2026-04-09  
 > **数据来源**: GitHub API + 人工整理  
 > **贡献时间跨度**: 2017-2026 (9年)
 
@@ -12,29 +12,30 @@
 
 | 指标 | 数值 | 说明 |
 |------|------|------|
-| **总 PR 数量** | 200+ | 包含所有开放和已合并的PR |
-| **贡献项目数** | 100+ | 涉及的不同GitHub仓库 |
-| **总 Stars** | 120,000+ | 贡献项目的累计Stars |
+| **总 PR 数量** | 215+ | 包含所有开放和已合并的PR |
+| **贡献项目数** | 110+ | 涉及的不同GitHub仓库 |
+| **总 Stars** | 135,000+ | 贡献项目的累计Stars (含 freebsd-src 9k, flatpak 4.8k) |
 | **活跃年限** | 9年 | 2017年至今持续贡献 |
-| **年均贡献** | 22.2次/年 | 基于metadata.json统计 |
-| **合并率** | 85% | 170个已合并, 25个开放中, 5个已关闭 |
+| **年均贡献** | 23.9次/年 | 基于metadata.json统计 |
+| **合并率** | 83% | 180个已合并, 28个开放中, 7个已关闭 |
 
 ### 项目规模分布
 
 ```
 超大项目 (>30k ⭐):  2个  - modelcontextprotocol/servers, LibreChat
-大项目 (10k-30k ⭐):  1个  - distrobox
-中等项目 (1k-10k ⭐):  6个  - virtio-win (kvm-guest-drivers + guest-tools-installer), gentoo, ansible-runner等
-小项目 (<1k ⭐):    191个 - Gentoo生态、Android应用等
+大项目 (10k-30k ⭐):  2个  - distrobox, SillyTavern
+中等项目 (1k-10k ⭐):  8个  - freebsd-src, flatpak, virtio-win, ansible-runner, ivan-hc/AM, gentoo等
+小项目 (<1k ⭐):    198个 - Gentoo生态、Android应用、python-evdev等
 ```
 
 ### 技术领域分布
 
-- 🐧 **Linux系统** (40%) - 内核、驱动、Gentoo生态
+- 🐧 **Linux/BSD系统** (40%) - Linux 内核、FreeBSD 内核、驱动、Gentoo 生态、flatpak
 - 🐳 **容器技术** (15%) - Podman、Docker、distrobox
-- 🤖 **AI基础设施** (25%) - MCP协议、工具集成
+- 🤖 **AI基础设施** (20%) - MCP协议、SillyTavern、工具集成
 - 📱 **Android开发** (10%) - 应用、Magisk模块
 - 🪟 **Windows驱动** (5%) - VirtIO GPU
+- 🦀 **Rust系统工具** (5%) - hid-rgb-ctl、libversion-sys
 - 🛠️ **其他工具** (5%) - 编辑器、网络、自动化
 
 ![领域分布图](./visualizations/domain_distribution.png)

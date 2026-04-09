@@ -1,7 +1,7 @@
 # 贡献交叉引用表
 
 > 本文档提供了贡献之间的交叉引用，帮助理解项目间的关联和技术能力的延续性。
-> 最后更新: 2026-02-19
+> 最后更新: 2026-04-09
 
 ---
 
@@ -40,6 +40,16 @@
 | [virtio-win/virtio-win-guest-tools-installer #85](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | 驱动升级、MSI安装 |
 | [virtio-win/virtio-win-guest-tools-installer #87](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | MSI Secure属性、维护模式 |
 | [virtio-win/virtio-win-guest-tools-installer #88](./by-domain/windows-drivers.md) | [Windows驱动领域](./by-domain/windows-drivers.md) | VioGpu分辨率服务、WiX安装 |
+| [freebsd/freebsd-src #2116](./by-scale/medium-projects.md#5-freebsdfreebsd-src-9000) 🔄开放中 | [Linux/BSD内核领域](./by-domain/linux-kernel.md#5-freebsd-内核---virtio-balloon-驱动) | FreeBSD virtio_balloon, STATS_VQ, DEFLATE_ON_OOM |
+
+### Linux 桌面与输入子系统
+
+| 贡献 | 相关文件 | 技术关键点 |
+|------|---------|------------|
+| [flatpak/flatpak #6567](./by-scale/medium-projects.md#6-flatpakflatpak-4868) ❌被维护者采纳为#6569 | [Linux/BSD内核领域](./by-domain/linux-kernel.md#6-linux-桌面基础设施---flatpak-安全回归修复) | CVE-2026-34078 回归修复, C 代码变量名错误, Steam 启动失败 |
+| [gvalkov/python-evdev #251](./by-scale/small-projects.md#5-gvalkovpython-evdev-376---linux-输入子系统) 🔄开放中 | [Linux/BSD内核领域](./by-domain/linux-kernel.md#7-linux-输入子系统分析) | readonly InputDevice, 内核 evdev_open() 分析 |
+| [xz-dev/numlockw evdev-holder](./personal-projects/numlockw.md) | [个人项目](./personal-projects/numlockw.md) | LED 脉冲修复, 设备 fd 持久化 |
+| [xz-dev/hid-rgb-ctl](./personal-projects/hid-rgb-ctl.md) | [个人项目](./personal-projects/hid-rgb-ctl.md) | HID LampArray, Python→Rust 重写 |
 
 ### Android 与构建系统
 
@@ -149,6 +159,21 @@
 5. [纯 WebSocket 传输替换双架构](./deep-dive/upgradeall-project.md) (2026-02-11)
 6. [OutsideProvider 注册 + Kotlin Hub 统一](./deep-dive/upgradeall-project.md) (2026-02-15)
 
+### VirtIO 跨 OS 专长演进 (2025-2026)
+1. [修复GPU驱动包装脚本](./by-year/2025.md#virtio-winvirtio-win-pkg-scripts-pr-95---修复gpu驱动包装脚本) (2025-05, Windows)
+2. [支持8K分辨率](./deep-dive/virtio-gpu-driver.md#案例2-8k分辨率支持-712) (2025-08, Windows)
+3. [修复BSOD问题](./by-year/2025.md#virtio-winkvm-guest-drivers-windows-pr-725---修复bsod蓝屏问题) (2025-11, Windows)
+4. [修复休眠后蓝屏](./by-year/2026.md#virtio-winkvm-guest-drivers-windows-pr-732---修复gpu驱动休眠后蓝屏) (2026-01, Windows)
+5. [多块连续内存分配 #1536](./by-domain/windows-drivers.md) (2026-03, Windows)
+6. **[FreeBSD virtio_balloon #2116](./by-scale/medium-projects.md#5-freebsdfreebsd-src-9000)** (2026-04, **FreeBSD** — 跨 OS 扩展)
+
+### Linux 输入子系统生态 (2024-2026)
+1. [numlockw 创建](./personal-projects/numlockw.md) (2024-07, Python, evdev/uinput)
+2. [hid-rgb-ctl 创建 (Python)](./personal-projects/hid-rgb-ctl.md) (2026-03-23, HID LampArray/LED Page)
+3. **[hid-rgb-ctl Rust 重写](./personal-projects/hid-rgb-ctl.md)** (2026-03-31, lexopt+libc, crates.io)
+4. **[numlockw evdev-holder](./personal-projects/numlockw.md)** (2026-04-01, LED 脉冲修复)
+5. **[python-evdev PR #251](./by-scale/small-projects.md#5-gvalkovpython-evdev-376---linux-输入子系统)** (2026-04-01, 内核源码分析驱动的上游改进)
+
 ### 容器技术演进 (2025-2026)
 1. [修复cgroup配置问题](./by-year/2025.md#containerspodman-pr-19372---修复cgroup配置问题) (2025-03)
 2. [提高podman后端兼容性](./by-year/2025.md#distroboxdistrobox-pr-887---提高podman后端兼容性) (2025-03)
@@ -185,6 +210,6 @@
 **注**: 本文档中的链接指向 Wiki 内的相关文件，可点击导航查看详情。
 如发现链接错误或内容需更新，请编辑本文件或运行 `./scripts/validate_references.sh` (待实现)。
 
-**文档版本**: v1.2  
-**最后更新**: 2026-02-19  
+**文档版本**: v1.3  
+**最后更新**: 2026-04-09  
 **维护者**: xz-dev
