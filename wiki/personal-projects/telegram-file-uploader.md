@@ -32,6 +32,12 @@
 - 日志文件归档到 Telegram 群组
 - 自动化发布流程的通知集成
 
+## 近期维护
+
+- 2026-04-10: 升级 Telethon 到 `1.43.0`
+- 2026-02-11 ~ 02-12: 修复 Python 3.14 事件循环兼容性、避免 `async with TelegramClient` 自动调用 `start()` 导致 bot token 使用错误
+- 补充集成测试、ruff/mypy 检查以及 Docker/CI 实时日志输出修复
+
 ---
 
 ## GitHub Action 用法

@@ -60,11 +60,13 @@ start() {
 
 ## 2. Gentoo 中文社区贡献
 
-[microcai/gentoo-zh](https://github.com/microcai/gentoo-zh) 是 Gentoo 中文社区维护的 Overlay，包含大量适合中文用户的软件包。在此成为活跃维护者，贡献了40+个PR。
+[microcai/gentoo-zh](https://github.com/microcai/gentoo-zh) 是 Gentoo 中文社区维护的 Overlay，包含大量适合中文用户的软件包。在此成为活跃维护者，贡献了45+个 PR。
 
 ### 持续维护的核心软件包
 
-**OpenCode 系列** (持续快速迭代, 1.1.48 → 1.4.0, 30+ PRs):
+**OpenCode 系列** (持续快速迭代, 1.1.48 → 1.4.3, 30+ PRs):
+- PR #9897: dev-util/opencode-bin: add 1.4.3, drop 1.4.1 (2026-04-10)
+- PR #9889: dev-util/opencode-bin: add 1.4.1, drop 1.4.0 (2026-04-09)
 - PR #9883: dev-util/opencode-bin: add 1.4.0, drop 1.3.17 (2026-04-08)
 - PR #9866: dev-util/opencode-bin: add 1.3.17, drop 1.3.15 (2026-04-06)
 - PR #9855: dev-util/opencode-bin: add 1.3.15, drop 1.3.13 (2026-04-05)
@@ -241,6 +243,8 @@ pkg_postinst() {
 
 ### CachyOS 相关贡献
 - **Szowisz/CachyOS-kernels** (活跃维护):
+  - 2026-04-12: 更新到 6.19.12-r1 / 6.18.22
+  - 2026-04-03: 添加 6.19.11-r1 / 6.18.21，并修复 genpatches mirror
   - 2026-03-03: 修复 Issue #40 (6.19.5 需要 sys-devel/bc 构建依赖)
   - 2026-02-27: ebuild 逻辑重构，切换到 CachyOS release tarball 源码并保持 genpatches 兼容性
   - 2026-02-26: PR #39: 修复使用 clang 编译时的 CPU 检测错误
@@ -331,6 +335,5 @@ AI 驱动的 Gentoo overlay，自动化 ebuild 版本升级流程:
 
 ---
 
-**文件版本**: v1.2  
-**最后更新**: 2026-04-09
-
+**文件版本**: v1.3  
+**最后更新**: 2026-04-13

@@ -1,6 +1,6 @@
 # xz-dev 开源贡献 Wiki
 
-> **最后更新**: 2026-04-09  
+> **最后更新**: 2026-04-13  
 > **数据来源**: GitHub API + 人工整理  
 > **贡献时间跨度**: 2017-2026 (9年)
 
@@ -12,12 +12,12 @@
 
 | 指标 | 数值 | 说明 |
 |------|------|------|
-| **总 PR 数量** | 215+ | 包含所有开放和已合并的PR |
+| **总 PR 数量** | 217+ | 包含所有开放和已合并的PR |
 | **贡献项目数** | 110+ | 涉及的不同GitHub仓库 |
 | **总 Stars** | 135,000+ | 贡献项目的累计Stars (含 freebsd-src 9k, flatpak 4.8k) |
 | **活跃年限** | 9年 | 2017年至今持续贡献 |
-| **年均贡献** | 23.9次/年 | 基于metadata.json统计 |
-| **合并率** | 83% | 180个已合并, 28个开放中, 7个已关闭 |
+| **年均贡献** | 24.1次/年 | 基于metadata.json统计 |
+| **合并率** | 84% | 182个已合并, 28个开放中, 7个已关闭 |
 
 ### 项目规模分布
 
@@ -100,11 +100,13 @@
 自主开发的开源工具：
 
 - [📦 distrobox-plus](./personal-projects/distrobox-plus.md) - Python重写distrobox (⭐11)
-- [📦 numlockw](./personal-projects/numlockw.md) - NumLock控制工具 (⭐12)
+- [📦 numlockw](./personal-projects/numlockw.md) - NumLock控制工具 (⭐13)
 - [📦 AdGuardHome-LogSync](./personal-projects/adguardhome-logsync.md) - 日志同步工具 (⭐4)
 - [📦 SillyTavern-ChatBot-Proxy](./personal-projects/sillytavern-chatbot-proxy.md) - AI虚拟伴侣异步通信系统
 - [📦 hid-rgb-ctl](./personal-projects/hid-rgb-ctl.md) - Linux HID RGB灯光控制工具
 - [📦 kernel-autofdo-container](./personal-projects/kernel-autofdo-container.md) - 内核优化工具 (⭐3)
+- [📦 gentoo-ai-update-repo](./personal-projects/gentoo-ai-update-repo.md) - AI 驱动的 Gentoo ebuild 自动更新
+- [📦 TelegramFileUploader](./personal-projects/telegram-file-uploader.md) - GitHub Action + CLI Telegram 上传工具
 
 ---
 
@@ -119,7 +121,7 @@
 | **Kotlin** | UpgradeAll, TestSelf, bilimiao2 |
 | **Shell** | Gentoo ebuilds, OpenRC服务, distrobox |
 | **TypeScript** | MCP Servers, Klavis项目 |
-| **Rust** | hyper-rustls, Wayland工具 |
+| **Rust** | hid-rgb-ctl, libversion-sys, UpgradeAll getter |
 
 ![语言分布](./visualizations/language_distribution.png)
 
@@ -268,6 +270,6 @@ AI基础设施    ██████████████░░░░░░  
 
 ---
 
-**Wiki 版本**: v1.3.0  
-**最后更新**: 2026-03-23  
+**Wiki 版本**: v1.3.1  
+**最后更新**: 2026-04-13  
 **生成工具**: [generate_wiki.sh](./scripts/generate_wiki.sh) + [generate_visualizations.py](./scripts/generate_visualizations.py)

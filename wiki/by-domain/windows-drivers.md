@@ -1,14 +1,14 @@
 # Windows驱动开发
 
-> 深入系统内核层，修复复杂的 BSOD 问题，优化 GPU 虚拟化性能
+> 深入系统内核层，修复复杂的 BSOD 问题，并扩展到 VirtIO balloon/OOM 行为调试
 
 ---
 
 ## 📊 技术领域概览
 
 - **核心项目**: virtio-win/kvm-guest-drivers-windows (⭐2,550), virtio-win/virtio-win-guest-tools-installer (⭐163)
-- **主要角色**: 驱动稳定性修复、高分辨率支持、资源管理优化、安装程序改进
-- **技术栈**: C, C++, Windows DDK, WDM/WDF, WDDM, DirectX, WiX Installer
+- **主要角色**: 驱动稳定性修复、高分辨率支持、资源管理优化、balloon/OOM 行为调试、安装程序改进
+- **技术栈**: C, C++, Windows DDK, WDM/WDF, WDDM, VirtIO Balloon, DirectX, WiX Installer
 - **贡献时间**: 2025-2026年
 - **贡献亮点**: 修复多个严重的蓝屏问题，实现8K分辨率支持，改进驱动安装体验
 
@@ -54,6 +54,15 @@ VirtIO GPU 是一个用于 KVM/QEMU 虚拟机的显卡驱动，提供高性能 2
 - **状态**: ✅ 已合并 (2026-03-15)
 - **修复**: 让 `viogpuap.exe` 在用户登录启动时立即查询并同步主机窗口的分辨率。此前，该服务仅被动监听 config-change 事件，导致用户必须手动拉伸一次 spice 客户端窗口才能应用分辨率。
 - **改动**: +18/-8 行，2个文件
+
+#### 进行中: Windows virtio-balloon `deflate-on-oom` 分支 (2026-04-11 ~ 04-12)
+- **状态**: 本地分支开发中，尚未形成公开 PR
+- **分支**: `balloon/deflate-on-oom`
+- **提交**:
+  - `balloon: support deflate-on-oom without immediate refill`
+  - `balloon: decouple deflate-on-oom from lowmem guards`
+- **改动**: +167/-39 行，3 个文件 (`Balloon/sys/Device.c`, `ProtoTypes.h`, `balloon.c`)
+- **意义**: 将 VirtIO 专长从 GPU/显示路径延伸到 balloon/OOM 内存回收语义；并且与同期 FreeBSD virtio_balloon 工作形成跨 OS 对照
 
 #### PR #1479 - [viogpu] Add dynamic framebuffer segment resizing
 - **状态**: ❌ 已废弃 (被 PR #1536 取代)
@@ -162,6 +171,5 @@ VirtIO GPU 是一个用于 KVM/QEMU 虚拟机的显卡驱动，提供高性能 2
 
 ---
 
-**文件版本**: v1.2  
-**最后更新**: 2026-03-23
-
+**文件版本**: v1.3  
+**最后更新**: 2026-04-13

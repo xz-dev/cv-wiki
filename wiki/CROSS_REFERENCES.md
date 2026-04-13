@@ -1,7 +1,7 @@
 # 贡献交叉引用表
 
 > 本文档提供了贡献之间的交叉引用，帮助理解项目间的关联和技术能力的延续性。
-> 最后更新: 2026-04-09
+> 最后更新: 2026-04-13
 
 ---
 
@@ -104,6 +104,7 @@
 | [IO优先级调整](./by-year/2025.md#cachyoskernel-patches-pr-22---优化io调度优先级) | IO调度、资源分配 | 存储性能优化 |
 | [cgroup委托](./deep-dive/distrobox-contributions.md) | cgroup层次结构、权限控制 | 容器资源隔离 |
 | [AutoFDO内核优化](./personal-projects/kernel-autofdo-container.md) | 性能剖析、优化编译 | 内核性能提升 |
+| [amdgpu MST DSC aux routing patch (gist)](https://gist.github.com/xz-dev/b0b7983ad244c890ffebe10f3ef00d66) | MST topology rebuild、AUX 路由刷新、错误传播 | suspend/resume 黑屏定位 |
 
 ### 驱动开发与硬件交互
 
@@ -166,6 +167,7 @@
 4. [修复休眠后蓝屏](./by-year/2026.md#virtio-winkvm-guest-drivers-windows-pr-732---修复gpu驱动休眠后蓝屏) (2026-01, Windows)
 5. [多块连续内存分配 #1536](./by-domain/windows-drivers.md) (2026-03, Windows)
 6. **[FreeBSD virtio_balloon #2116](./by-scale/medium-projects.md#5-freebsdfreebsd-src-9000)** (2026-04, **FreeBSD** — 跨 OS 扩展)
+7. **[Windows virtio-balloon deflate-on-oom 分支](./by-domain/windows-drivers.md)** (2026-04, **Windows** — balloon/OOM 行为继续推进)
 
 ### Linux 输入子系统生态 (2024-2026)
 1. [numlockw 创建](./personal-projects/numlockw.md) (2024-07, Python, evdev/uinput)
@@ -173,6 +175,10 @@
 3. **[hid-rgb-ctl Rust 重写](./personal-projects/hid-rgb-ctl.md)** (2026-03-31, lexopt+libc, crates.io)
 4. **[numlockw evdev-holder](./personal-projects/numlockw.md)** (2026-04-01, LED 脉冲修复)
 5. **[python-evdev PR #251](./by-scale/small-projects.md#5-gvalkovpython-evdev-376---linux-输入子系统)** (2026-04-01, 内核源码分析驱动的上游改进)
+
+### Linux 显示恢复问题调试链 (2026-04)
+1. **[amdgpu MST DSC aux routing gist patch](https://gist.github.com/xz-dev/b0b7983ad244c890ffebe10f3ef00d66)** - 通过 suspend/resume 黑屏复现锁定 stale `dsc_aux` 路由
+2. [Linux/BSD内核领域总结](./by-domain/linux-kernel.md#8-linux-显示驱动调试---amdgpu-mst-dsc-aux-路由) - 将问题抽象为 MST topology rebuild、connector 生命周期与 DSC sink-side programming 交互
 
 ### 容器技术演进 (2025-2026)
 1. [修复cgroup配置问题](./by-year/2025.md#containerspodman-pr-19372---修复cgroup配置问题) (2025-03)
@@ -210,6 +216,6 @@
 **注**: 本文档中的链接指向 Wiki 内的相关文件，可点击导航查看详情。
 如发现链接错误或内容需更新，请编辑本文件或运行 `./scripts/validate_references.sh` (待实现)。
 
-**文档版本**: v1.3  
-**最后更新**: 2026-04-09  
+**文档版本**: v1.4  
+**最后更新**: 2026-04-13  
 **维护者**: xz-dev

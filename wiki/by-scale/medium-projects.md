@@ -165,9 +165,9 @@ depend() {
 
 ### PR #2116 - virtio_balloon: implement STATS_VQ and DEFLATE_ON_OOM support
 
-**状态**: 🔄 开放中 (2026-04-03)  
+**状态**: 🔄 开放中 (2026-04-03, 2026-04-13 仍在迭代)  
 **PR 链接**: https://github.com/freebsd/freebsd-src/pull/2116  
-**改动**: +366/-25 行, 2 个文件 (`virtio_balloon.c`, `virtio_balloon.h`)
+**改动**: 当前分支累计 +367/-25 行, 2 个文件 (`virtio_balloon.c`, `virtio_balloon.h`)
 
 **问题描述**
 
@@ -190,6 +190,13 @@ FreeBSD 的 virtio_balloon 驱动自 FreeBSD 9.0 引入以来一直缺少两个�
 1. **跨 OS VirtIO 专长**: 同一开发者既维护 Windows VirtIO GPU 驱动 (BSOD 修复、8K/HDR、内存管理)，又为 FreeBSD VirtIO balloon 驱动实现新特性，展示对 VirtIO 规范的深入理解和跨操作系统内核的开发能力
 2. **FreeBSD 内核编程**: 使用 FreeBSD 特有的 `vm_page_t`、`vm_pagequeue` 等 API 获取内存统计
 3. **规范对齐**: 严格遵循 OASIS virtio 规范定义的 stat tag 和 config 结构
+
+**后续进展**
+
+- 04-04 ~ 04-13 在 `virtio-balloon-enhancements` 分支上继续提交 6 个自有 commit
+- 修复 OOM deflation 后立即被 balloon 线程重新填回的问题
+- 改善 `S_AVAIL` 统计语义，并在同步操作后重新启用 queue interrupts
+- 04-10 已将 patch 发送到 FreeBSD virtualization 邮件列表继续征求反馈
 
 **关联**: [FreeBSD Bugzilla #292570](https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=292570)
 
@@ -284,6 +291,5 @@ Flatpak 1.16.4 中 Steam 无法启动，报假的 "requires Flatpak 1.12.0 or la
 
 ---
 
-**文件版本**: v1.3  
-**最后更新**: 2026-04-09
-
+**文件版本**: v1.4  
+**最后更新**: 2026-04-13

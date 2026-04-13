@@ -153,7 +153,7 @@ def apply_to_kernel_config(gcov_file, config_path):
 
 ### freebsd/freebsd-src PR #2116 (⭐9,000)
 
-**首次 FreeBSD 内核贡献** (2026-04-03, 开放中)
+**首次 FreeBSD 内核贡献** (2026-04-03 起，2026-04-13 仍在持续迭代)
 
 为 FreeBSD 的 virtio_balloon 驱动实现自 FreeBSD 9.0 以来缺失的两个 VirtIO 特性:
 
@@ -167,8 +167,14 @@ def apply_to_kernel_config(gcov_file, config_path):
 - 将页面归还 VM 内存子系统，避免进程被 OOM killer 杀死
 - 在 balloon 已占用可回收页面的情况下提供安全网
 
-**改动**: +366/-25 行, 2 个文件  
+**改动**: 当前分支累计 +367/-25 行, 2 个文件  
 **对齐**: 头文件定义与 OASIS virtio-v1.2 规范严格对齐
+
+**后续打磨**:
+- 修复 OOM deflation 后立即被 balloon 线程重新充气的问题
+- 将 `S_AVAIL` 调整为更贴近 virtio 规范语义的 available memory 统计
+- 在同步操作后重新启用 queue interrupts，避免后续通知链被静默卡住
+- 2026-04-10 将 patch 思路发到 FreeBSD virtualization 邮件列表继续征求反馈
 
 **跨 OS VirtIO 专长**:
 
@@ -221,12 +227,50 @@ drivers/hid/hid-input.c: hidinput_open() → hid_hw_open()
 
 ---
 
+## 8. Linux 显示驱动调试 - amdgpu MST DSC AUX 路由
+
+### 本地调试补丁: MST DSC aux routing refresh workaround
+
+**Gist**: <https://gist.github.com/xz-dev/b0b7983ad244c890ffebe10f3ef00d66>  
+**最后活跃**: 2026-04-13
+
+这是一个尚未正式提交上游的本地调试 patch，用于定位 amdgpu 在 MST Hub 环境下的 suspend/resume 黑屏问题。
+
+**问题场景**:
+- DCN 3.5 + Synaptics MST Hub
+- s2idle resume 后，一个下游显示器随机黑屏，另一个正常恢复
+- 失败 sink 不固定，更像 MST 拓扑或 DSC AUX 路由状态陈旧，而不是单个面板 quirk
+
+**核心分析**:
+
+gist 评论中的问题分析给出了关键判断: `aconnector->dsc_aux` 在 MST probe 时计算并缓存，但 suspend/resume 与 MST topology rebuild 后，connector 生命周期长于 `mst_output_port` 路由状态，导致恢复后 sink-side DSC 编程可能仍在使用过期 AUX 路径。
+
+**补丁方向**:
+1. 新增 `amdgpu_dm_mst_refresh_dsc_aux()`，在 DSC capability 验证和 sink-side DSC enable/disable 前重新根据当前 `mst_output_port` 刷新 `dsc_aux`
+2. 将 DSC DPCD write 的返回值从 `bool` 改为 `int`，保留有符号错误码
+3. 在 MST sink-side DSC enable 失败时提前终止 stream bring-up，而不是继续把错误吞掉
+
+**为什么这条分析有价值**:
+- 不是简单地“加个 workaround 就好”，而是先通过复现行为判断问题更像 stale routing/state
+- 明确区分“refresh AUX 路由本身”与“让失败保持可见、不被静默吞掉”这两个因素
+- 将显示恢复失败拆解到 MST topology rebuild、connector 生命周期和 DSC sink-side programming 之间的交互
+
+**测试环境**:
+- ASUS Vivobook S 16 M5606WA
+- AMD Ryzen AI 9 365 / Radeon 890M
+- `6.19.12-cachyos`
+- Wayland / KWin
+- MST outputs: `DP-8 1920x1200@59.95`, `DP-9 3840x2160@60.00`
+
+---
+
 ## 🎯 总结与技能展示
 
 ### 核心技能
 - **跨 OS 内核开发**: Linux + FreeBSD 内核编程，同一 VirtIO 规范在不同内核中的实现
 - **安全回归诊断**: 从用户层面追溯到 CVE 修复引入的 C 代码 bug
 - **内核源码分析**: 深入 evdev/input/hid 驱动栈定位硬件交互问题
+- **显示驱动长尾调试**: MST topology、AUX routing、DSC sink-side programming 的跨层交互定位
 - 掌握容器技术底层实现 (命名空间、cgroup)
 - 熟悉不同初始化系统 (systemd、OpenRC) 的工作机制
 
@@ -237,6 +281,5 @@ drivers/hid/hid-input.c: hidinput_open() → hid_hw_open()
 
 ---
 
-**文件版本**: v2.0  
-**最后更新**: 2026-04-09
-
+**文件版本**: v2.1  
+**最后更新**: 2026-04-13
