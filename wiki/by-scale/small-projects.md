@@ -91,7 +91,30 @@
 
 ---
 
-## 5. gvalkov/python-evdev (⭐376) - Linux 输入子系统
+### 5. smuellerDD/leancrypto — 交叉架构编译修复
+
+**项目简介**: 轻量级后量子密码学库  
+**技术栈**: C, LTO, ARMv8/AArch64 条件编译  
+**GitHub**: https://github.com/smuellerDD/leancrypto
+
+**PR #58 — SLH-DSA: guard ARMv8 backend on non-AArch64 builds (2026-04-14)**
+
+**状态**: ✅ 已合并  
+**改动**: +4 行, 1 个文件
+
+**问题**: Gentoo x86_64 启用 LTO 编译失败，SPHINCS+ ARMv8 后端的函数指针表 (`f_ctx_armv8`) 在非 AArch64 目标上产生未定义符号引用
+
+**诊断链**: 链接器 undefined reference 错误 → 追溯到 ARMv8 后端表无条件定义 → 虽运行时仅在 `LC_HOST_AARCH64` 下选择 ARMv8 路径，但编译期 LTO 保留了这些符号
+
+**修复**: 用 `LC_HOST_AARCH64` 条件编译守卫 ARMv8 后端 includes 和函数指针表
+
+**体现**: 从 x86_64 链接错误反推 ARMv8 条件编译缺失的跨架构诊断能力
+
+**技术栈**: C, LTO, ARMv8/AArch64 条件编译
+
+---
+
+## 6. gvalkov/python-evdev (⭐376) - Linux 输入子系统
 
 **项目简介**: Linux input 子系统 (evdev) 的 Python 绑定  
 **技术栈**: Python, C (ctypes/cffi), Linux evdev  
@@ -140,6 +163,6 @@ PR 描述中包含对 Linux 内核源码的详细分析:
 
 ---
 
-**文件版本**: v1.2  
-**最后更新**: 2026-04-09
+**文件版本**: v1.3  
+**最后更新**: 2026-05-01
 

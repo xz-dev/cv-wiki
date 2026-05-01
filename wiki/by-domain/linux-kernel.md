@@ -264,6 +264,25 @@ gist 评论中的问题分析给出了关键判断: `aconnector->dsc_aux` 在 MS
 
 ---
 
+## 9. 后量子密码学交叉架构编译修复
+
+### leancrypto: ARMv8 后端 x86_64 LTO 构建修复
+
+**PR**: [smuellerDD/leancrypto#58](https://github.com/smuellerDD/leancrypto/pull/58) ✅ 已合并 (2026-04-14)
+
+**问题**: Gentoo x86_64 启用 LTO 编译 leancrypto 失败，SPHINCS+ ARMv8 后端函数指针表在非 AArch64 目标产生未定义引用
+
+**诊断链**:
+1. 链接器报 undefined reference 到 `lc_sphincs_shake_192s_sphincs_merkle_sign_armv8` 等符号
+2. 追溯源码发现 `slh-dsa/src/sphincs_sign.c` 中 `f_ctx_armv8` 静态函数表无条件定义
+3. 虽然运行时仅在 `LC_HOST_AARCH64` 宏下选择 ARMv8 路径，但编译期 LTO 保留了这些符号导致链接失败
+
+**修复**: 用 `LC_HOST_AARCH64` 条件编译守卫 ARMv8 后端 includes 和函数指针表，使编译时可见性与运行时分派条件一致
+
+**技术亮点**: 从 x86_64 链接错误反推 ARMv8 条件编译缺失，体现对不同架构编译模型 (LTO 符号可见性) 的深入理解
+
+---
+
 ## 🎯 总结与技能展示
 
 ### 核心技能
@@ -271,6 +290,7 @@ gist 评论中的问题分析给出了关键判断: `aconnector->dsc_aux` 在 MS
 - **安全回归诊断**: 从用户层面追溯到 CVE 修复引入的 C 代码 bug
 - **内核源码分析**: 深入 evdev/input/hid 驱动栈定位硬件交互问题
 - **显示驱动长尾调试**: MST topology、AUX routing、DSC sink-side programming 的跨层交互定位
+- **交叉架构编译诊断**: 从链接错误反推条件编译宏缺失 (LTO 符号可见性、ARMv8 vs x86_64)
 - 掌握容器技术底层实现 (命名空间、cgroup)
 - 熟悉不同初始化系统 (systemd、OpenRC) 的工作机制
 
@@ -281,5 +301,5 @@ gist 评论中的问题分析给出了关键判断: `aconnector->dsc_aux` 在 MS
 
 ---
 
-**文件版本**: v2.1  
-**最后更新**: 2026-04-13
+**文件版本**: v2.2  
+**最后更新**: 2026-05-01
