@@ -1,8 +1,8 @@
 # gentoo-ai-update-repo
 
-> **定位**: AI 驱动的 Gentoo overlay，自动化 ebuild 版本升级  
-> **状态**: 活跃使用  
-> **技术栈**: Python, opencode CLI, Podman, Gentoo ebuild  
+> **定位**: AI 驱动的 Gentoo overlay，自动化 ebuild 版本升级
+> **状态**: 活跃使用
+> **技术栈**: Python, opencode CLI, Podman, Gentoo ebuild
 > **仓库**: [xz-dev/gentoo-ai-update-repo](https://github.com/xz-dev/gentoo-ai-update-repo)
 
 ---
@@ -14,7 +14,7 @@
 | **语言** | Python |
 | **创建时间** | 2026-02-08 |
 | **AI 调度** | [opencode](https://opencode.ai) CLI |
-| **AI 模型** | kimi-k2.5 (版本检查), minimax-m2.1 (ebuild 编写) |
+| **AI 模型** | 早期使用 kimi-k2.5 / minimax-m2.1；当前设计为可替换多模型，通过 opencode / Codex / 本地 gateway 调度 |
 | **测试方式** | Podman 容器 (gentoo/stage3) |
 
 ---
@@ -58,17 +58,17 @@ python3 update.py app-editors/neovim::gentoo
 
 - **AI + 传统工具链结合**: AI 负责"理解"和"创造"(解析上游发布、编写 ebuild)，传统工具负责"验证" (pkgcheck, emerge)
 - **容器化测试**: 在隔离的 gentoo/stage3 容器中验证 ebuild 可用性
-- **多模型协作**: 不同能力的模型负责不同类型的任务
-- **实际使用**: 用于维护 opencode-bin 等包的快速版本跟踪
+- **多模型协作**: 不同能力的模型负责不同类型的任务，模型可随 gateway/provider 能力调整
+- **实际使用**: 用于维护 opencode-bin、anytype-bin、lceda-pro 等包的快速版本跟踪
 
 ---
 
 ## 关联
 
-- [Gentoo 生态维护](../by-domain/gentoo-ecosystem.md) — opencode-bin 30+ 版本的持续更新正是此工具的应用场景
+- [Gentoo 生态维护](../by-domain/gentoo-ecosystem.md) — opencode-bin 70+ 版本的持续更新正是此工具的应用场景
 - **技能展示**: AI 工程 (prompt 设计、多模型协作)、Gentoo 包管理 (ebuild、Portage)、容器测试 (Podman)
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-04-09
+**文件版本**: v1.1
+**最后更新**: 2026-06-10

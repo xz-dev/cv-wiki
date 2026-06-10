@@ -8,7 +8,7 @@
 
 - **涵盖仓库**: gentoo, gentoo-zh, guru, xarblu-overlay, 其他overlays
 - **贡献类型**: 软件包维护, 构建修复, OpenRC服务, 新增包
-- **贡献数量**: 约 90+ PRs
+- **贡献数量**: 约 150+ PRs（GitHub 公开统计中 microcai/gentoo-zh 单仓库 128 PR）
 - **技术栈**: Shell, ebuild, Portage, OpenRC
 - **主要时间**: 2023-2026 (活跃维护)
 
@@ -60,12 +60,18 @@ start() {
 
 ## 2. Gentoo 中文社区贡献
 
-[microcai/gentoo-zh](https://github.com/microcai/gentoo-zh) 是 Gentoo 中文社区维护的 Overlay，包含大量适合中文用户的软件包。在此成为活跃维护者，贡献了45+个 PR。
+[microcai/gentoo-zh](https://github.com/microcai/gentoo-zh) 是 Gentoo 中文社区维护的 Overlay，包含大量适合中文用户的软件包。在此成为活跃维护者，公开统计已有 128 个 PR。
 
 ### 持续维护的核心软件包
 
-**OpenCode 系列** (持续快速迭代, 1.1.48 → 1.14.31, 50+ PRs):
-- PR #10078: dev-util/opencode-bin: add 1.14.31, drop 1.14.30 (2026-05-01, 开放中)
+**OpenCode 系列** (持续快速迭代, 1.1.48 → 1.16.2, 70+ PRs):
+- PR #10402: dev-util/opencode-bin: add 1.16.2, drop 1.16.0 (2026-06-06)
+- PR #10398: dev-util/opencode-bin: add 1.16.0, drop 1.15.13 (2026-06-05)
+- PR #10352: dev-util/opencode-bin: add 1.15.13, drop 1.15.12 (2026-05-31)
+- PR #10319: dev-util/opencode-bin: add 1.15.11, drop 1.15.10 (2026-05-27)
+- PR #10296: dev-util/opencode-bin: add 1.15.10, drop 1.15.7 (2026-05-23)
+- PR #10220: dev-util/opencode-bin: add 1.15.0, drop 1.14.50 (2026-05-15)
+- PR #10078: dev-util/opencode-bin: add 1.14.31, drop 1.14.30 (2026-05-01)
 - PR #10058: dev-util/opencode-bin: add 1.14.30, drop 1.14.29 (2026-04-30)
 - PR #10047: dev-util/opencode-bin: add 1.14.29, drop 1.14.28 (2026-04-29)
 - PR #10038: dev-util/opencode-bin: add 1.14.28, drop 1.14.25 (2026-04-27)
@@ -98,7 +104,9 @@ start() {
 - ... (1.1.48 → 1.2.5, 6 PRs, 2026-01-31 ~ 02-16)
 - PR #9269: dev-util/opencode-bin: new package, add 1.1.48 (2026-01-31)
 
-**Anytype 系列** (0.53.1 → 0.55.3):
+**Anytype 系列** (0.53.1 → 0.55.5):
+- PR #10385: app-office/anytype-bin: add 0.55.5, drop 0.55.4 (2026-06-04)
+- PR #10115: app-office/anytype-bin: add 0.55.4, drop 0.55.3 (2026-05-05)
 - PR #10076: app-office/anytype-bin: add 0.55.3, drop 0.55.1 (2026-05-01)
 - PR #10059: app-office/anytype-bin: add 0.55.1, drop 0.54.11 (2026-04-30)
 - PR #9769: app-office/anytype-bin: add 0.54.11, drop 0.54.9 (2026-03-27)
@@ -126,6 +134,10 @@ start() {
 **开发工具**:
 - PR #5687/5369/4913: 持续更新 dev-util/android-studio
 - PR #4510: dev-util/android-studio: new package, add 2023.2.1.25
+
+**电子设计工具**:
+- PR #10415: sci-electronics/lceda-pro: fix unpack warning (2026-06-09)
+  - 修复包解压警告，体现对二进制包 ebuild 细节的持续维护
 
 ### PR #7140: 为 clash-verge-bin 添加 OpenRC 服务
 
@@ -331,7 +343,7 @@ AI 驱动的 Gentoo overlay，自动化 ebuild 版本升级流程:
 3. 容器测试 — `podman run gentoo/stage3` 挂载 overlay 并执行 emerge + AI 生成的冒烟测试
 
 使用两个 AI 模型: `kimi-k2.5` (版本检查、Web/API 查询) 和 `minimax-m2.1` (编写 ebuild、测试脚本)。
-通过 [opencode](https://opencode.ai) CLI 调度 AI 代理。
+通过 [opencode](https://opencode.ai) / OpenAI Codex CLI / 本地模型网关调度 AI 代理。
 
 **[个人项目详情](../personal-projects/gentoo-ai-update-repo.md)**
 

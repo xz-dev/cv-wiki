@@ -6,25 +6,42 @@
 
 ## 📊 统计概览
 
-- **项目数量**: 2个
-- **总Stars**: 111,580+
-- **PR数量**: 3个
-- **合并率**: 33% (1个已合并, 2个开放中)
-- **技术领域**: AI基础设施, Web应用
+- **项目数量**: 8 个公开仓库（GitHub CLI 统计，按当前 stars）
+- **总Stars**: 609,000+
+- **PR数量**: 14 个
+- **代表仓库**: NousResearch/hermes-agent, home-assistant/core, modelcontextprotocol/servers, Magisk, rclone, LiteLLM, LibreChat, NewPipe
+- **技术领域**: AI基础设施, Web应用, 自动化, Android, 文件同步/云存储
 
 ---
 
-## 1. modelcontextprotocol/servers (⭐77,980)
+## 0. 2026 新增超大项目索引（摘要）
 
-**项目简介**: Model Context Protocol 官方服务器实现  
-**官网**: https://modelcontextprotocol.io  
+旧版本页只展开 MCP Servers 与 LibreChat。按 2026-06-10 的 GitHub CLI 统计，xz-dev 的公开 PR 已触达 8 个 >30k stars 仓库：
+
+| 仓库 | stars 量级 | 贡献主题 |
+|---|---:|---|
+| NousResearch/hermes-agent | 189k+ | model picker / provider model list / Hermes agent 体验 |
+| home-assistant/core | 87k+ | Home Assistant 集成相关历史贡献 |
+| modelcontextprotocol/servers | 86k+ | MCP memory 多实例文件锁 |
+| topjohnwu/Magisk | 60k+ | Android / Magisk 生态历史贡献 |
+| rclone/rclone | 57k+ | iCloud Drive region 选项，适配中国大陆访问差异 |
+| BerriAI/litellm | 49k+ | `/v1/models` wildcard 展开尝试，后续基础设施转向 APISIX gateway |
+| danny-avila/LibreChat | 38k+ | Podman / MCP 相关支持 |
+| TeamNewPipe/NewPipe | 38k+ | Android 视频客户端历史贡献 |
+
+后续维护可以把 Hermes / rclone / LiteLLM 等新增超大项目拆成独立小节。
+
+## 1. modelcontextprotocol/servers (⭐86k+)
+
+**项目简介**: Model Context Protocol 官方服务器实现
+**官网**: https://modelcontextprotocol.io
 **GitHub**: https://github.com/modelcontextprotocol/servers
 
 ### PR #3286 - feat(memory): add file locking to support multi-instance
 
 **基本信息**
 - 🔗 **PR链接**: https://github.com/modelcontextprotocol/servers/pull/3286
-- ⭐ **项目Stars**: 77,980
+- ⭐ **项目Stars**: 86k+ (2026-06)
 - 📅 **提交时间**: 2026-01-15
 - 🟡 **状态**: 开放中
 - 🏷️ **标签**: `concurrency` `file-lock` `typescript` `multi-process` `critical-bug`
@@ -43,7 +60,7 @@ MCP memory服务器在多实例场景下存在严重的数据损坏问题：
    ```typescript
    // 原有实现 - 仅使用内存锁
    private static fileLock = false;
-   
+
    async write() {
      while (fileLock) await sleep(10);  // ❌ 只在单进程内有效
      fileLock = true;
@@ -51,7 +68,7 @@ MCP memory服务器在多实例场景下存在严重的数据损坏问题：
      fileLock = false;
    }
    ```
-   
+
    问题：内存锁无法跨进程工作，导致：
    - 文件内容被部分覆盖
    - JSON解析失败
@@ -90,35 +107,35 @@ class MemoryService {
     try {
       // 2. 读取最新数据（防止覆盖其他进程的写入）
       const existing = await this.readMemory();
-      
+
       // 3. 合并数据（按timestamp排序，去重）
       const merged = this.mergeMemories(existing, data);
-      
+
       // 4. 原子写入
       const tmpFile = `${this.memoryFile}.tmp`;
       await fs.writeFile(tmpFile, JSON.stringify(merged, null, 2));
       await fs.rename(tmpFile, this.memoryFile);
-      
+
     } finally {
       // 5. 释放锁
       await release();
     }
   }
-  
+
   private mergeMemories(a: Memory[], b: Memory[]): Memory[] {
     const map = new Map<string, Memory>();
-    
+
     // 使用content hash作为唯一标识
     [...a, ...b].forEach(mem => {
       const hash = this.hashContent(mem.content);
       const existing = map.get(hash);
-      
+
       // 保留最新的版本
       if (!existing || mem.timestamp > existing.timestamp) {
         map.set(hash, mem);
       }
     });
-    
+
     return Array.from(map.values())
       .sort((x, y) => y.timestamp - x.timestamp);
   }
@@ -149,14 +166,14 @@ class MemoryService {
    // 单进程10k并发测试
    test('concurrent writes in single process', async () => {
      await Promise.all(
-       Array(10000).fill(0).map((_, i) => 
+       Array(10000).fill(0).map((_, i) =>
          service.write({ content: `test-${i}` })
        )
      );
      const memories = await service.read();
      expect(memories).toHaveLength(10000);
    });
-   
+
    // 多进程并发测试
    test('concurrent writes across processes', async () => {
      // 启动5个独立进程，每个写入2000条
@@ -165,10 +182,10 @@ class MemoryService {
          return fork('./test-worker.js', [procId]);
        })
      );
-     
+
      // 等待所有进程完成
      await Promise.all(processes.map(p => p.finished));
-     
+
      // 验证数据完整性
      const memories = await service.read();
      expect(memories).toHaveLength(10000);
@@ -227,8 +244,8 @@ vs PR #3060（内存锁方案）:
 
 ## 2. danny-avila/LibreChat (⭐33,600)
 
-**项目简介**: 增强版ChatGPT克隆，支持多模型、MCP、Agents  
-**官网**: https://librechat.ai/  
+**项目简介**: 增强版ChatGPT克隆，支持多模型、MCP、Agents
+**官网**: https://librechat.ai/
 **GitHub**: https://github.com/danny-avila/LibreChat
 
 ### PR #7584 - Add podman-compose support
@@ -308,21 +325,21 @@ volumes:
 2. **文档完善**:
    ```markdown
    # Podman部署指南
-   
+
    ## 安装Podman
    \`\`\`bash
    # Arch Linux
    sudo pacman -S podman podman-compose
-   
+
    # Debian/Ubuntu
    sudo apt install podman podman-compose
    \`\`\`
-   
+
    ## 启动服务
    \`\`\`bash
    podman-compose -f podman-compose.yml up -d
    \`\`\`
-   
+
    ## Rootless模式
    \`\`\`bash
    # 无需sudo，以普通用户运行
@@ -370,11 +387,11 @@ volumes:
 
 ### 影响力指标
 
-- **用户影响**: 77k + 33k = 110k+ stars项目
+- **用户影响**: 当前 >30k stars 仓库覆盖 8 个，累计 609k+ stars；其中 MCP Servers + LibreChat 仍是最早展开的代表案例
 - **技术深度**: 核心架构级修复
 - **社区价值**: 解决关键痛点，推动标准制定
 
 ---
 
-**文件版本**: v1.0  
-**最后更新**: 2026-02-04
+**文件版本**: v1.1
+**最后更新**: 2026-06-10

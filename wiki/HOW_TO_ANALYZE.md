@@ -282,7 +282,7 @@ grep -h "**问题描述**" wiki/ -A 5 | \
 Python (精通), C++ (熟练), ...
 
 # 开源统计
-200+ PRs, 120k+ Stars, 9年活跃
+347 PRs, 805k+ Stars, 9年活跃
 ```
 
 ### 场景2: 技术成长路径分析
@@ -290,7 +290,7 @@ Python (精通), C++ (熟练), ...
 **步骤**:
 1. 按年份读取 `by-year/` 目录
 2. 提取每年的主要技术栈和项目类型
-3. 识别转折点（如：2025年加入Klavis AI）
+3. 识别转折点（如：2025年 Klavis AI / MCP，2026年自建 Hermes-Honcho-Hindsight-APISIX agent 基础设施）
 4. 生成时间线图
 
 **分析维度**:
@@ -508,7 +508,7 @@ PR 状态可能随时间变化（开放中 → 已合并），应以最新数据
 
 ```bash
 # Wiki中的数据（生成时）
-⭐ 77,980 stars
+⭐ 86k+ stars
 
 # 实际当前数据（需要查询API）
 gh api repos/modelcontextprotocol/servers | jq '.stargazers_count'

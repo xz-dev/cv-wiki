@@ -1,55 +1,106 @@
 {
-  "version": "1.1",
-  "generated_at": "2026-04-13T10:00:00Z",
+  "version": "1.2",
+  "generated_at": "2026-06-10T15:47:12+08:00",
   "author": "xz-dev",
   "github_url": "https://github.com/xz-dev",
-  "total_prs": 217,
+  "total_prs": 347,
+  "total_repositories": 81,
+  "total_stars": 805503,
+  "data_source_note": "GitHub CLI gh search prs --author=xz-dev (open + closed + merged) and gh api repos/* stargazers_count, captured 2026-06-10.",
   "date_range": {
-    "start": "2017-01-01",
-    "end": "2026-04-13"
+    "start": "2018-01-01",
+    "end": "2026-06-10"
   },
   "statistics": {
     "by_scale": {
-      "mega": 2,
-      "large": 2,
-      "medium": 8,
-      "small": 198
+      "mega": 14,
+      "large": 22,
+      "medium": 107,
+      "small": 204
+    },
+    "by_scale_repositories": {
+      "mega": 8,
+      "large": 7,
+      "medium": 21,
+      "small": 45
     },
     "by_status": {
-      "merged": 182,
-      "open": 28,
-      "closed": 7
+      "merged": 240,
+      "open": 20,
+      "closed": 87
     },
     "by_language": {
-      "Python": 60,
-      "Shell": 50,
+      "Shell/ebuild": 150,
+      "TypeScript": 60,
+      "Python": 55,
+      "C/C++": 35,
       "Kotlin": 20,
-      "TypeScript": 30,
-      "C/C++": 30,
-      "Rust": 10,
+      "Rust": 12,
       "JavaScript": 5,
       "Other": 10
     },
     "by_domain": {
-      "linux-bsd-kernel": 29,
-      "windows-drivers": 11,
-      "container-tech": 30,
-      "ai-infrastructure": 55,
-      "android": 25,
-      "gentoo-ecosystem": 95,
-      "linux-desktop": 3,
-      "rust-tools": 5
+      "gentoo-ecosystem": 158,
+      "ai-infrastructure": 78,
+      "linux-bsd-kernel": 34,
+      "container-tech": 24,
+      "android": 20,
+      "windows-drivers": 12,
+      "linux-desktop": 11,
+      "rust-tools": 10
     },
     "by_year": {
       "2018": 10,
-      "2019": 15,
-      "2020": 20,
-      "2021": 15,
-      "2022": 20,
-      "2023": 30,
-      "2024": 40,
-      "2025": 50,
-      "2026": 17
+      "2019": 3,
+      "2020": 1,
+      "2021": 6,
+      "2022": 10,
+      "2023": 46,
+      "2024": 46,
+      "2025": 72,
+      "2026": 153
     }
-  }
+  },
+  "top_repositories_by_stars": [
+    {
+      "repo": "NousResearch/hermes-agent",
+      "stars": 189209
+    },
+    {
+      "repo": "home-assistant/core",
+      "stars": 87639
+    },
+    {
+      "repo": "modelcontextprotocol/servers",
+      "stars": 86989
+    },
+    {
+      "repo": "topjohnwu/Magisk",
+      "stars": 60874
+    },
+    {
+      "repo": "rclone/rclone",
+      "stars": 57853
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "stars": 49868
+    },
+    {
+      "repo": "danny-avila/LibreChat",
+      "stars": 38791
+    },
+    {
+      "repo": "TeamNewPipe/NewPipe",
+      "stars": 38604
+    },
+    {
+      "repo": "SillyTavern/SillyTavern",
+      "stars": 29141
+    },
+    {
+      "repo": "doomemacs/core",
+      "stars": 22236
+    }
+  ]
 }

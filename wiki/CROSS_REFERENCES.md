@@ -1,7 +1,7 @@
 # 贡献交叉引用表
 
 > 本文档提供了贡献之间的交叉引用，帮助理解项目间的关联和技术能力的延续性。
-> 最后更新: 2026-04-13
+> 最后更新: 2026-06-10
 
 ---
 
@@ -15,6 +15,11 @@
 | [modelcontextprotocol/servers #3250](./by-year/2025.md#modelcontextprotocolservers-pr-3250---实现多进程安全通信) | [AI基础设施领域](./by-domain/ai-infrastructure.md) | IPC、命名管道、消息路由 |
 | [danny-avila/LibreChat #7584](./by-scale/mega-projects.md#pr-7584---add-podman-compose-support) | [2025年贡献](./by-year/2025.md#danny-avilalibrechat-pr-7584---添加podman支持) | 容器编排、网络配置 |
 | [danny-avila/LibreChat #7420](./by-year/2025.md#danny-avilalibrechat-pr-7420---添加mcp内存插件) | [AI基础设施领域](./by-domain/ai-infrastructure.md) | 子进程管理、前端集成 |
+| [xz-dev/apisix-ai-gateway-config](https://github.com/xz-dev/apisix-ai-gateway-config) | [当前画像](./CURRENT_PROFILE.md) / [AI基础设施领域](./by-domain/ai-infrastructure.md) | APISIX 模型网关、LiteLLM 替代、OpenAI-compatible routing |
+| [xz-dev/hermes-apisix-provider](https://github.com/xz-dev/hermes-apisix-provider) | [当前画像](./CURRENT_PROFILE.md) / [AI基础设施领域](./by-domain/ai-infrastructure.md) | Hermes ProviderProfile、网关抽象、provider 解耦 |
+| [plastic-labs/honcho #689](https://github.com/plastic-labs/honcho/pull/689) | [2026年贡献](./by-year/2026.md) / [AI基础设施领域](./by-domain/ai-infrastructure.md) | Docker healthcheck、deriver 启动顺序、记忆系统稳定性 |
+| [diegosouzapw/OmniRoute #2975/#3094/#3188/#3422](./by-year/2026.md#5月-6月-05-02--06-10---ai-agent-基础设施与多模型网关) | [2026年贡献](./by-year/2026.md) / [AI基础设施领域](./by-domain/ai-infrastructure.md) | SiliconFlow endpoint、模型同步、API key、streaming chunk 兼容 |
+| [aliou/pi-guardrails #51/#52](./by-year/2026.md#guardrails--openclaw-方向) | [当前画像](./CURRENT_PROFILE.md) / [AI基础设施领域](./by-domain/ai-infrastructure.md) | 工具调用 guardrail、路径访问误报、OpenClaw sidecar |
 
 ### 容器技术与系统底层
 

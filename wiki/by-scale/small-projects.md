@@ -6,13 +6,14 @@
 
 ## 📊 统计概览
 
-- **PR 总数**: 180+
-- **时间跨度**: 2018 - 2026 (8年)
-- **主要领域**: 
-  - **Gentoo 生态**: ~80个 PR
-  - **Klavis AI (工作相关)**: ~50个 PR
-  - **Android 应用**: ~20个 PR
-  - **系统/网络/内核工具**: ~30个 PR
+- **PR 总数**: 204
+- **时间跨度**: 2018 - 2026 (9年)
+- **主要领域**:
+  - **Gentoo 生态**: 128 个 microcai/gentoo-zh PR + gentoo/guru/gentoo 官方仓库维护
+  - **Klavis AI / MCP 基础设施**: 36 个 Klavis PR + MCP 相关个人工具
+  - **Android 应用**: ~20 个 PR
+  - **系统/网络/内核/桌面工具**: ~30+ 个 PR
+  - **AI agent 工具链补丁**: pi-guardrails, plannotator, reframe 等 2026 新增小/中型项目
 
 ---
 
@@ -22,9 +23,9 @@
 
 ### 代表性贡献
 - **microcai/gentoo-zh**: 
-  - 维护 `opencode-bin` (1.1.48 → 1.2.6, 含 9999 live ebuild)。
-  - 维护 `anytype-bin` (0.53.1 → 0.54.2)。
-  - PR #9269~9422: 持续快速迭代版本 (8+ PRs in Feb 2026)。
+  - 维护 `opencode-bin` (1.1.48 → 1.16.2, 含 9999 live ebuild)。
+  - 维护 `anytype-bin` (0.53.1 → 0.55.5)，并补充 `lceda-pro` 等二进制包细节修复。
+  - PR #9269~10415: 持续快速迭代版本（2026 年 2-6 月持续维护）。
   - 为 `clash-verge-bin` 等网络工具添加 OpenRC 脚本。
 - **gentoo/guru**:
   - PR #411: 维护 `quickemu` 虚拟化工具。

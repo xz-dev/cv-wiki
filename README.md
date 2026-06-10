@@ -1,6 +1,6 @@
 # Open Source Contribution Wiki
 
-一套系统化的开源贡献档案系统，记录 9 年的 GitHub 贡献历程，并附带可复用的分析方法论。
+一套系统化的开源贡献档案系统，记录 2018-2026 年间 347 个公开 GitHub PR、81 个公开仓库，以及最新个人技术画像。
 
 ---
 
@@ -8,7 +8,7 @@
 
 这个仓库包含两个核心部分：
 
-1. **个人开源贡献 Wiki** (`wiki/`) - 记录 2017-2026 年间 217+ 个 Pull Requests 的详细技术分析
+1. **个人开源贡献 Wiki** (`wiki/`) - 记录 2018-2026 年间 347 个公开 Pull Requests、81 个公开仓库和最新技术画像
 2. **分析方法论** - 一套可复用的开源贡献分析框架，适用于任何 GitHub 用户
 
 ## 为什么做这个？
@@ -73,6 +73,7 @@ grep -r "modelcontextprotocol/servers" wiki/
 │
 └── wiki/                      # 核心内容
     ├── README.md              # Wiki 主索引
+    ├── CURRENT_PROFILE.md     # 当前个人画像与 AI 基础设施定位
     ├── HOW_TO_ANALYZE.md      # AI 分析指南 (核心方法论)
     ├── CONTRIBUTING.md        # 维护指南
     ├── MEMORY_CLEANUP.md      # 记忆管理策略
@@ -199,37 +200,37 @@ Stack Overflow、知乎等平台：
 
 | 指标 | 数值 |
 |------|------|
-| 总 PR 数量 | 217+ |
-| 贡献项目数 | 110+ |
-| 总 Stars | 135,000+ |
-| 活跃年限 | 9 年 (2017-2026) |
-| 合并率 | 84% |
+| 总 PR 数量 | 347 |
+| 公开贡献仓库数 | 81 |
+| 总 Stars | 805,000+ |
+| 活跃年限 | 9 年 (2018-2026) |
+| PR 状态 | 240 已合并 / 20 开放 / 87 关闭未合并 |
 
 ### 项目规模分布
 
 ```
-超大项目 (>30k stars):   2 个  - modelcontextprotocol/servers, LibreChat
-大项目 (10k-30k stars):  2 个  - distrobox, SillyTavern
-中等项目 (1k-10k stars): 8 个  - freebsd-src, flatpak, virtio-win, ansible-runner 等
-小项目 (<1k stars):    198 个 - Gentoo 生态、Android 应用等
+超大项目 (>30k stars):   8 个仓库 / 14 PR  - hermes-agent, Home Assistant, MCP Servers, Magisk, rclone, LiteLLM 等
+大项目 (10k-30k stars):  7 个仓库 / 22 PR  - SillyTavern, distrobox, grpc-rust, LibreTube 等
+中等项目 (1k-10k stars): 21 个仓库 / 107 PR - freebsd-src, OmniRoute, Honcho, flatpak, virtio-win 等
+小项目 (<1k stars):     45 个仓库 / 204 PR - Gentoo 生态、个人项目、输入/桌面工具等
 ```
 
 ### 技术领域分布
 
 ```
-Linux 系统     ████████████████████ 40%
-AI 基础设施    █████████████░░░░░░░ 25%
-容器技术       ████████░░░░░░░░░░░░ 15%
-Android       █████░░░░░░░░░░░░░░░ 10%
-Windows 驱动   ███░░░░░░░░░░░░░░░░░  5%
-其他          ███░░░░░░░░░░░░░░░░░  5%
+Gentoo / 包维护      ████████████████████ 45%
+AI 基础设施 / Agent   ██████████░░░░░░░░░░ 22%
+Linux/BSD 内核        ████░░░░░░░░░░░░░░░░ 10%
+容器技术              ███░░░░░░░░░░░░░░░░░  7%
+Android / Rust 工具   ███░░░░░░░░░░░░░░░░░  8%
+Windows 驱动 / 桌面   ██░░░░░░░░░░░░░░░░░░  8%
 ```
 
 ---
 
 ## 亮点贡献
 
-### MCP Servers - 跨进程文件锁 (77k+ stars)
+### MCP Servers - 跨进程文件锁 (86k+ stars)
 
 **问题**: MCP 多实例并发写入 memory.json 导致数据损坏
 
@@ -258,6 +259,16 @@ Windows 驱动   ███░░░░░░░░░░░░░░░░░  5
 **影响**: 支持 8K/HDR 等高端显示需求
 
 [详细分析](wiki/deep-dive/virtio-gpu-driver.md)
+
+### AI Agent 基础设施 - APISIX / Hermes / Honcho / OmniRoute
+
+**问题**: 多模型 provider、streaming、模型能力、记忆系统和工具调用 guardrail 分散在不同项目中，难以统一验证和维护
+
+**方案**: 自建 APISIX AI gateway 替代 LiteLLM，维护 Hermes provider 插件，向 Honcho / OmniRoute / Hermes WebUI / pi-guardrails 等上游提交修复
+
+**影响**: 将个人 AI 工具链从“使用模型”推进到“维护模型网关、记忆系统、provider 能力和安全边界”
+
+[当前画像](wiki/CURRENT_PROFILE.md) · [AI 基础设施](wiki/by-domain/ai-infrastructure.md)
 
 ### Linux Wiki 贡献 (Arch + Gentoo)
 
@@ -320,4 +331,4 @@ Windows 驱动   ███░░░░░░░░░░░░░░░░░  5
 ---
 
 **最后更新**: 2026-06-10
-**方法论版本**: v2.3 (补充验证脚本与统计同步)
+**方法论版本**: v2.4 (更新当前画像、GitHub 统计与 AI agent 基础设施叙事)

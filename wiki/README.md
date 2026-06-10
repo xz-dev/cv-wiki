@@ -1,8 +1,8 @@
 # xz-dev 开源贡献 Wiki
 
-> **最后更新**: 2026-04-13
-> **数据来源**: GitHub API + 人工整理
-> **贡献时间跨度**: 2017-2026 (9年)
+> **最后更新**: 2026-06-10
+> **数据来源**: GitHub CLI/API + 人工整理 + 本地 wiki
+> **PR 时间跨度**: 2018-2026 (9年)；博客/社区内容可追溯至 2017
 
 ---
 
@@ -12,37 +12,40 @@
 
 | 指标 | 数值 | 说明 |
 |------|------|------|
-| **总 PR 数量** | 217+ | 包含所有开放和已合并的PR |
-| **贡献项目数** | 110+ | 涉及的不同GitHub仓库 |
-| **总 Stars** | 135,000+ | 贡献项目的累计Stars (含 freebsd-src 9k, flatpak 4.8k) |
-| **活跃年限** | 9年 | 2017年至今持续贡献 |
-| **年均贡献** | 24.1次/年 | 基于metadata.json统计 |
-| **合并率** | 84% | 182个已合并, 28个开放中, 7个已关闭 |
+| **总 PR 数量** | 347 | GitHub CLI 公开 PR 统计，含 open/closed/merged |
+| **公开贡献仓库数** | 81 | 涉及的不同 GitHub 仓库 |
+| **总 Stars** | 805,000+ | 贡献项目累计 stars，受 hermes-agent / Home Assistant / MCP Servers / Magisk / rclone 等大项目拉动 |
+| **活跃年限** | 9年 | 2018-2026 持续贡献；博客/社区内容可追溯到 2017 |
+| **2026 PR 数** | 153 | 截至 2026-06-10，112 已合并 / 15 开放 / 26 关闭 |
+| **当前画像** | AI agent infrastructure + Linux/Gentoo 系统工程 | 见 [CURRENT_PROFILE.md](./CURRENT_PROFILE.md) |
 
 ### 项目规模分布
 
 ```
-超大项目 (>30k ⭐):  2个  - modelcontextprotocol/servers, LibreChat
-大项目 (10k-30k ⭐):  2个  - distrobox, SillyTavern
-中等项目 (1k-10k ⭐):  8个  - freebsd-src, flatpak, virtio-win, ansible-runner, ivan-hc/AM, gentoo等
-小项目 (<1k ⭐):    198个 - Gentoo生态、Android应用、python-evdev等
+超大项目 (>30k ⭐):  8仓库 / 14 PR  - hermes-agent, Home Assistant, MCP Servers, Magisk, rclone, LiteLLM等
+大项目 (10k-30k ⭐):  7仓库 / 22 PR  - SillyTavern, distrobox, grpc-rust, LibreTube等
+中等项目 (1k-10k ⭐): 21仓库 / 107 PR - freebsd-src, OmniRoute, Honcho, flatpak, virtio-win等
+小项目 (<1k ⭐):    45仓库 / 204 PR - Gentoo生态、个人项目、输入/桌面工具等
 ```
 
 ### 技术领域分布
 
-- 🐧 **Linux/BSD系统** (40%) - Linux 内核、FreeBSD 内核、驱动、Gentoo 生态、flatpak
-- 🐳 **容器技术** (15%) - Podman、Docker、distrobox
-- 🤖 **AI基础设施** (20%) - MCP协议、SillyTavern、工具集成
-- 📱 **Android开发** (10%) - 应用、Magisk模块
-- 🪟 **Windows驱动** (5%) - VirtIO GPU
-- 🦀 **Rust系统工具** (5%) - hid-rgb-ctl、libversion-sys
-- 🛠️ **其他工具** (5%) - 编辑器、网络、自动化
+- 🎯 **Gentoo/包维护** (~45%) - opencode-bin、anytype-bin、lceda-pro、OpenRC、Portage、overlay 维护
+- 🤖 **AI基础设施 / Agent** (~22%) - Hermes、Honcho、Hindsight、APISIX gateway、OmniRoute、MCP、SillyTavern、guardrails
+- 🐧 **Linux/BSD系统** (~10%) - Linux 内核、FreeBSD virtio_balloon、amdgpu MST、flatpak、reframe
+- 🐳 **容器技术** (~7%) - Podman、Docker、distrobox、MCP 容器部署
+- 📱 **Android / Rust 工具** (~8%) - UpgradeAll、libversion-sys、hid-rgb-ctl
+- 🪟 **Windows驱动 / 桌面输入** (~8%) - VirtIO GPU、python-evdev、numlockw、Linux desktop fixes
 
 ![领域分布图](./visualizations/domain_distribution.png)
 
 ---
 
 ## 🗂️ Wiki 导航
+
+### 当前个人画像
+
+- [🧭 当前画像](./CURRENT_PROFILE.md) - 职业定位、AI 基础设施、工程风格和与旧版 wiki 的差异
 
 ### 按年份浏览
 
@@ -56,7 +59,7 @@
 - [📅 2023年](./by-year/2023.md) - Gentoo维护者
 - [📅 2024年](./by-year/2024.md) - 系统底层探索
 - [📅 2025年](./by-year/2025.md) - Klavis AI (MCP基础设施)
-- [📅 2026年](./by-year/2026.md) - AI 智能体通信系统、VirtIO GPU 高分辨率重构、UpgradeAll现代化、Gentoo包维护
+- [📅 2026年](./by-year/2026.md) - AI agent 基础设施、APISIX/OmniRoute/Hermes/Honcho、Gentoo 高频维护、VirtIO/FreeBSD/桌面长尾修复
 
 ![贡献时间线](./visualizations/contribution_timeline.png)
 
@@ -67,7 +70,7 @@
 - [🏆 超大项目 (>30k ⭐)](./by-scale/mega-projects.md) - MCP Servers, LibreChat
 - [🔥 大项目 (10k-30k ⭐)](./by-scale/large-projects.md) - distrobox, SillyTavern
 - [💡 中等项目 (1k-10k ⭐)](./by-scale/medium-projects.md) - virtio-win, gentoo, ansible-runner等
-- [📦 小项目 (<1k ⭐)](./by-scale/small-projects.md) - 180+ PRs汇总
+- [📦 小项目 (<1k ⭐)](./by-scale/small-projects.md) - 204 PR 汇总
 
 ![项目规模分布](./visualizations/project_scale_distribution.png)
 
@@ -78,9 +81,9 @@
 - [🐧 Linux内核与驱动](./by-domain/linux-kernel.md) - 内核补丁、调度器、AutoFDO
 - [🪟 Windows驱动开发](./by-domain/windows-drivers.md) - VirtIO GPU驱动系列
 - [🐳 容器技术](./by-domain/container-tech.md) - distrobox, Podman, cgroup
-- [🤖 AI基础设施](./by-domain/ai-infrastructure.md) - MCP协议、Klavis贡献
+- [🤖 AI基础设施](./by-domain/ai-infrastructure.md) - MCP协议、Hermes/Honcho/Hindsight、APISIX gateway、OmniRoute、guardrails
 - [📱 Android生态](./by-domain/android.md) - UpgradeAll, NewPipe, bilimiao2
-- [🎯 Gentoo生态](./by-domain/gentoo-ecosystem.md) - 90+ ebuild维护, CachyOS kernels
+- [🎯 Gentoo生态](./by-domain/gentoo-ecosystem.md) - 150+ ebuild/overlay 维护, opencode-bin, anytype-bin, CachyOS kernels
 
 ### 重点项目深度分析
 
@@ -106,6 +109,7 @@
 - [📦 hid-rgb-ctl](./personal-projects/hid-rgb-ctl.md) - Linux HID RGB灯光控制工具
 - [📦 kernel-autofdo-container](./personal-projects/kernel-autofdo-container.md) - 内核优化工具 (⭐3)
 - [📦 gentoo-ai-update-repo](./personal-projects/gentoo-ai-update-repo.md) - AI 驱动的 Gentoo ebuild 自动更新
+- [📦 APISIX AI Gateway Config](https://github.com/xz-dev/apisix-ai-gateway-config) / [Hermes APISIX Provider](https://github.com/xz-dev/hermes-apisix-provider) - 本地模型网关配置与 Hermes provider 插件
 - [📦 TelegramFileUploader](./personal-projects/telegram-file-uploader.md) - GitHub Action + CLI Telegram 上传工具
 
 ---
@@ -119,8 +123,8 @@
 | **Python** | distrobox-plus, AdGuardHome-LogSync, MCP服务器, UpgradeAll |
 | **C/C++** | VirtIO GPU驱动, 内核补丁, DisplayCAL |
 | **Kotlin** | UpgradeAll, TestSelf, bilimiao2 |
-| **Shell** | Gentoo ebuilds, OpenRC服务, distrobox |
-| **TypeScript** | MCP Servers, Klavis项目 |
+| **Shell/ebuild** | Gentoo ebuilds, OpenRC服务, distrobox |
+| **TypeScript** | MCP Servers, Klavis项目, Hermes/OmniRoute/WebUI, SillyTavern |
 | **Rust** | hid-rgb-ctl, libversion-sys, UpgradeAll getter |
 
 ![语言分布](./visualizations/language_distribution.png)
@@ -174,7 +178,7 @@ Linux系统管理  ████████████████████ 
 内核开发      ███████████████░░░░░  75% (调度器优化, CachyOS)
 Windows驱动   ████████████░░░░░░░░  60% (VirtIO GPU驱动修复)
 Android开发   ███████████████░░░░░  75% (UpgradeAll创始人)
-AI基础设施    ██████████████░░░░░░  70% (MCP协议贡献者)
+AI基础设施    ██████████████████░░  90% (MCP, Hermes/Honcho, APISIX gateway, OmniRoute)
 ```
 
 ### 核心工程素养
@@ -195,8 +199,11 @@ AI基础设施    ██████████████░░░░░░  
 | 层级 | 实践 | 项目 |
 |------|------|------|
 | 应用架构 | 设计双端桥接系统 (浏览器扩展 ↔ WebSocket ↔ 服务端) | [ChatBot-Proxy](./deep-dive/sillytavern-chatbot-proxy.md) |
-| LLM 前端 | 修复 streaming tool call 链、TTS 事件管线 | SillyTavern (24.7k Stars) |
-| 工具协议 | 解决 MCP stdio transport 跨进程并发问题 | MCP Servers (48k Stars) |
+| LLM 前端 | 修复 streaming tool call 链、TTS 事件管线 | SillyTavern (29k+ Stars) |
+| 模型网关 | APISIX AI gateway 替代 LiteLLM，provider 能力上游优先发现 | APISIX / Hermes provider / OmniRoute |
+| 记忆系统 | Honcho 作为 memory provider，Hindsight 作为 MCP cognitive memory | Honcho / Hindsight / Hermes |
+| Guardrails | 分阶段目标契约、工具调用审计、路径访问误报修复 | OpenClaw / pi-guardrails |
+| 工具协议 | 解决 MCP stdio transport 跨进程并发问题 | MCP Servers (86k+ Stars) |
 | 音频管线 | TTS 转发 + ffmpeg 转码 + STT (Groq/Whisper) 集成 | ChatBot-Proxy |
 | 演进规划 | pipecat 集成路线：异步通信 → 实时语音/视频通话 → AI 自主调度 | 下一阶段 |
 
@@ -271,6 +278,6 @@ AI基础设施    ██████████████░░░░░░  
 
 ---
 
-**Wiki 版本**: v1.3.2
+**Wiki 版本**: v1.4.0
 **最后更新**: 2026-06-10
 **生成工具**: [generate_wiki.sh](./scripts/generate_wiki.sh) + [generate_visualizations.py](./scripts/generate_visualizations.py) + [validate.sh](./scripts/validate.sh)

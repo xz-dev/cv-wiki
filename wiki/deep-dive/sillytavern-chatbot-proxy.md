@@ -133,7 +133,7 @@ ST 扩展通过多种机制与 SillyTavern 交互：
 
 ---
 
-## 🔗 上游贡献 (SillyTavern, 24.7k Stars)
+## 🔗 上游贡献 (SillyTavern, 29k+ Stars)
 
 为了让桥接系统正常工作，向 SillyTavern 上游提交了 5 个 PR（3 个已合并）：
 

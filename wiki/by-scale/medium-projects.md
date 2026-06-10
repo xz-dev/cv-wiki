@@ -6,14 +6,15 @@
 
 ## 📊 统计概览
 
-- **项目数量**: 8个
-- **代表项目**: freebsd-src, flatpak, virtio-win (kvm-guest-drivers + guest-tools-installer), ansible-runner, ivan-hc/AM, gentoo, NewPipeExtractor
-- **技术领域**: FreeBSD内核, Linux桌面基础设施, 虚拟化驱动, 自动化工具, 包管理, Linux发行版, 多媒体提取
-- **主要语言**: C, C++, Python, Shell, Java
+- **项目数量**: 21 个公开仓库（1k-10k stars）
+- **PR数量**: 107 个
+- **代表项目**: freebsd-src, flatpak, OmniRoute, Honcho, Hermes Web UI, virtio-win, ansible-runner, ivan-hc/AM, Klavis, NewPipeExtractor
+- **技术领域**: FreeBSD内核, Linux桌面基础设施, 多模型网关, 记忆系统, 虚拟化驱动, 自动化工具, 包管理, Linux发行版, 多媒体提取
+- **主要语言**: C, C++, Python, Shell, TypeScript, Java
 
 ---
 
-## 1. virtio-win/kvm-guest-drivers-windows (⭐2,550)
+## 1. virtio-win/kvm-guest-drivers-windows (⭐2.6k+)
 
 **项目简介**: Windows 虚拟化驱动程序（KVM/QEMU）  
 **技术栈**: C, C++, Windows 驱动开发 (WDM/WDF), VirtIO  

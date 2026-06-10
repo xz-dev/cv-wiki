@@ -6,15 +6,15 @@
 
 ## 📊 统计概览
 
-- **项目数量**: 2个
-- **总Stars**: 37,000+
-- **PR数量**: 8个
-- **状态**: 7个已合并, 2个开放中, 1个已关闭
-- **技术领域**: 容器技术, Linux系统, AI/LLM 前端
+- **项目数量**: 7 个公开仓库（10k-30k stars）
+- **PR数量**: 22 个
+- **代表项目**: SillyTavern, distrobox, doomemacs/core, grpc-rust, LibreTube, proton-ge-custom, Hermes WebUI
+- **状态**: 以已合并修复为主，另有少量开放/关闭尝试
+- **技术领域**: 容器技术, Linux系统, AI/LLM 前端, WebUI, Rust/gRPC, Android/桌面生态
 
 ---
 
-## 1. 89luca89/distrobox (⭐12,016)
+## 1. 89luca89/distrobox (⭐12k+)
 
 **项目简介**: 在任何Linux发行版中使用任何发行版的终端  
 **技术栈**: Shell, Bash, Podman/Docker  
@@ -32,7 +32,7 @@ Distrobox允许用户在主系统中运行其他Linux发行版的容器环境，
 
 **基本信息**
 - 🔗 **PR链接**: https://github.com/89luca89/distrobox/pull/1987
-- ⭐ **项目Stars**: 12,016
+- ⭐ **项目Stars**: 12k+
 - 📅 **提交时间**: 2026-01
 - 🟡 **状态**: 开放中
 - 🏷️ **标签**: `bug-fix` `shell` `user-experience`
@@ -134,7 +134,7 @@ fi
 
 **基本信息**
 - 🔗 **PR链接**: https://github.com/89luca89/distrobox/pull/1982
-- ⭐ **项目Stars**: 12,016
+- ⭐ **项目Stars**: 12k+
 - 📅 **提交时间**: 2026-01
 - 🟡 **状态**: 开放中
 - 🏷️ **标签**: `critical-bug` `rootless` `cgroup` `systemd` `openrc`

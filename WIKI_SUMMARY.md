@@ -2,8 +2,8 @@
 
 > **生成时间**: 2026-02-04
 > **最近维护**: 2026-06-10
-> **生成工具**: OpenCode AI + Bash脚本
-> **数据来源**: GitHub API + MCP Memory Service
+> **生成工具**: OpenCode / Hermes AI + Bash/Python 脚本
+> **数据来源**: GitHub CLI/API + 本地 wiki + Honcho/Hindsight 记忆索引
 
 ---
 
@@ -13,20 +13,21 @@
 
 | 项目 | 数量/大小 |
 |------|----------|
-| **总文件数** | 67 个 |
-| **Markdown文件** | 49 个 |
-| **总大小** | 1.9 MB |
+| **wiki 总文件数** | 64 个 |
+| **wiki Markdown文件** | 48 个 |
+| **wiki 总大小** | ~2.0 MB |
 | **目录结构** | 4层 |
-| **涵盖PR数** | 217+ |
-| **项目数** | 110+ |
-| **时间跨度** | 2017-2026 (9年) |
+| **涵盖公开 PR 数** | 347 |
+| **公开贡献仓库数** | 81 |
+| **时间跨度** | 2018-2026 (9年) |
 
 ### 📁 文件清单
 
 ```
 wiki/
-├── README.md (7.2K)           ✅ 主索引，完整导航
-├── HOW_TO_ANALYZE.md (13K)   ✅ AI分析指南
+├── README.md                  ✅ 主索引，完整导航
+├── CURRENT_PROFILE.md         ✅ 当前个人画像与 AI 基础设施定位
+├── HOW_TO_ANALYZE.md          ✅ AI分析指南
 ├── CONTRIBUTING.md (5.7K)     ✅ 贡献指南
 ├── metadata.json (969B)       ✅ 结构化数据
 ├── generate_wiki.sh (4.7K)    ✅ 自动化脚本
@@ -308,6 +309,7 @@ AI可以使用以下关键词检索：
 ✅ 自动化生成脚本
 ✅ 本地验证/链接检查/覆盖率脚本
 ✅ 结构化数据（metadata.json）
+✅ 当前个人画像（CURRENT_PROFILE.md）
 ✅ 贡献指南
 
 ### 特色功能
@@ -321,8 +323,8 @@ AI可以使用以下关键词检索：
 ### 核心工程素养
 
 - **长尾问题定位**: 擅长跨多个抽象层追溯根因（7+ 个跨层级诊断案例，从桌面环境到 init 系统、从 Windows 蓝屏到内存管理器原理）
-- **AI 智能体开发**: 全栈设计并实现了完全可用的 AI 虚拟伴侣异步通信系统，规划 pipecat 实时通话演进
-- **调研优先**: 技术选型均经过系统对比调研，优先复用成熟生态（Koishi/Satori, proper-lockfile, USB HID 规范）
+- **AI 智能体开发**: 全栈设计 AI 虚拟伴侣通信系统，并继续扩展到 Hermes/Honcho/Hindsight/APISIX/OmniRoute/guardrails 等 agent 基础设施
+- **调研优先**: 技术选型经过系统对比调研，优先复用成熟生态（Koishi/Satori, proper-lockfile, USB HID 规范, APISIX gateway, provider capability APIs）
 
 ### 技术亮点
 
@@ -352,4 +354,4 @@ AI可以使用以下关键词检索：
 **报告生成**: 2026-02-04
 **最近维护**: 2026-06-10
 **Wiki位置**: `/home/xz/workspace/cv-wiki/wiki/`
-**下一步**: 扩展 `metadata.json` 为项目/PR 级结构，并继续补充更细的年度 PR 明细
+**下一步**: 扩展 `metadata.json` 为项目/PR 级完整结构，并继续把 2026 年 5-6 月的 PR 明细拆到 by-scale/by-domain 页面
