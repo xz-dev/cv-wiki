@@ -1330,6 +1330,18 @@ EOF
 	done
 }
 
+show_help() {
+	cat <<EOF
+Usage: ./scripts/generate_wiki.sh [--update-all|--update-year YYYY|--update-domain DOMAIN|--help]
+
+Options:
+  --update-all            Fetch GitHub data and regenerate generated wiki files
+  --update-year YYYY      Reuse existing fetched data and update a specific year (planned)
+  --update-domain DOMAIN  Reuse existing fetched data and update a specific domain (planned)
+  --help                  Show this help message
+EOF
+}
+
 # Main function to run the script
 main() {
 	log "INFO" "==== Wiki Generation Script Started ===="
@@ -1342,15 +1354,42 @@ main() {
 
 	# Check if we need to do full data collection
 	local update_mode="all"
-	if [ "$1" == "--update-year" ]; then
+	local update_year=""
+	local update_domain=""
+	case "${1:---update-all}" in
+	"--update-all")
+		update_mode="all"
+		;;
+	"--update-year")
+		if [ -z "${2:-}" ]; then
+			log "ERROR" "--update-year requires a year argument"
+			show_help
+			exit 2
+		fi
 		update_mode="year"
 		update_year="$2"
-	elif [ "$1" == "--update-domain" ]; then
+		;;
+	"--update-domain")
+		if [ -z "${2:-}" ]; then
+			log "ERROR" "--update-domain requires a domain argument"
+			show_help
+			exit 2
+		fi
 		update_mode="domain"
 		update_domain="$2"
-	fi
+		;;
+	"--help" | "-h")
+		show_help
+		exit 0
+		;;
+	*)
+		log "ERROR" "Unknown option: $1"
+		show_help
+		exit 2
+		;;
+	esac
 
-	if [ "$update_mode" == "all" ] || [ ! -f "${SCRIPTS_DIR}/enriched_prs.json" ]; then
+	if [ "$update_mode" == "all" ]; then
 		# Check GitHub token
 		check_github_token
 
@@ -1362,17 +1401,18 @@ main() {
 
 		# Generate metadata
 		generate_metadata
-	else
+	elif [ -f "${SCRIPTS_DIR}/enriched_prs.json" ] && [ -f "$METADATA_FILE" ]; then
 		log "INFO" "Using existing data..."
+	else
+		log "ERROR" "No existing enriched data found. Run --update-all first."
+		exit 1
 	fi
 
 	# Generate markdown files
 	if [ "$update_mode" == "all" ] || [ "$update_mode" == "year" ]; then
 		if [ "$update_mode" == "year" ]; then
 			log "INFO" "Only updating year: $update_year"
-			# For year-specific update, we'd need to filter the data and regenerate
-			# just that file, but that's complex for this script version
-			# In a real implementation, you would extract this logic to a function and filter
+			log "WARN" "Year-specific regeneration is not implemented yet; existing files were left unchanged."
 		else
 			generate_year_files
 		fi
@@ -1381,7 +1421,7 @@ main() {
 	if [ "$update_mode" == "all" ] || [ "$update_mode" == "domain" ]; then
 		if [ "$update_mode" == "domain" ]; then
 			log "INFO" "Only updating domain: $update_domain"
-			# Similar to above, for domain-specific updates
+			log "WARN" "Domain-specific regeneration is not implemented yet; existing files were left unchanged."
 		else
 			generate_domain_files
 			generate_scale_files

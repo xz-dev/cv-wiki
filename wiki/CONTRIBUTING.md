@@ -26,10 +26,10 @@
    ⭐ 10k-30k → by-scale/large-projects.md
    ⭐ 1k-10k → by-scale/medium-projects.md
    ⭐ <1k   → by-scale/small-projects.md
-   
+
    # 年份
    2026年的PR → by-year/2026.md
-   
+
    # 领域
    Linux内核相关 → by-domain/linux-kernel.md
    ```
@@ -37,7 +37,7 @@
 2. **编写PR条目**:
    ```markdown
    ### [项目名] PR #编号 - 标题
-   
+
    **基本信息**
    - 🔗 **PR链接**: https://...
    - ⭐ **项目Stars**: 12,000
@@ -45,20 +45,20 @@
    - ✅ **状态**: 已合并
    - 🏷️ **标签**: `tag1` `tag2`
    - 📝 **改动**: +150 lines, 3 files
-   
+
    **问题描述**
    [详细描述...]
-   
+
    **解决方案**
    [技术实现...]
-   
+
    **技术亮点**
    - 亮点1
    - 亮点2
-   
+
    **影响评估**
    [影响分析...]
-   
+
    **相关代码**
    \`\`\`language
    // 代码示例
@@ -179,16 +179,16 @@ cd wiki/
 提交前检查：
 
 ```bash
-# 1. 检查markdown语法
-markdownlint wiki/**/*.md
+# 1. 检查 markdown 基础格式
+./scripts/validate-format.sh
 
-# 2. 检查链接有效性
+# 2. 检查本地链接目标
 ./scripts/check-links.sh
 
-# 3. 验证JSON格式
-jq . wiki/metadata.json > /dev/null && echo "✅ JSON valid"
+# 3. 验证 JSON、脚本语法和目录结构
+./scripts/validate.sh
 
-# 4. 统计覆盖率
+# 4. 统计覆盖率和剩余占位符
 ./scripts/coverage.sh
 ```
 
@@ -204,30 +204,43 @@ jq . wiki/metadata.json > /dev/null && echo "✅ JSON valid"
 ./generate_wiki.sh
 ```
 
-### update_stats.sh (待实现)
+### update_stats.sh
 
-自动更新统计数据：
+`generate_wiki.sh --update-all` 的兼容包装，用于从 GitHub API 拉取最新数据并刷新 `metadata.json` 与生成型页面：
 
 ```bash
-# 从GitHub API拉取最新数据
 ./scripts/update_stats.sh
-
-# 更新 metadata.json
-# 更新 README.md 中的统计
 ```
 
-### validate.sh (待实现)
+### validate.sh
 
-验证wiki完整性：
+验证 wiki 完整性：
 
 ```bash
 ./scripts/validate.sh
 
 # 检查：
-# - 死链接
-# - 格式错误
-# - 缺失必填字段
-# - 重复内容
+# - 必备目录和文件
+# - metadata.json 格式
+# - Python / Shell 脚本语法
+# - 剩余占位符数量
+```
+
+### check-links.sh / validate_references.sh
+
+检查 Markdown 本地链接目标；外部 HTTP 链接默认只统计不抓取，历史锚点只做非阻断兼容处理：
+
+```bash
+./scripts/check-links.sh
+./scripts/validate_references.sh  # 兼容 CROSS_REFERENCES.md 中的旧命令
+```
+
+### coverage.sh
+
+输出目录覆盖率与剩余占位符文件：
+
+```bash
+./scripts/coverage.sh
 ```
 
 ---
@@ -341,5 +354,5 @@ jq . wiki/metadata.json > /dev/null && echo "✅ JSON valid"
 
 ---
 
-**文档版本**: v1.0  
-**最后更新**: 2026-02-04
+**文档版本**: v1.1
+**最后更新**: 2026-06-10

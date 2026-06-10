@@ -1,6 +1,6 @@
 # AI 分析指南 - 如何高效解析这个 Wiki
 
-> **目标受众**: 未来的 AI 助手（包括你自己）  
+> **目标受众**: 未来的 AI 助手（包括你自己）
 > **目的**: 提供系统化的分析方法，无论 AI 智力水平如何都能有效利用这个 Wiki
 
 ---
@@ -14,16 +14,16 @@ wiki/
 ├── README.md              # 主入口，包含概览和导航
 ├── HOW_TO_ANALYZE.md      # 本文件
 ├── metadata.json          # 结构化数据（机器可读）
-├── 
+├──
 ├── by-year/               # 按年份组织（8个文件）
 │   └── YYYY.md            # 每个文件包含该年的所有PR
-├── 
+├──
 ├── by-scale/              # 按项目规模组织（4个文件）
 │   ├── mega-projects.md   # >30k stars
 │   ├── large-projects.md  # 10k-30k stars
 │   ├── medium-projects.md # 1k-10k stars
 │   └── small-projects.md  # <1k stars
-├── 
+├──
 ├── by-domain/             # 按技术领域组织（6个文件）
 │   ├── linux-kernel.md
 │   ├── windows-drivers.md
@@ -31,13 +31,13 @@ wiki/
 │   ├── ai-infrastructure.md
 │   ├── android.md
 │   └── gentoo-ecosystem.md
-├── 
+├──
 ├── deep-dive/             # 重点项目深度分析（4个文件）
 │   ├── mcp-servers.md
 │   ├── virtio-gpu-driver.md
 │   ├── distrobox-contributions.md
 │   └── upgradeall-project.md
-└── 
+└──
 └── personal-projects/     # 个人项目详解（4个文件）
     ├── distrobox-plus.md
     ├── numlockw.md
@@ -341,7 +341,7 @@ JD要求: "熟悉Linux内核，有驱动开发经验"
    ```bash
    # 发现博客所有文章
    firecrawl_map url="https://xzos.net/" limit=50
-   
+
    # 抓取具体文章内容
    firecrawl_scrape url="https://xzos.net/blog/xxx" formats=["markdown"]
    ```
@@ -555,21 +555,24 @@ grep -rP "[\u4e00-\u9fa5]+" wiki/  # 查找所有中文字符
    - 直接编辑 markdown 文件
    - 提交 git commit
 
-3. **自动化更新**（未来）:
-   - 运行 `./scripts/update-wiki.sh`
+3. **自动化更新**:
+   - 运行 `./scripts/update_stats.sh` 或 `./scripts/generate_wiki.sh --update-all`
    - 自动拉取最新 GitHub 数据
-   - 重新生成 markdown 和 JSON
+   - 重新生成 metadata 和生成型 markdown（注意避免覆盖手工深度分析）
 
 ### 质量检查
 
 ```bash
-# 检查死链接
-./scripts/check-links.sh
-
-# 检查格式一致性
+# 检查 markdown 基础格式
 ./scripts/validate-format.sh
 
-# 统计覆盖率
+# 检查本地链接目标
+./scripts/check-links.sh
+
+# 验证 JSON、脚本语法和目录结构
+./scripts/validate.sh
+
+# 统计覆盖率和剩余占位符
 ./scripts/coverage.sh
 ```
 
@@ -585,6 +588,6 @@ grep -rP "[\u4e00-\u9fa5]+" wiki/  # 查找所有中文字符
 
 ---
 
-**文档版本**: v1.1 (新增博客分析场景)  
-**最后更新**: 2026-02-04  
+**文档版本**: v1.2 (补充本地验证脚本)
+**最后更新**: 2026-06-10
 **维护者**: xz-dev

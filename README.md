@@ -8,7 +8,7 @@
 
 这个仓库包含两个核心部分：
 
-1. **个人开源贡献 Wiki** (`wiki/`) - 记录 2017-2026 年间 200+ 个 Pull Requests 的详细技术分析
+1. **个人开源贡献 Wiki** (`wiki/`) - 记录 2017-2026 年间 217+ 个 Pull Requests 的详细技术分析
 2. **分析方法论** - 一套可复用的开源贡献分析框架，适用于任何 GitHub 用户
 
 ## 为什么做这个？
@@ -199,19 +199,19 @@ Stack Overflow、知乎等平台：
 
 | 指标 | 数值 |
 |------|------|
-| 总 PR 数量 | 200+ |
-| 贡献项目数 | 100+ |
-| 总 Stars | 120,000+ |
+| 总 PR 数量 | 217+ |
+| 贡献项目数 | 110+ |
+| 总 Stars | 135,000+ |
 | 活跃年限 | 9 年 (2017-2026) |
-| 合并率 | 85% |
+| 合并率 | 84% |
 
 ### 项目规模分布
 
 ```
 超大项目 (>30k stars):   2 个  - modelcontextprotocol/servers, LibreChat
-大项目 (10k-30k stars):  1 个  - distrobox
-中等项目 (1k-10k stars): 6 个  - virtio-win, gentoo, ansible-runner 等
-小项目 (<1k stars):    191 个  - Gentoo 生态、Android 应用等
+大项目 (10k-30k stars):  2 个  - distrobox, SillyTavern
+中等项目 (1k-10k stars): 8 个  - freebsd-src, flatpak, virtio-win, ansible-runner 等
+小项目 (<1k stars):    198 个 - Gentoo 生态、Android 应用等
 ```
 
 ### 技术领域分布
@@ -319,5 +319,5 @@ Windows 驱动   ███░░░░░░░░░░░░░░░░░  5
 
 ---
 
-**最后更新**: 2026-03-23  
-**方法论版本**: v2.2 (增强技术论坛深度分析)
+**最后更新**: 2026-06-10
+**方法论版本**: v2.3 (补充验证脚本与统计同步)

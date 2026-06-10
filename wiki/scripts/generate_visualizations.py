@@ -34,8 +34,9 @@ from datetime import datetime
 from pathlib import Path
 
 try:
-    import matplotlib.pyplot as plt
     import matplotlib.dates as mdates
+    import matplotlib.font_manager as fm
+    import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
     import seaborn as sns
@@ -45,14 +46,47 @@ except ImportError:
     print("pip install matplotlib numpy pandas seaborn")
     sys.exit(1)
 
+DOMAIN_LABELS: dict[str, str] = {
+    "linux-bsd-kernel": "Linux/BSD内核",
+    "linux-kernel": "Linux内核与驱动",
+    "windows-drivers": "Windows驱动",
+    "container-tech": "容器技术",
+    "ai-infrastructure": "AI基础设施",
+    "android": "Android开发",
+    "gentoo-ecosystem": "Gentoo生态",
+    "linux-desktop": "Linux桌面",
+    "rust-tools": "Rust系统工具",
+}
+
+
+def format_domain_label(domain):
+    """Return a display label for a metadata domain key."""
+    return DOMAIN_LABELS.get(domain, domain.replace("-", " ").title())
+
+
+def configure_fonts():
+    """Prefer installed CJK fonts so generated charts render Chinese labels."""
+    preferred_fonts = [
+        "Noto Sans CJK SC",
+        "Noto Sans CJK TC",
+        "Noto Sans CJK JP",
+        "Source Han Sans SC",
+        "WenQuanYi Micro Hei",
+        "Microsoft YaHei",
+        "SimHei",
+        "Arial Unicode MS",
+    ]
+    available_fonts = {font.name for font in fm.fontManager.ttflist}
+    font_stack = [font for font in preferred_fonts if font in available_fonts]
+    font_stack.extend(["DejaVu Sans", "Arial", "sans-serif"])
+    plt.rcParams["font.sans-serif"] = font_stack
+    plt.rcParams["font.family"] = "sans-serif"
+    plt.rcParams["axes.unicode_minus"] = False
+
+
 # Set styles for consistent visualizations
 plt.style.use("seaborn-v0_8-darkgrid")
-plt.rcParams["font.sans-serif"] = [
-    "SimHei",
-    "DejaVu Sans",
-    "Arial",
-]  # For Chinese character support
-plt.rcParams["axes.unicode_minus"] = False  # Properly display negative signs
+configure_fonts()
 COLORS = sns.color_palette("muted")
 
 
@@ -100,15 +134,9 @@ def generate_contribution_heatmap(metadata, output_dir):
         if sum(data[i, :]) > 0:
             data[i, :] = data[i, :] * domain_total / sum(data[i, :])
 
-    # Prepare domain labels with more user-friendly names
-    domain_labels = [
-        "Linux内核",
-        "Windows驱动",
-        "容器技术",
-        "AI基础设施",
-        "Android",
-        "Gentoo生态",
-    ]
+    # Prepare domain labels with more user-friendly names. Keep this data-driven so
+    # newly added metadata domains do not desynchronize the heatmap axis labels.
+    domain_labels = [format_domain_label(domain) for domain in domains]
 
     # Create heatmap
     plt.figure(figsize=(12, 8))
@@ -219,23 +247,14 @@ def generate_domain_pie_chart(metadata, output_dir):
     domains = list(metadata["statistics"]["by_domain"].keys())
     counts = list(metadata["statistics"]["by_domain"].values())
 
-    # Map domain keys to human-readable labels
-    domain_labels = {
-        "linux-kernel": "Linux内核与驱动",
-        "windows-drivers": "Windows驱动",
-        "container-tech": "容器技术",
-        "ai-infrastructure": "AI基础设施",
-        "android": "Android开发",
-        "gentoo-ecosystem": "Gentoo生态",
-    }
-
     # Calculate percentages
     total = sum(counts)
     percentages = [count / total * 100 for count in counts]
 
-    # Prepare labels with percentages
+    # Prepare labels with percentages. Use the shared map so charts stay in sync
+    # with metadata domains such as linux-bsd-kernel, linux-desktop, rust-tools.
     labels = [
-        f"{domain_labels.get(domain, domain)} ({percentage:.1f}%)"
+        f"{format_domain_label(domain)} ({percentage:.1f}%)"
         for domain, percentage in zip(domains, percentages)
     ]
 
@@ -333,10 +352,10 @@ def generate_project_scale_chart(metadata, output_dir):
 
     scales = ["mega", "large", "medium", "small"]
     scale_labels = [
-        "超大项目 (>30k ⭐)",
-        "大项目 (10k-30k ⭐)",
-        "中等项目 (1k-10k ⭐)",
-        "小项目 (<1k ⭐)",
+        "超大项目 (>30k stars)",
+        "大项目 (10k-30k stars)",
+        "中等项目 (1k-10k stars)",
+        "小项目 (<1k stars)",
     ]
     counts = [metadata["statistics"]["by_scale"][scale] for scale in scales]
 

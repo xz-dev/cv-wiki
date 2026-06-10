@@ -1,7 +1,8 @@
 # Wiki 构建完成报告
 
-> **生成时间**: 2026-02-04  
-> **生成工具**: OpenCode AI + Bash脚本  
+> **生成时间**: 2026-02-04
+> **最近维护**: 2026-06-10
+> **生成工具**: OpenCode AI + Bash脚本
 > **数据来源**: GitHub API + MCP Memory Service
 
 ---
@@ -12,12 +13,12 @@
 
 | 项目 | 数量/大小 |
 |------|----------|
-| **总文件数** | 32个 |
-| **Markdown文件** | 30个 |
-| **总大小** | 214 KB |
-| **目录结构** | 6层 |
-| **涵盖PR数** | 200+ |
-| **项目数** | 100+ |
+| **总文件数** | 67 个 |
+| **Markdown文件** | 49 个 |
+| **总大小** | 1.9 MB |
+| **目录结构** | 4层 |
+| **涵盖PR数** | 217+ |
+| **项目数** | 110+ |
 | **时间跨度** | 2017-2026 (9年) |
 
 ### 📁 文件清单
@@ -138,10 +139,10 @@ wiki/
    ```bash
    # 搜索Python相关PR
    grep -r "Python" wiki/
-   
+
    # 搜索2025年的贡献
    cat wiki/by-year/2025.md
-   
+
    # 搜索MCP相关
    grep -r "MCP\|Model Context Protocol" wiki/
    ```
@@ -150,7 +151,7 @@ wiki/
    ```bash
    # 查看统计
    jq '.statistics' wiki/metadata.json
-   
+
    # 按语言排序
    jq '.statistics.by_language | to_entries | sort_by(.value) | reverse' wiki/metadata.json
    ```
@@ -161,13 +162,13 @@ wiki/
 
 2. **读取指南**:
    ```
-   请阅读 /home/xz/Documents/cv1/wiki/HOW_TO_ANALYZE.md
+   请阅读 /home/xz/workspace/cv-wiki/wiki/HOW_TO_ANALYZE.md
    ```
 
 3. **填充占位符**:
    ```
    请帮我填充 wiki/by-year/2025.md 文件。
-   
+
    从你的记忆中检索"xz-dev 2025年的开源贡献"，
    包括所有PR的详细信息（问题描述、解决方案、技术亮点等），
    并按照占位符中的提示格式组织内容。
@@ -207,43 +208,43 @@ wiki/
 2. ✅ 使用grep搜索特定内容
 3. ✅ 查看mega-projects.md学习格式
 
-### 需要AI填充
+### AI 填充进度
 
-以下文件需要AI从Memory Service提取数据填充：
+本轮已清理所有 `占位符 - 待AI从Memory Service提取数据填充` 标记，`coverage.sh` 报告剩余占位符为 0。
 
-**高优先级**（重要项目）:
-- [ ] `by-scale/large-projects.md` - distrobox
-- [ ] `by-scale/medium-projects.md` - virtio-win, ansible-runner等
-- [ ] `deep-dive/mcp-servers.md` - MCP深度分析
-- [ ] `deep-dive/virtio-gpu-driver.md` - VirtIO驱动深度分析
+**已完成补齐**:
+- [x] `by-year/2018.md` ~ `by-year/2024.md` - 早期年度脉络
+- [x] `deep-dive/mcp-servers.md` - MCP 文件锁深度分析
+- [x] `deep-dive/distrobox-contributions.md` - distrobox cgroup/PID namespace 深度分析
+- [x] `personal-projects/distrobox-plus.md` - Python 重写 distrobox
+- [x] `personal-projects/adguardhome-logsync.md` - AdGuard Home 日志同步工具
+- [x] `personal-projects/kernel-autofdo-container.md` - 内核 AutoFDO / Propeller profile 工具
 
-**中优先级**（分类索引）:
-- [ ] `by-domain/linux-kernel.md` - 25个PR
-- [ ] `by-domain/container-tech.md` - 30个PR
-- [ ] `by-domain/ai-infrastructure.md` - 50个PR
-- [ ] `by-domain/gentoo-ecosystem.md` - 90个PR
+**仍可继续增强**:
+- 为 2018-2024 年度页补充更细 PR 明细和 GitHub 链接
+- 为 2017/2018/2020/2021/2022 博客年份建立独立分析页
+- 将 `metadata.json` 扩展为项目/PR 级完整结构
 
-**低优先级**（时间线）:
-- [ ] `by-year/2025.md` - 50个PR
-- [ ] `by-year/2024.md` - 40个PR
-- [ ] `by-year/2023.md` - 30个PR
-- [ ] 其他年份文件
-
-### 自动化改进（待实现）
+### 自动化改进（已补充）
 
 1. **数据更新脚本**:
    ```bash
-   ./scripts/update_stats.sh  # 从GitHub API拉取最新数据
+   ./scripts/update_stats.sh  # 包装 generate_wiki.sh --update-all
    ```
 
 2. **链接检查**:
    ```bash
-   ./scripts/check-links.sh   # 验证所有GitHub链接
+   ./scripts/check-links.sh   # 验证 Markdown 本地链接目标
    ```
 
 3. **质量验证**:
    ```bash
-   ./scripts/validate.sh      # 检查格式、必填字段
+   ./scripts/validate.sh      # 检查目录、JSON、脚本语法和占位符
+   ```
+
+4. **覆盖率统计**:
+   ```bash
+   ./scripts/coverage.sh      # 输出剩余占位符和目录覆盖率
    ```
 
 ---
@@ -300,13 +301,14 @@ AI可以使用以下关键词检索：
 
 ### 已完成
 
-✅ 完整的Wiki框架（32个文件）  
-✅ 多维度导航系统  
-✅ AI分析指南  
-✅ 详细示例（mega-projects.md）  
-✅ 自动化生成脚本  
-✅ 结构化数据（metadata.json）  
-✅ 贡献指南  
+✅ 完整的Wiki框架（49个 Markdown 文件）
+✅ 多维度导航系统
+✅ AI分析指南
+✅ 详细示例（mega-projects.md）
+✅ 自动化生成脚本
+✅ 本地验证/链接检查/覆盖率脚本
+✅ 结构化数据（metadata.json）
+✅ 贡献指南
 
 ### 特色功能
 
@@ -314,7 +316,7 @@ AI可以使用以下关键词检索：
 2. **详细完整** - 包含问题描述、代码、链接
 3. **AI友好** - 专门的分析指南和结构化数据
 4. **易于维护** - 自动化脚本 + 清晰模板
-5. **持续更新** - 占位符设计便于逐步填充
+5. **持续更新** - 验证脚本和覆盖率报告便于后续增量维护
 
 ### 核心工程素养
 
@@ -347,6 +349,7 @@ AI可以使用以下关键词检索：
 
 ---
 
-**报告生成**: 2026-02-04  
-**Wiki位置**: `/home/xz/Documents/cv1/wiki/`  
-**下一步**: 请AI助手填充占位符文件
+**报告生成**: 2026-02-04
+**最近维护**: 2026-06-10
+**Wiki位置**: `/home/xz/workspace/cv-wiki/wiki/`
+**下一步**: 扩展 `metadata.json` 为项目/PR 级结构，并继续补充更细的年度 PR 明细

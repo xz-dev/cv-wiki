@@ -1,43 +1,89 @@
-# distrobox-plus - Python重写distrobox
+# distrobox-plus - Python 重写 distrobox
 
-> 本文件由 generate_wiki.sh 自动生成
-> 数据来源: MCP Memory Service
-> 查询: distrobox-plus项目详解
+> **定位**: 用 Python 重新实现 distrobox 的容器开发环境管理工具
+> **技术栈**: Python 3.10+, Podman/Docker/lilipod, CLI 设计
+> **仓库**: [xz-dev/distrobox-plus](https://github.com/xz-dev/distrobox-plus)
+> **关联领域**: [容器技术](../by-domain/container-tech.md), [distrobox 深度分析](../deep-dive/distrobox-contributions.md)
 
 ---
 
-## 📊 内容概览
+## 项目概览
 
-本部分包含 **distrobox-plus项目详解** 相关的所有贡献记录。
+`distrobox-plus` 是对 [distrobox](https://github.com/89luca89/distrobox) 思路的 Python 实现，用于创建和管理容器化开发环境。项目目标不是替代上游生态，而是通过 Python 代码结构实验更清晰的容器管理抽象。
 
-详细内容请使用以下命令查询：
+| 属性 | 值 |
+|------|-----|
+| 语言 | Python |
+| Python 版本 | 3.10+ |
+| 容器后端 | podman, docker, lilipod |
+| 安装方式 | `uv tool install distrobox-plus` / `pip install distrobox-plus` |
+| License | BSD 3-Clause |
 
-```bash
-# 查询相关记忆
-echo "请AI助手帮我检索: distrobox-plus项目详解"
+---
 
-# 或使用grep搜索
-grep -r "distrobox-plus项目详解" wiki/
+## 核心功能
+
+支持原 distrobox 的主要命令族：
+
+- `create` — 创建新容器；
+- `enter` — 进入容器；
+- `list` — 列出容器；
+- `rm` / `stop` — 删除和停止容器；
+- `upgrade` — 升级容器；
+- `assemble` — 从 manifest 创建容器；
+- `ephemeral` — 创建临时容器；
+- `export` / `generate-entry` — 导出应用、服务和 desktop entry。
+
+---
+
+## 架构要点
+
+### 1. 容器后端抽象
+
+项目把容器运行时检测与命令实现分离：
+
+```python
+class ContainerManager:
+    def __init__(self, runtime='auto'):
+        self.runtime = self._detect_runtime() if runtime == 'auto' else runtime
+        self.engine = self._get_engine_class()()
+
+    def create(self, name, image, additional_flags=None):
+        return self.engine.create(name, image, additional_flags)
 ```
 
+这样可以在 Podman、Docker、lilipod 之间切换，并为不同后端保留差异化处理空间。
+
+### 2. CLI 与测试
+
+开发工作流使用 `uv`：
+
+```bash
+uv sync --group dev
+uv run pytest
+uv run pytest -m fast
+```
+
+这使项目适合作为容器 CLI 的快速实验场：既可保留 distrobox 的用户体验，也可用 Python 测试覆盖复杂分支。
+
 ---
 
-## 🔄 更新说明
+## 技术意义
 
-要更新此文件，请：
-
-1. 运行 `./generate_wiki.sh`
-2. 或手动编辑此文件添加内容
-3. 提交 git commit
+- **容器模型理解**: 将 Shell 工具重写为 Python，需要明确抽象容器生命周期、运行时能力和错误处理；
+- **可测试性提升**: Python 结构更利于单元测试和后端 mock；
+- **经验反哺上游**: 对 distrobox stop/rm、PID namespace、cgroup 问题的理解，可迁移回上游贡献；
+- **开发环境自动化**: 面向多发行版开发环境快速创建和清理。
 
 ---
 
-**占位符 - 待AI从Memory Service提取数据填充**
+## 关联阅读
 
-建议内容结构：
-- 时间线（如果是年份文件）
-- 项目列表（如果是分类文件）
-- 详细PR记录（包含问题描述、解决方案、技术亮点）
-- 代码示例
-- 影响评估
+- [容器技术](../by-domain/container-tech.md#3-个人项目-distrobox-plus)
+- [distrobox 深度分析](../deep-dive/distrobox-contributions.md)
+- [大项目贡献 - distrobox](../by-scale/large-projects.md#1-89luca89distrobox-12016)
 
+---
+
+**文件版本**: v1.0
+**最后更新**: 2026-06-10

@@ -1,7 +1,7 @@
 # xz-dev 开源贡献 Wiki
 
-> **最后更新**: 2026-04-13  
-> **数据来源**: GitHub API + 人工整理  
+> **最后更新**: 2026-04-13
+> **数据来源**: GitHub API + 人工整理
 > **贡献时间跨度**: 2017-2026 (9年)
 
 ---
@@ -235,8 +235,9 @@ AI基础设施    ██████████████░░░░░░  
 
 - **拉取GitHub数据**: 运行 `./scripts/generate_wiki.sh --update-all`
 - **生成可视化图表**: 运行 `./scripts/generate_visualizations.py`
-- **按年份更新**: 运行 `./scripts/generate_wiki.sh --update-year 2026`
-- **按领域更新**: 运行 `./scripts/generate_wiki.sh --update-domain container-tech`
+- **覆盖率报告**: 运行 `./scripts/coverage.sh`
+- **本地验证**: 运行 `./scripts/validate.sh`
+- **按年份/领域更新**: `--update-year` / `--update-domain` 当前为保留入口；会复用既有数据并提示未实现，不会覆盖手工内容
 - **手动修改**: 直接编辑相应的 markdown 文件
 
 ---
@@ -270,6 +271,6 @@ AI基础设施    ██████████████░░░░░░  
 
 ---
 
-**Wiki 版本**: v1.3.1  
-**最后更新**: 2026-04-13  
-**生成工具**: [generate_wiki.sh](./scripts/generate_wiki.sh) + [generate_visualizations.py](./scripts/generate_visualizations.py)
+**Wiki 版本**: v1.3.2
+**最后更新**: 2026-06-10
+**生成工具**: [generate_wiki.sh](./scripts/generate_wiki.sh) + [generate_visualizations.py](./scripts/generate_visualizations.py) + [validate.sh](./scripts/validate.sh)
